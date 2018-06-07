@@ -15,6 +15,11 @@
 	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 		<!-- Bootstrap Core Css -->
     	<link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" />
+        <!-- Toaster Notify Style -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
 		<!-- Waves Effect Css -->
     	<link href="<?php echo base_url(); ?>assets/plugins/node-waves/waves.css" rel="stylesheet" />
 		<!-- Animation Css -->
@@ -33,7 +38,21 @@
 
     <body class="theme-red">
 
-    	<!-- <?= $contents; ?> -->
+        <!-- top navbar -->
+    
+        <section>
+        <!-- left sidebar -->
+        <!-- right sidebar -->
+        </section>
+    
+        <!--main content-->
+        <section class="content">
+         
+            <!-- main content start-->
+            <?= $contents ?>
+            
+        </section>
+
 
         <!-- Jquery CountTo Plugin Js -->
         <script src="<?php echo base_url(); ?>assets/plugins/jquery-countto/jquery.countTo.js"></script>
@@ -56,6 +75,12 @@
 
         <!-- Bootstrap Core Js -->
         <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.js"></script>
+
+        <!-- Bootstrap SweetAlert Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js"></script>
+        <!-- Toaster Notify Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        
         <!-- Select Plugin Js -->
         <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
         <!-- Slimscroll Plugin Js -->

@@ -25,6 +25,7 @@
 	    {
 	        $loadedData = array();
 	        $loadedData['contents'] = $this->obj->load->view('pages/'.$view, $data, true);
+	        $loadedData['auth_contents'] = $this->obj->load->view('auth/'.$view, $data, true);
 
 	        if ($return) {
 	            $output = $this->obj->load->view($this->layout, $loadedData, true);
