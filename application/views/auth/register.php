@@ -1,59 +1,86 @@
-<div class="body">
-    <form action="http://scripts.codeglamour.com/ci_material_admin/auth/register" class="login-form"  method="post" accept-charset="utf-8">
-        <input type="hidden" name="csrf_test_name" value="fae9286a4da153098025841e60017994" />
-        
-        <div class="msg">Create a Account</div>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="material-icons">person</i>
-            </span>
-            <div class="form-line">
-                <input type="text" class="form-control" name="firstname" placeholder="First Name" required autofocus>
+<div class="box-register account-box">                                   
+    <div class="clearfix"></div>
+    <div class="sign_title_box text-center">
+        <h5 class="text-uppercase font-bold m-b-5 m-t-50">SIGN UP</h5>
+    </div>
+    <div class="account-content">
+        <?php if (validation_errors()) { ?>
+            <div class="alert alert-danger">
+                <?php echo validation_errors(); ?>
+            </div>
+        <?php } ?>
+        <form class="form-horizontal" action="<?= base_url('auth/actionCreate') ?>" method="post">
+            <input type="hidden" name="_method" value="">
+            <input type="hidden" name="_csrf" value="GT0jsN59nH_ItgLoCYeJGz7f2-EySS6miH0IJWcJRth3Tmn-rAv-NP7DUqFDz8xUbpGu1msiZtGlCHlRHVk3kQ==">
+
+            <div class="form-group m-b-20">
+                <div class="col-xs-12 col-lg-6">
+                    <div class="icon_before icon_before_all">
+                        <input type="text" id="registerform-email" class="form-control" name="email" placeholder="Email">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <div class="icon_before_username icon_before_all">
+                        <input type="text" id="username" class="form-control" name="username" placeholder="Username">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group m-b-20">
+                <div class="col-xs-12 col-lg-6">
+                    <div class="icon_before2 icon_before_all">        
+                        <input type="password" id="registerform-password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <div class="icon_before2 icon_before_all">
+                        <input type="password" id="registerform-retypepassword" class="form-control" name="retypePassword" placeholder="Retype password">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group m-b-20">
+                <div class="col-xs-12 col-lg-6">
+                    <div class="icon_before_phone icon_before_all">
+                        <input type="text" id="registerform-phone" class="form-control" name="phone" placeholder="Phone">                                              
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <div class="icon_before_username icon_before_all">
+                        <input type="text" id="registerform-sponsor" class="form-control" name="sponsor" placeholder="Sponsor ID" value="<?= isset($ref_id) ? $ref_id : '' ?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group m-b-20">
+                <div class="col-xs-12">
+                    <div class="checkbox checkbox-success">
+                        <input id="remember" type="checkbox" checked="">
+                        <label for="remember">
+                            I agree with Terms of Services
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-danger" style="display:none"><p>Please fix the following errors:</p><ul></ul></div>
+            <div class="form-group text-center m-t-10">
+                <div class="col-xs-12">
+                    <button type="submit" class="btn btn-md btn-block btn-custom waves-effect waves-light">SIGN UP</button>                                            
+                </div>
+            </div>
+
+        </form>
+
+        <div class="row m-t-20">
+            <div class="col-sm-12 text-center">
+                <p class="text-muted">Don't have an account? <a href="<?= base_url('auth/register') ?>" class="text-dark m-l-5"><b>Sign Up</b></a></p>
+                <a href="<?php echo base_url('auth/forgotpwd') ?>" class="text-dark m-l-5">Forgot your password?</a><a href="<?php echo base_url('auth/forgotpwd') ?>" class="text-dark m-l-5">Resend confirmation email</a>
             </div>
         </div>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="material-icons">person</i>
-            </span>
-            <div class="form-line">
-                <input type="text" class="form-control" name="lastname" placeholder="Last Name" required autofocus>
-            </div>
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="material-icons">email</i>
-            </span>
-            <div class="form-line">
-                <input type="text" class="form-control" name="email" placeholder="email" required autofocus>
-            </div>
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="material-icons">lock</i>
-            </span>
-            <div class="form-line">
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
-            </div>
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="material-icons">lock</i>
-            </span>
-            <div class="form-line">
-                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="checkbox" name="terms" id="terms" class="filled-in chk-col-pink">
-            <label for="terms">I read and agree to the <a href="javascript:void(0);">terms of usage</a>.</label>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <input type="submit" name="submit" id="submit" class="btn btn-block btn-success waves-effect" value="Register">
-            </div>
-        </div>
-        <div class="m-t-25 align-center">
-            <a href="http://scripts.codeglamour.com/ci_material_admin/auth/login">You already have a account?</a>
-        </div>
-    </form>            
+
+    </div>
 </div>
+</div>
+<!-- end card-box-->
+

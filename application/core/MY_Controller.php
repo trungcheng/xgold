@@ -6,12 +6,11 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        // $this->load->model('user_model');
-        // Check that the user is logged in
-        // $this->session->set_userdata('uid', 1);
-        if ($this->session->userdata('uid') == null || $this->session->userdata('uid') < 1) {
+        $ci_session_key_generate = $this->session->userdata('ci_session_key_generate');
+        $ci_seesion_key = $this->session->userdata('ci_seesion_key');
+        if (!$ci_session_key_generate || !isset($ci_seesion_key['user_id'])) {
             // Prevent infinite loop by checking that this isn't the login controller
-            redirect('http://coin.xyz/auth/login');
+            redirect(base_url('auth/login'));
         }
     }
 }

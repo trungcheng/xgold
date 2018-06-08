@@ -1,96 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app="Xgold">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!-- Meta, title, CSS, favicons, etc. -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="csrf-param" content="_csrf">
+        <meta name="csrf-token" content="d0chSEubJ8HssoqhYutZwvS1Bk5Wr6QgyZP4OGQnDdoZNGsGOe1FitrH2ugooxyNpPtzeQ_E7Ffk5olMHnd8kw==">
+        
+        <title><?= $pageName ?> | Xgold</title>
 
-        <title><?= $pageName; ?> | Xgold</title>
+        <link href="<?php echo base_url(); ?>assets/v2/css/bootstrap.min.css" rel="stylesheet">
 
-        <link rel="icon" href="<?php echo base_url(); ?>assets/images/favicon.ico" type="image/x-icon">
-	    <!-- Google Fonts -->
-	    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-		<!-- Bootstrap Core Css -->
-    	<link href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
-
+        <!-- Bootstrap SweetAlert Style -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" />
         <!-- Toaster Notify Style -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
-		<!-- Waves Effect Css -->
-    	<link href="<?php echo base_url(); ?>assets/plugins/node-waves/waves.css" rel="stylesheet" />
-		<!-- Animation Css -->
-    	<link href="<?php echo base_url(); ?>assets/plugins/animate-css/animate.css" rel="stylesheet" />
-	    <!-- Morris Chart Css-->
-    	<link href="<?php echo base_url(); ?>assets/plugins/morrisjs/morris.css" rel="stylesheet" />
-	    <!-- Custom Css -->
-	    <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet">
-	    <!-- Materialize Css -->
-	    <link href="<?php echo base_url(); ?>assets/css/materialize.css" rel="stylesheet">
-	    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
-	    <link href="<?php echo base_url(); ?>assets/css/themes/all-themes.css" rel="stylesheet" />
-	    <!-- Jquery Core Js -->
-    	<script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
+        <link href="<?php echo base_url(); ?>assets/v2/css/core.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>assets/v2/css/components.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>assets/v2/css/icons.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>assets/v2/css/pages.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>assets/v2/css/menu.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>assets/v2/css/responsive.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>assets/css/main_v2.css" rel="stylesheet">
+        
     </head>
 
-    <body class="theme-red">
+    <body>
 
-        <!-- top navbar -->
-    
-        <section>
-        <!-- left sidebar -->
-        <!-- right sidebar -->
-        </section>
-    
-        <!--main content-->
-        <section class="content">
-         
-            <!-- main content start-->
-            <?= $contents ?>
-            
-        </section>
+        <div id="wrapper">
 
+            <?= include('top_navbar.php') ?>
 
-        <!-- Jquery CountTo Plugin Js -->
-        <script src="<?php echo base_url(); ?>assets/plugins/jquery-countto/jquery.countTo.js"></script>
-        <!-- Morris Plugin Js -->
-        <script src="<?php echo base_url(); ?>assets/plugins/raphael/raphael.min.js"></script>
-        <script src="<?php echo base_url(); ?>assets/plugins/morrisjs/morris.js"></script>
-        <!-- ChartJs -->
-        <script src="<?php echo base_url(); ?>assets/plugins/chartjs/Chart.bundle.js"></script>
-        <!-- Flot Charts Plugin Js -->
-        <script src="<?php echo base_url(); ?>assets/plugins/flot-charts/jquery.flot.js"></script>
-        <script src="<?php echo base_url(); ?>assets/plugins/flot-charts/jquery.flot.resize.js"></script>
-        <script src="<?php echo base_url(); ?>assets/plugins/flot-charts/jquery.flot.pie.js"></script>
-        <script src="<?php echo base_url(); ?>assets/plugins/flot-charts/jquery.flot.categories.js"></script>
-        <script src="<?php echo base_url(); ?>assets/plugins/flot-charts/jquery.flot.time.js"></script>
-        <!-- Sparkline Chart Plugin Js -->
-        <script src="<?php echo base_url(); ?>assets/plugins/jquery-sparkline/jquery.sparkline.js"></script>
-        <!-- Custom Js -->
-        <script src="<?php echo base_url(); ?>assets/js/pages/index.js"></script>
-        <!-- end-->     
+            <?= include('left_sidebar.php') ?>
 
-        <!-- Bootstrap Core Js -->
-        <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.js"></script>
+            <div class="content-page">
+                <div class="content">
+                    <?= $contents ?>            
+                </div>
+            </div>
+
+            <footer class="footer text-right">
+                Copyright © 2018. Teky Corp. All Rights Reserved.
+            </footer>    
+        </div>
+
+        <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/yii.js"></script>
+        <script src="<?php echo base_url(); ?>assets/v2/js/modernizr.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/v2/js/bootstrap.min.js"></script>
 
         <!-- Bootstrap SweetAlert Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js"></script>
         <!-- Toaster Notify Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        
-        <!-- Select Plugin Js -->
-        <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
-        <!-- Slimscroll Plugin Js -->
-        <script src="<?php echo base_url(); ?>assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
-        <!-- Waves Effect Plugin Js -->
-        <script src="<?php echo base_url(); ?>assets/plugins/node-waves/waves.js"></script>
-        <!-- Custom Js -->
-        <script src="<?php echo base_url(); ?>assets/js/admin.js"></script>
-        <!-- Demo Js -->
-        <script src="<?php echo base_url(); ?>assets/js/demo.js"></script>
+
+        <script src="<?php echo base_url(); ?>assets/v2/js/metisMenu.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/v2/js/waves.js"></script>
+        <script src="<?php echo base_url(); ?>assets/v2/js/jquery.slimscroll.js"></script>
+        <script src="<?php echo base_url(); ?>assets/v2/js/jquery.core.js"></script>
+        <script src="<?php echo base_url(); ?>assets/v2/js/jquery.app.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/angular.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/angular-animate.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/angular-ui-bootstrap.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/qrcode.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/angular-qr.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/moment.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/angular-moment.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/ngclipboard.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/ng-sortable.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/md5.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/bootbox.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/countdown.js"></script>
+
+        <script src="<?php echo base_url(); ?>assets/js/app.js"></script>
+
+        <script src="<?php echo base_url(); ?>assets/js/utils.js"></script>
         
         <script type="text/javascript">
             $(function () {
