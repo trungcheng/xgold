@@ -11,7 +11,7 @@
         <?php } ?>
         <?php if (!empty($this->input->get('msg')) && $this->input->get('msg') == 1) { ?>
             <div class="alert alert-danger">
-                Please Enter Your Valid Information.
+                Email invalid or not existed! Or maybe have been a problem in reset password process. Please try again!
             </div>
         <?php } elseif (!empty($this->input->get('msg')) && $this->input->get('msg') == 2) { ?>
             <div class="alert alert-success">
@@ -25,7 +25,7 @@
             <div class="form-group m-b-20">
                 <div class="col-xs-12 col-lg-12">
                     <div class="icon_before icon_before_all">
-                        <input class="form-control" name="email"  type="email" id="emailaddress" required="" placeholder="Email" />
+                        <input class="form-control" name="forgot_email"  type="email" id="emailaddress" required="" placeholder="Email" />
                     </div>
                 </div>
             </div>

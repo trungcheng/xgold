@@ -2,7 +2,7 @@
 
 /**
  * @author trungdn
- * @copyright 2017
+ * @copyright 2018
  */
 
 class Mail_model extends CI_Model {
@@ -41,41 +41,38 @@ class Mail_model extends CI_Model {
     }
 
     // smtpMail
-    public function sendMail($data) {
+    public function sendMail() {
 
         //Load email library
         $this->load->library('email');
+        //SMTP & mail configuration
+        $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'trungs1bmt@gmail.com',
+            'smtp_pass' => 'hajimemashitee1234',
+            'mailtype' => 'html',
+            'charset' => 'utf-8',
+        );
 
-        if (!empty($data) && $data == 'smtp') {
-            //SMTP & mail configuration
-            $config = array(
-                'protocol' => 'smtp',
-                'smtp_host' => 'ssl://smtp.gmail.com',
-                'smtp_port' => '465',
-                'smtp_user' => 'trungs1bmt@gmail.com',
-                'smtp_pass' => 'hajimemashitee',
-                'mailtype' => 'text',
-                'charset' => 'utf-8',
-            );
+        $fullPath = $this->_templatePath . $this->_templateName;
+        $this->email->initialize($config);
+        $this->email->set_mailtype('html');
+        $this->email->set_newline("\r\n");
 
-            $fullPath = $this->_templatePath . $this->_templateName;
-            $this->email->initialize($config);
-            // $this->email->set_mailtype(MAILTYPE);
-            $this->email->set_newline("\r\n");
-
-            //Email content
-            $mailMessage = $this->load->view($fullPath, $this->_mailContent, TRUE);
-            $this->email->to($this->_mailTo);
-            $this->email->from($this->_mailFrom);
-            $this->email->subject($this->_mailSubject);
-            $this->email->message($mailMessage);
-            //Send email
-            if ($this->email->send()) {
-                return TRUE;
-            } else {
-                return FALSE;
-            }
+        //Email content
+        $mailMessage = $this->load->view($fullPath, $this->_mailContent, TRUE);
+        $this->email->to($this->_mailTo);
+        $this->email->from($this->_mailFrom);
+        $this->email->subject($this->_mailSubject);
+        $this->email->message($mailMessage);
+        //Send email
+        if ($this->email->send()) {
+            return true;
         }
+
+        return false;
     }
 
 }

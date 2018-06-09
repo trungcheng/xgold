@@ -17,7 +17,12 @@ class Auth extends CI_Controller {
         if (!empty($this->input->get('usid'))) {
             $verificationCode = urldecode(base64_decode($this->input->get('usid')));
             $this->user_model->setVerificationCode($verificationCode);
-            $this->user_model->activate();
+            $result = $this->user_model->activate();
+            if ($result) {
+                $this->session->set_flashdata('success', 'Confirm the registration success');
+            } else {
+                $this->session->set_flashdata('error', 'Confirm the registration failed');
+            }
         }
         $data = [];
         $data['pageName'] = 'Login';
@@ -43,7 +48,6 @@ class Auth extends CI_Controller {
 
     // action login method
     public function doLogin() {
-        // var_dump($this->user_model->getAll());die;
         // Check form  validation
         $this->load->library('form_validation');
         $this->form_validation->set_rules('email', 'User Name/Email', 'trim|required');
@@ -52,7 +56,6 @@ class Auth extends CI_Controller {
             //Field validation failed.  User redirected to login page
             $this->login();
         } else {
-            $sessArray = array();
             //Field validation succeeded.  Validate against database
             $email = $this->input->post('email');
             $password = $this->input->post('password');
@@ -61,16 +64,20 @@ class Auth extends CI_Controller {
             $this->user_model->setPassword($password);
             //query the database
             $result = $this->user_model->login();
-
             if ($result) {
-                $authArray = array(
-                    'user_id' => $result['user_id'],
-                    'username' => $result['username'],
-                    'email' => $result['email']
-                );
-                $this->session->set_userdata('ci_session_key_generate', TRUE);
-                $this->session->set_userdata('ci_seesion_key', $authArray);
-                redirect('dashboard/index');
+                if ($result['active']) {
+                    $authArray = array(
+                        'user_id' => $result['user_id'],
+                        'username' => $result['username'],
+                        'email' => $result['email']
+                    );
+                    $this->session->set_userdata('ci_session_key_generate', TRUE);
+                    $this->session->set_userdata('ci_seesion_key', $authArray);
+                    redirect('dashboard/index');
+                } else {
+                    $this->session->set_flashdata('error', 'We need access to your email to confirm the registration');
+                    redirect('auth/login');
+                }
             } else {
                 redirect('auth/login?msg=1');
             }
@@ -86,42 +93,47 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
         $this->form_validation->set_rules('phone', 'Phone', 'required');
         // $this->form_validation->set_rules('birthday', 'Date of Birth(DD-MM-YYYY)', 'required');
- 
         if ($this->form_validation->run() == FALSE) {
             $this->register();
         } else {
             $data = $this->input->post();
-            $timeStamp = time();
-            $active = false;
             $verificationCode = uniqid();
-            $verificationLink = site_url() . 'signin?usid=' . urlencode(base64_encode($verificationCode));
-            $this->user_model->setUserID(md5($data['email']).$timeStamp);
+            $verificationLink = site_url() . 'auth/login?usid=' . urlencode(base64_encode($verificationCode));
+            $this->user_model->setUserID(md5($data['email']));
             $this->user_model->setRefID($data['sponsor']);
             $this->user_model->setEmail($data['email']);
             $this->user_model->setUserName($data['username']);
             $this->user_model->setPassword($data['password']);
             $this->user_model->setMobile($data['phone']);
-            $this->user_model->setActive($active);
+            $this->user_model->setActive(false);
             $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
             $this->user_model->setVerificationCode($verificationCode);
             $chk = $this->user_model->create();
             if ($chk) {
                 $this->load->library('encrypt');
-                $mailData = array('topMsg' => 'Hi', 'bodyMsg' => 'Congratulations, Your registration has been successfully submitted.', 'thanksMsg' => SITE_DELIMETER_MSG, 'delimeter' => SITE_DELIMETER, 'verificationLink' => $verificationLink);
-                $this->mail->setMailTo($data['email']);
-                $this->mail->setMailFrom('Xgold');
-                $this->mail->setMailSubject('User Registeration!');
-                $this->mail->setMailContent($mailData);
-                $this->mail->setTemplateName('verification');
-                $this->mail->setTemplatePath('mailTemplate/');
-                $chkStatus = $this->mail->sendMail('smtp');
-                if ($chkStatus === TRUE) {
+                $mailData = array(
+                    'topMsg' => $data['username'],
+                    'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
+                    'thanksMsg' => 'Thanks for your cooperation!', 
+                    'verificationLink' => $verificationLink
+                );
+                $this->mail_model->setMailTo($data['email']);
+                $this->mail_model->setMailFrom('Xgold');
+                $this->mail_model->setMailSubject('[Xgold] - Verify the registration');
+                $this->mail_model->setMailContent($mailData);
+                $this->mail_model->setTemplateName('register_temp');
+                $this->mail_model->setTemplatePath('mail/');
+                $chkStatus = $this->mail_model->sendMail();
+                if ($chkStatus) {
+                    $this->session->set_flashdata('success', 'Register success, please check your email to confirm');
                     redirect('auth/login');
                 } else {
-                    echo 'Error';
+                    $this->session->set_flashdata('error', 'Can not send mail to user');
+                    redirect('auth/register');
                 }
             } else {
-                echo 'Loi';
+                $this->session->set_flashdata('error', 'Can not create user');
+                redirect('auth/register');
             }
         }
     }
@@ -134,9 +146,9 @@ class Auth extends CI_Controller {
         } else {
             $change_pwd_password = $this->input->post('change_pwd_password');
             $sessionArray = $this->session->userdata('ci_seesion_key');
-            $this->auth->setUserID($sessionArray['user_id']);
-            $this->auth->setPassword($change_pwd_password);
-            $status = $this->auth->changePassword();
+            $this->user_model->setUserID($sessionArray['user_id']);
+            $this->user_model->setPassword($change_pwd_password);
+            $status = $this->user_model->changePassword();
             if ($status == TRUE) {
                 redirect('profile');
             }
@@ -150,23 +162,29 @@ class Auth extends CI_Controller {
             //Field validation failed.  User redirected to Forgot Password page
             $this->forgotpassword();
         } else {
-            $login = site_url() . 'signin';
+            $loginLink = site_url() . 'auth/login';
             $email = $this->input->post('forgot_email');
-            $this->auth->setEmail($email);
+            $this->user_model->setEmail($email);
             $pass = $this->generateRandomPassword(8);
-            $this->auth->setPassword($pass);
-            $status = $this->auth->updateForgotPassword();
-            if ($status == TRUE) {
+            $this->user_model->setPassword($pass);
+            $status = $this->user_model->updateForgotPassword();
+            if ($status) {
                 $this->load->library('encrypt');
-                $mailData = array('topMsg' => 'Hi', 'bodyMsg' => 'Your password has been reset successfully!.', 'thanksMsg' => SITE_DELIMETER_MSG, 'delimeter' => SITE_DELIMETER, 'loginLink' => $login, 'pwd' => $pass, 'username' => $email);
-                $this->mail->setMailTo($email);
-                $this->mail->setMailFrom(MAIL_FROM);
-                $this->mail->setMailSubject('Forgot Password!');
-                $this->mail->setMailContent($mailData);
-                $this->mail->setTemplateName('sendpwd');
-                $this->mail->setTemplatePath('mailTemplate/');
-                $chkStatus = $this->mail->sendMail(MAILING_SERVICE_PROVIDER);
-                if ($chkStatus === TRUE) {
+                $mailData = array(
+                    'topMsg' => $email,
+                    'bodyMsg' => 'We heard that you lost your Xgold password. Sorry about that !<br>But don’t worry! We are already reset a new password for you.', 
+                    'thanksMsg' => 'Thanks for your cooperation!', 
+                    'newPassword' => $pass,
+                    'loginLink' => $loginLink
+                );
+                $this->mail_model->setMailTo($email);
+                $this->mail_model->setMailFrom('Xgold');
+                $this->mail_model->setMailSubject('[Xgold] - Reset your password');
+                $this->mail_model->setMailContent($mailData);
+                $this->mail_model->setTemplateName('resetpwd_temp');
+                $this->mail_model->setTemplatePath('mail/');
+                $chkStatus = $this->mail_model->sendMail();
+                if ($chkStatus) {
                     redirect('auth/forgotpwd?msg=2');
                 } else {
                     redirect('auth/forgotpwd?msg=1');
@@ -179,7 +197,7 @@ class Auth extends CI_Controller {
  
     //generate random password
     public function generateRandomPassword($length = 10) {
-        $alphabets = range('a', 'z');
+        $alphabets = range('A', 'Z');
         $numbers = range('0', '9');
         $final_array = array_merge($alphabets, $numbers);
         $password = '';

@@ -14,6 +14,14 @@
                 Please Enter Your Valid Information.
             </div>
         <?php } ?>
+        <?php if ($this->session->flashdata('error')) { ?>
+            <div class="alert alert-danger">
+                <?= $this->session->flashdata('error') ?>
+            </div>
+        <?php } ?>
+        <?php if ($this->session->flashdata('success')) { ?>
+            <div class="alert alert-success"><?= $this->session->flashdata('success') ?></div>
+        <?php } ?>
         <form class="form-horizontal" action="<?php echo base_url('auth/doLogin') ?>" method="post">
             <input type="hidden" name="_method" value="">
             <input type="hidden" name="_csrf" value="TQWaZnr9to6bBnDKxHikQfhZLNcuqgltkXuBcvfa7S0jdtAoCIvUxa1zIIOOMOEOqBdZ4HfBQRq8DvAGjYqcZA==">
@@ -56,7 +64,7 @@
         <div class="row m-t-20">
             <div class="col-sm-12 text-center">
                 <p class="text-muted">Don't have an account? <a href="<?php echo base_url('auth/register') ?>" class="text-dark m-l-5"><b>Sign Up</b></a></p>
-                <a href="<?php echo base_url('auth/forgotpwd') ?>" class="text-dark m-l-5">Forgot your password?</a><a href="<?php echo base_url('auth/forgotpwd') ?>" class="text-dark m-l-5">Resend confirmation email</a>
+                <a href="<?php echo base_url('auth/forgotpwd') ?>" class="text-dark m-l-5">Forgot your password?</a>
             </div>
         </div>
 

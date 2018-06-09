@@ -9,6 +9,9 @@
                 <?php echo validation_errors(); ?>
             </div>
         <?php } ?>
+        <?php if ($this->session->flashdata('error')) { ?>
+            <div class="alert alert-danger"><?= $this->session->flashdata('error') ?></div>
+        <?php } ?>
         <form class="form-horizontal" action="<?= base_url('auth/actionCreate') ?>" method="post">
             <input type="hidden" name="_method" value="">
             <input type="hidden" name="_csrf" value="GT0jsN59nH_ItgLoCYeJGz7f2-EySS6miH0IJWcJRth3Tmn-rAv-NP7DUqFDz8xUbpGu1msiZtGlCHlRHVk3kQ==">
@@ -74,8 +77,8 @@
 
         <div class="row m-t-20">
             <div class="col-sm-12 text-center">
-                <p class="text-muted">Don't have an account? <a href="<?= base_url('auth/register') ?>" class="text-dark m-l-5"><b>Sign Up</b></a></p>
-                <a href="<?php echo base_url('auth/forgotpwd') ?>" class="text-dark m-l-5">Forgot your password?</a><a href="<?php echo base_url('auth/forgotpwd') ?>" class="text-dark m-l-5">Resend confirmation email</a>
+                <p class="text-muted">Already have an account? <a href="<?= base_url('auth/login') ?>" class="text-dark m-l-5"><b>Sign In</b></a></p>
+                <a href="<?php echo base_url('auth/forgotpwd') ?>" class="text-dark m-l-5">Forgot your password?</a>
             </div>
         </div>
 
