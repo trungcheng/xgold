@@ -36,9 +36,9 @@
                         <span class="color-white m-r-10"></span> <img src="<?php echo base_url(); ?>assets/v2/images/users/no-avatar.jpg" alt="user-img" class="img-circle user-img">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
-                        <li><a href="/buy/index">Buy TKC</a></li>
-                        <li><a href="/referral/index">Referral bonus</a></li>
-                        <li><a href="/profile/index">Profile</a></li>
+                        <li><a href="/">Dashboard</a></li>
+                        <li><a href="/referral">Referral</a></li>
+                        <li><a href="/user/profile">Profile</a></li>
                         <li class="divider"></li>
                         <li><a href="<?= base_url('auth/logout') ?>">Logout</a></li>
                     </ul>

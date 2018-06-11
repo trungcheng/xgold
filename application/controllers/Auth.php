@@ -73,7 +73,7 @@ class Auth extends CI_Controller {
                     );
                     $this->session->set_userdata('ci_session_key_generate', TRUE);
                     $this->session->set_userdata('ci_seesion_key', $authArray);
-                    redirect('dashboard/index');
+                    redirect('dashboard');
                 } else {
                     $this->session->set_flashdata('error', 'We need access to your email to confirm the registration');
                     redirect('auth/login');

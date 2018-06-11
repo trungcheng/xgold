@@ -12,7 +12,7 @@ class Referral extends MY_Controller {
 	public function index()
 	{
 		$data = [];
-		$data['pageName'] = 'Referral Bonus';
+		$data['pageName'] = 'Referral';
 		$this->layout->view('referral/index', $data);
 	}
 }

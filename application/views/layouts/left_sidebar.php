@@ -11,16 +11,16 @@
             <ul class="metisMenu nav" id="side-menu">
                 <li class="menu-title">Navigation</li>
                 <li>
-                    <a  href="<?= base_url('dashboard/index') ?>">
+                    <a  href="<?= base_url('dashboard') ?>">
                         <i class="fi-air-play"></i> 
-                        <span> Buy TKC </span>
+                        <span> Dashboard </span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('referral/index') ?>"><i class="fi-target"></i> <span> Referral Bonus </span></a>
+                    <a href="<?= base_url('referral') ?>"><i class="fi-target"></i> <span> Referral </span></a>
                 </li>
                 <li>
-                    <a href="<?= base_url('profile/index') ?>"><i class="mdi mdi-account-settings"></i> <span> My Profile </span></a>
+                    <a href="<?= base_url('user/profile') ?>"><i class="mdi mdi-account-settings"></i> <span> My Profile </span></a>
                 </li>
                 <li>
                     <a href="<?= base_url('auth/logout') ?>"><i class="mdi mdi-logout"></i> <span> Logout </span></a>

@@ -1,6 +1,8 @@
 var app = angular.module('Xgold', [
 	'ja.qr', 
-	'ui.bootstrap', 
+	'ui.bootstrap',
+	'ngSanitize',
+    'ngMessages',
 	'angularMoment', 
 	'as.sortable',
 	'ngclipboard'
