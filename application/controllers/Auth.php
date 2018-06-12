@@ -91,7 +91,7 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
         $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
-        $this->form_validation->set_rules('phone', 'Phone', 'required');
+        // $this->form_validation->set_rules('phone', 'Phone', 'required');
         // $this->form_validation->set_rules('birthday', 'Date of Birth(DD-MM-YYYY)', 'required');
         if ($this->form_validation->run() == FALSE) {
             $this->register();
@@ -99,61 +99,63 @@ class Auth extends CI_Controller {
             $data = $this->input->post();
             $verificationCode = uniqid();
             $verificationLink = site_url() . 'auth/login?usid=' . urlencode(base64_encode($verificationCode));
-            $this->user_model->setUserID(md5($data['email']));
-            $this->user_model->setRefID($data['sponsor']);
-            $this->user_model->setEmail($data['email']);
-            $this->user_model->setUserName($data['username']);
-            $this->user_model->setPassword($data['password']);
-            $this->user_model->setMobile($data['phone']);
-            $this->user_model->setActive(false);
-            $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
-            $this->user_model->setVerificationCode($verificationCode);
-            $chk = $this->user_model->create();
-            if ($chk) {
-                $this->load->library('encrypt');
-                $mailData = array(
-                    'topMsg' => $data['username'],
-                    'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
-                    'thanksMsg' => 'Thanks for your cooperation!', 
-                    'verificationLink' => $verificationLink
-                );
-                $this->mail_model->setMailTo($data['email']);
-                $this->mail_model->setMailFrom('Xgold');
-                $this->mail_model->setMailSubject('[Xgold] - Verify the registration');
-                $this->mail_model->setMailContent($mailData);
-                $this->mail_model->setTemplateName('register_temp');
-                $this->mail_model->setTemplatePath('mail/');
-                $chkStatus = $this->mail_model->sendMail();
-                if ($chkStatus) {
-                    $this->session->set_flashdata('success', 'Register success, please check your email to confirm');
+
+            $this->load->library('encrypt');
+            $mailData = array(
+                'topMsg' => $data['username'],
+                'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
+                'thanksMsg' => 'Thanks for your cooperation!', 
+                'verificationLink' => $verificationLink
+            );
+            $this->mail_model->setMailTo($data['email']);
+            $this->mail_model->setMailFrom('Xgold');
+            $this->mail_model->setMailSubject('[Xgold] - Verify the registration');
+            $this->mail_model->setMailContent($mailData);
+            $this->mail_model->setTemplateName('register_temp');
+            $this->mail_model->setTemplatePath('mail/');
+            $chkStatus = $this->mail_model->sendMail();
+            var_dump($chkStatus);die;
+            if ($chkStatus) {
+                $this->user_model->setUserID(md5($data['email']));
+                $this->user_model->setRefID($data['sponsor']);
+                $this->user_model->setEmail($data['email']);
+                $this->user_model->setUserName($data['username']);
+                $this->user_model->setPassword($data['password']);
+                $this->user_model->setMobile($data['phone']);
+                $this->user_model->setActive(false);
+                $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
+                $this->user_model->setVerificationCode($verificationCode);
+                $chk = $this->user_model->create();
+                if ($chk) {
+                    $this->session->set_flashdata('success', 'Congratulations! Please check your email to confirm the registration');
                     redirect('auth/login');
                 } else {
-                    $this->session->set_flashdata('error', 'Can not send mail to user');
+                    $this->session->set_flashdata('error', 'Can not create user! Maybe this user already existed.');
                     redirect('auth/register');
                 }
             } else {
-                $this->session->set_flashdata('error', 'Can not create user');
+                $this->session->set_flashdata('error', 'The error occurred when sent mail process');
                 redirect('auth/register');
             }
         }
     }
  
-    public function actionChangePwd() {
-        $this->form_validation->set_rules('change_pwd_password', 'Password', 'trim|required|min_length[8]');
-        $this->form_validation->set_rules('change_pwd_confirm_password', 'Password Confirmation', 'trim|required|matches[change_pwd_password]');
-        if ($this->form_validation->run() == FALSE) {
-            $this->changepwd();
-        } else {
-            $change_pwd_password = $this->input->post('change_pwd_password');
-            $sessionArray = $this->session->userdata('ci_seesion_key');
-            $this->user_model->setUserID($sessionArray['user_id']);
-            $this->user_model->setPassword($change_pwd_password);
-            $status = $this->user_model->changePassword();
-            if ($status == TRUE) {
-                redirect('profile');
-            }
-        }
-    }
+    // public function actionChangePwd() {
+    //     $this->form_validation->set_rules('change_pwd_password', 'Password', 'trim|required|min_length[8]');
+    //     $this->form_validation->set_rules('change_pwd_confirm_password', 'Password Confirmation', 'trim|required|matches[change_pwd_password]');
+    //     if ($this->form_validation->run() == FALSE) {
+    //         $this->changepwd();
+    //     } else {
+    //         $change_pwd_password = $this->input->post('change_pwd_password');
+    //         $sessionArray = $this->session->userdata('ci_seesion_key');
+    //         $this->user_model->setUserID($sessionArray['user_id']);
+    //         $this->user_model->setPassword($change_pwd_password);
+    //         $status = $this->user_model->changePassword();
+    //         if ($status == TRUE) {
+    //             redirect('profile');
+    //         }
+    //     }
+    // }
  
     //action forgot password method
     public function actionForgotPassword() {

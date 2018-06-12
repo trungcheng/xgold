@@ -75,8 +75,11 @@
         <script src="<?php echo base_url(); ?>assets/v2/js/jquery.slimscroll.js"></script>
         <script src="<?php echo base_url(); ?>assets/v2/js/jquery.core.js"></script>
         <script src="<?php echo base_url(); ?>assets/v2/js/jquery.app.js"></script>
+
         <script src="<?php echo base_url(); ?>assets/js/angular/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/angular-animate.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/angular-messages.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/angular-ui-bootstrap.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/qrcode.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/angular-qr.js"></script>
@@ -88,7 +91,7 @@
         <script src="<?php echo base_url(); ?>assets/js/angular/bootbox.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/countdown.js"></script>
 
-        <script src="<?php echo base_url(); ?>assets/js/app.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/app.js"></script>
 
         <script src="<?php echo base_url(); ?>assets/js/utils.js"></script>
 

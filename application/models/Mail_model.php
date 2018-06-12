@@ -45,23 +45,10 @@ class Mail_model extends CI_Model {
 
         //Load email library
         $this->load->library('email');
-        //SMTP & mail configuration
-        $config = array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_port' => 465,
-            'smtp_user' => 'trungs1bmt@gmail.com',
-            'smtp_pass' => 'hajimemashitee1234',
-            'mailtype' => 'html',
-            'charset' => 'utf-8',
-        );
-
-        $fullPath = $this->_templatePath . $this->_templateName;
-        $this->email->initialize($config);
         $this->email->set_mailtype('html');
         $this->email->set_newline("\r\n");
-
         //Email content
+        $fullPath = $this->_templatePath . $this->_templateName;
         $mailMessage = $this->load->view($fullPath, $this->_mailContent, TRUE);
         $this->email->to($this->_mailTo);
         $this->email->from($this->_mailFrom);
@@ -72,6 +59,7 @@ class Mail_model extends CI_Model {
             return true;
         }
 
+        // echo $this->email->print_debugger();
         return false;
     }
 
