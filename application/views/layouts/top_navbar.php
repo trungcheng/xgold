@@ -38,7 +38,7 @@
                     <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
                         <li><a href="<?= base_url('dashboard') ?>">Dashboard</a></li>
                         <li><a href="<?= base_url('referral') ?>">Referral</a></li>
-                        <li><a href="<?= base_url('user/profile') ?>">Profile</a></li>
+                        <li><a href="<?= base_url('profile') ?>">Profile</a></li>
                         <li class="divider"></li>
                         <li><a href="<?= base_url('auth/logout') ?>">Logout</a></li>
                     </ul>
