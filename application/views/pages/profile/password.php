@@ -7,6 +7,19 @@
 	                <h4 class="page-title">PROFILE</h4>                                    
 	                <div class="clearfix"></div>
 	            </div>
+                <?php if (validation_errors()) { ?>
+                    <div style="width:35%;position:absolute;left:25%;text-align:center" class="alert alert-danger alert-result">
+                        <?php echo validation_errors(); ?>
+                    </div>
+                <?php } ?>
+                <?php if ($this->session->flashdata('error')) { ?>
+                    <div style="width:35%;position:absolute;left:25%;text-align:center" class="alert alert-danger alert-result">
+                        <?= $this->session->flashdata('error') ?>
+                    </div>
+                <?php } ?>
+                <?php if ($this->session->flashdata('success')) { ?>
+                    <div style="width:35%;position:absolute;left:25%;text-align:center" class="alert alert-success alert-result"><?= $this->session->flashdata('success') ?></div>
+                <?php } ?>
 	            <div class="pull-right price_box">
 	                <p>
 	                    <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b>0</b> TKC</span>
@@ -30,7 +43,7 @@
                 <div class="panel-body">
                     <div class="img-center text-center">
                         <p class="text-muted font-13">
-                            <img src="<?= base_url() ?>assets/v2/images/users/no-avatar.jpg" alt="" class="thumb-lg img-circle">
+                            <img src="<?= $avatar ?>" alt="" class="thumb-lg img-circle">
                         </p>
                         <h3 class="panel-title m-t-20">Personal Information</h3>
                     </div>
@@ -40,10 +53,13 @@
                             <strong>TKC</strong><span class="m-l-15 pull-right">0</span>
                         </p>
                         <p class="text-muted font-13">
-                            <strong>Username</strong><span class="m-l-15 pull-right">levanluong</span>
+                            <strong>Email</strong><span class="m-l-15 pull-right"><?= $email ?></span>
                         </p>
                         <p class="text-muted font-13">
-                            <strong>Phone</strong><span class="m-l-15 pull-right">0984661545</span>
+                            <strong>Phone</strong><span class="m-l-15 pull-right"><?= $mobile ?></span>
+                        </p>
+                        <p class="text-muted font-13">
+                            <strong>Address</strong><span class="m-l-15 pull-right"><?= $address ?></span>
                         </p>
                     </div>                                       
                 </div>
@@ -71,14 +87,14 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="profile-b1">
                         
-                        <form id="form_profile" action="/profile/password" method="post">
+                        <form id="form_profile" action="<?= base_url('profile/changePassword') ?>" method="post">
 							<input type="hidden" name="_csrf" value="QQ1fvT5Rvvm66YSfpjfIPvEoGPpkudhOn8lsb4bDIl8WaTrpVTT11OuP6aefXaN8tEV_yTzfthzmgCAiq_sVKg==">
 
 							<div class="form-group field-passwordform-oldpass required">
 								<div class="form-group">
 	                                <label class="col-md-4 control-label"><label class="control-label" for="passwordform-oldpass">Current password</label></label>
 	                                <div class="col-md-8">
-	                                    <input type="password" id="passwordform-oldpass" class="form-control" name="PasswordForm[oldpass]" aria-required="true"><div class="help-block"></div>
+	                                    <input type="password" id="passwordform-oldpass" class="form-control" name="Password[oldpass]" aria-required="true"><div class="help-block"></div>
 	                                </div>
 	                            </div>
 							</div>
@@ -87,7 +103,7 @@
 								<div class="form-group">
 	                                <label class="col-md-4 control-label"><label class="control-label" for="passwordform-newpass">New password</label></label>
 	                                <div class="col-md-8">
-	                                    <input type="password" id="passwordform-newpass" class="form-control" name="PasswordForm[newpass]" aria-required="true"><div class="help-block"></div>
+	                                    <input type="password" id="passwordform-newpass" class="form-control" name="Password[newpass]" aria-required="true"><div class="help-block"></div>
 	                                </div>
 	                            </div>
 							</div>                            
@@ -96,15 +112,15 @@
 								<div class="form-group">
 	                                <label class="col-md-4 control-label"><label class="control-label" for="passwordform-repeatnewpass">Re-password</label></label>
 	                                <div class="col-md-8">
-	                                    <input type="password" id="passwordform-repeatnewpass" class="form-control" name="PasswordForm[repeatnewpass]" aria-required="true"><div class="help-block"></div>
+	                                    <input type="password" id="passwordform-repeatnewpass" class="form-control" name="Password[confirmnewpass]" aria-required="true"><div class="help-block"></div>
 	                                </div>
 	                            </div>
 							</div>
 
 							<div class="form-group m-t-30">
-	                            <div class="col-md-12">
+	                            <div class="col-md-12" style="margin-top:30px;">
 	                                <button type="submit" class="btn btn-custom waves-effect waves-light"><i class="fa fa-edit" ></i> Change password</button>
-	                                <a class="btn btn-default btn-reset waves-effect waves-light" href="/profile/password"><i class="glyphicon glyphicon-refresh" ></i> Reset</a>
+	                                <button type="reset" class="btn btn-default btn-reset waves-effect waves-light"><i class="glyphicon glyphicon-refresh" ></i> Reset</button>
 	                            </div>
                         	</div>
 

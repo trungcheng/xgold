@@ -15,12 +15,12 @@
             </div>
         <?php } ?>
         <?php if ($this->session->flashdata('error')) { ?>
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-result">
                 <?= $this->session->flashdata('error') ?>
             </div>
         <?php } ?>
         <?php if ($this->session->flashdata('success')) { ?>
-            <div class="alert alert-success"><?= $this->session->flashdata('success') ?></div>
+            <div class="alert alert-success alert-result"><?= $this->session->flashdata('success') ?></div>
         <?php } ?>
         <form class="form-horizontal" action="<?php echo base_url('auth/doLogin') ?>" method="post">
             <input type="hidden" name="_method" value="">

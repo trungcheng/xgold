@@ -5,16 +5,16 @@
     </div>
     <div class="account-content">
         <?php if (validation_errors()) { ?>
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-result">
                 <?php echo validation_errors(); ?>
             </div>
         <?php } ?>
         <?php if (!empty($this->input->get('msg')) && $this->input->get('msg') == 1) { ?>
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-result">
                 Email invalid or not existed! Or maybe have been a problem in reset password process. Please try again!
             </div>
         <?php } elseif (!empty($this->input->get('msg')) && $this->input->get('msg') == 2) { ?>
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-result">
                 Your password has been reset successfully. Please check your email.
             </div>
         <?php } ?>

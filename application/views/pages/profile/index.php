@@ -3,9 +3,17 @@
         <div class="col-xs-12">
             <div class="page-title-box">
                 <div class="pull-left">
-                    <h4 class="page-title">PROFILE</h4>                                    
+                    <h4 class="page-title">PROFILE</h4>                    
                     <div class="clearfix"></div>
-                                </div>
+                </div>
+                <?php if ($this->session->flashdata('error')) { ?>
+                    <div style="width:35%;position:absolute;left:25%;text-align:center" class="alert alert-danger alert-result">
+                        <?= $this->session->flashdata('error') ?>
+                    </div>
+                <?php } ?>
+                <?php if ($this->session->flashdata('success')) { ?>
+                    <div style="width:35%;position:absolute;left:25%;text-align:center" class="alert alert-success alert-result"><?= $this->session->flashdata('success') ?></div>
+                <?php } ?>
                 <div class="pull-right price_box">
                     <p>
                         <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b>0</b> TKC</span>
@@ -29,7 +37,7 @@
                 <div class="panel-body">
                     <div class="img-center text-center">
                         <p class="text-muted font-13">
-                            <img src="<?= base_url() ?>assets/v2/images/users/no-avatar.jpg" alt="" class="thumb-lg img-circle">
+                            <img src="<?= $avatar ?>" alt="" class="thumb-lg img-circle">
                         </p>
                         <h3 class="panel-title m-t-20">Personal Information</h3>
                     </div>
@@ -39,10 +47,13 @@
                             <strong>TKC</strong><span class="m-l-15 pull-right">0</span>
                         </p>
                         <p class="text-muted font-13">
-                            <strong>Username</strong><span class="m-l-15 pull-right">levanluong</span>
+                            <strong>Email</strong><span class="m-l-15 pull-right"><?= $email ?></span>
                         </p>
                         <p class="text-muted font-13">
-                            <strong>Phone</strong><span class="m-l-15 pull-right">0984661545</span>
+                            <strong>Phone</strong><span class="m-l-15 pull-right"><?= $mobile ?></span>
+                        </p>
+                        <p class="text-muted font-13">
+                            <strong>Address</strong><span class="m-l-15 pull-right"><?= $address ?></span>
                         </p>
                     </div>                                       
                 </div>
@@ -71,48 +82,66 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="profile-b1">
                         
-                        <form id="form_profile" action="/profile/index" method="post">
+                        <form id="form_profile" action="<?= base_url('profile/updateInfo') ?>" method="post">
                             <input type="hidden" name="_csrf" value="J0grpYWA6UWSyGSQaQhBt6ajKyp4PqP5PIrNppHxKJlwLE7x7uWiaMOuCahQYir1485MGSBYzatFw4HrvMkf7A==">
-                            <div class="form-group field-member-name">
+                            <div class="form-group field-member-phone" style="line-height:35px;">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><label class="control-label" for="member-name">Name</label></label>
+                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Phone</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-name" class="form-control" name="Member[name]"><div class="help-block"></div>
+                                        <input type="text" id="member-phone" class="form-control" name="Profile[phone]" value="<?= $mobile ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group field-member-phone">
+                            <div class="form-group field-member-address" style="line-height:35px;">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Phone</label></label>
+                                    <label class="col-md-4 control-label"><label class="control-label" for="member-address">Address</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-phone" class="form-control" name="Member[phone]" value="0984661545"><div class="help-block"></div>
+                                        <input type="text" id="member-address" class="form-control" name="Profile[address]" value="<?= $address ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
                             </div>                      
                             
-                            <div class="form-group field-member-tkcaddress">
+                            <!-- <div class="form-group field-member-tkcaddress">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><label class="control-label" for="member-tkcaddress">Your address to receive TKC</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-tkcaddress" class="form-control" name="Member[tkcAddress]"><div class="help-block"></div>
+                                        <input type="text" id="member-tkcaddress" class="form-control" name="Coin[xgoldAddr]" value="<?php ($coinAddr['coin_type'] == 'xgold') ? $coinAddr['coin_addr'] : '' ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4 m-t-20">
                                     <div class="alert alert-danger alert-dismissible fade in" role="alert">
                                         You have to use here your personal Ethereum wallets like MyEtherWallet, Metamask, Parity, Mist, imToken, Ledger (hardware wallet) or ask support about your wallet. WARNING NOT SUPPORTED: Coinbase wallet, all wallets from exchanges, Free Ethereum Wallet for Android.
                                     </div>
                                 </div>
-                            </div>                           
+                            </div>   -->
+
+                            <?php
+                                foreach ($coinAddr as $coin) {
+                                    ?>
+                                    <div class="form-group field-member-ethaddress" style="line-height:35px;">
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">
+                                                <label style="font-size:13px;" class="control-label"><?= strtoupper($coin['coin_type']) ?> address to contribute
+                                                </label>
+                                            </label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="Coin[<?= $coin['coin_type'] ?>]" value="<?= $coin['coin_addr'] ?>"><div class="help-block"></div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <?php
+                                }
+                            ?>                         
                         
-                            <div class="form-group field-member-ethaddress">
+                            <!-- <div class="form-group field-member-ethaddress">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><label class="control-label" for="member-ethaddress">ETH address to contribute</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-ethaddress" class="form-control" name="Member[ethAddress]"><div class="help-block"></div>
+                                        <input type="text" id="member-ethaddress" class="form-control" name="Coin[ethAddr]" value="<?php ($coinAddr['coin_type'] == 'eth') ? $coinAddr['coin_addr'] : '' ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
                             </div>                            
@@ -121,7 +150,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><label class="control-label" for="member-btcaddress">BTC address to contribute</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-btcaddress" class="form-control" name="Member[btcAddress]"><div class="help-block"></div>
+                                        <input type="text" id="member-btcaddress" class="form-control" name="Coin[btcAddr]" value="<?php ($coinAddr['coin_type'] == 'btc') ? $coinAddr['coin_addr'] : '' ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
                             </div>                            
@@ -130,7 +159,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><label class="control-label" for="member-ltcaddress">LTC address to contribute</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-ltcaddress" class="form-control" name="Member[ltcAddress]"><div class="help-block"></div>
+                                        <input type="text" id="member-ltcaddress" class="form-control" name="Coin[ltcAddr]" value="<?php ($coinAddr['coin_type'] == 'ltc') ? $coinAddr['coin_addr'] : '' ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
                             </div>
@@ -139,14 +168,15 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><label class="control-label" for="member-usdtaddress">USDT address to contribute</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-usdtaddress" class="form-control" name="Member[usdtAddress]"><div class="help-block"></div>
+                                        <input type="text" id="member-usdtaddress" class="form-control" name="Coin[usdtAddr]" value="<?php ($coinAddr['coin_type'] == 'usdt') ? $coinAddr['coin_addr'] : '' ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="form-group m-t-30">
-                                <div class="col-md-12">
-                                    <button type="submit" class="btn btn-custom waves-effect waves-light"><i class="fa fa-edit" ></i> Update</button>                                    <a class="btn btn-default btn-reset waves-effect waves-light" href="/profile/index"><i class="glyphicon glyphicon-refresh" ></i> Reset</a>
+                                <div class="col-md-12" style="margin-top:30px;">
+                                    <button type="submit" class="btn btn-custom waves-effect waves-light"><i class="fa fa-edit" ></i> Update</button>                                    
+                                    <button type="reset" class="btn btn-default btn-reset waves-effect waves-light"><i class="glyphicon glyphicon-refresh" ></i> Reset</button>
                                 </div>
                             </div>
                         

@@ -5,12 +5,12 @@
     </div>
     <div class="account-content">
         <?php if (validation_errors()) { ?>
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-result">
                 <?php echo validation_errors(); ?>
             </div>
         <?php } ?>
         <?php if ($this->session->flashdata('error')) { ?>
-            <div class="alert alert-danger"><?= $this->session->flashdata('error') ?></div>
+            <div class="alert alert-danger alert-result"><?= $this->session->flashdata('error') ?></div>
         <?php } ?>
         <form class="form-horizontal" action="<?= base_url('auth/actionCreate') ?>" method="post">
             <input type="hidden" name="_method" value="">
@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-lg-6">
-                    <div class="icon_before_username icon_before_all">
-                        <input type="text" id="username" class="form-control" name="username" placeholder="Username">
+                    <div class="icon_before_place icon_before_all">
+                        <input type="text" id="address" class="form-control" name="address" placeholder="Address">
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-xs-12 col-lg-6">
                     <div class="icon_before_username icon_before_all">
-                        <input type="text" id="registerform-sponsor" class="form-control" name="sponsor" placeholder="Sponsor ID" value="<?= isset($ref_id) ? $ref_id : '' ?>">
+                        <input type="text" id="registerform-sponsor" class="form-control" name="sponsor" placeholder="Sponsor ID" value="<?= isset($sponsor) ? $sponsor : '' ?>">
                     </div>
                 </div>
             </div>

@@ -34,6 +34,7 @@ File: Menu
 /* =============
    Email
 ============= */
+
 .inbox-leftbar {
   width: 240px;
   float: left;
@@ -850,6 +851,20 @@ h3.timeline-title {
     left: 15px;
     color: #64c5b1;
 }
+.icon_before_place:before {
+    content: "\F334";
+    display: inline-block;
+    font: normal normal normal 24px/1 "Material Design Icons";
+    font-size: 18px;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    color: #64c5b1;
+}
 .icon_before_phone:before {
     content: "\F120";
     display: inline-block;
@@ -893,8 +908,8 @@ h3.timeline-title {
     color: #64c5b1;
 }
 .icon_before2:before{
-  content: "\F306";
-  display: inline-block;
+    content: "\F306";
+    display: inline-block;
     font: normal normal normal 24px/1 "Material Design Icons";
     font-size: 18px;
     text-rendering: auto;

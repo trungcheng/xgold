@@ -32,8 +32,8 @@ class Auth extends CI_Controller {
 	public function register()
 	{
 		$data = [];
-        if ($this->input->get('ref_id')) {
-            $data['ref_id'] = $this->input->get('ref_id');
+        if ($this->input->get('sponsor')) {
+            $data['sponsor'] = $this->input->get('sponsor');
         }
         $data['pageName'] = 'Register';
         $this->layout->auth('register', $data);
@@ -49,8 +49,7 @@ class Auth extends CI_Controller {
     // action login method
     public function doLogin() {
         // Check form  validation
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('email', 'User Name/Email', 'trim|required');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         if ($this->form_validation->run() == FALSE) {
             //Field validation failed.  User redirected to login page
@@ -68,8 +67,8 @@ class Auth extends CI_Controller {
                 if ($result['active']) {
                     $authArray = array(
                         'user_id' => $result['user_id'],
-                        'username' => $result['username'],
                         'email' => $result['email']
+                        'is_admin' => $result['is_admin']
                     );
                     $this->session->set_userdata('ci_session_key_generate', TRUE);
                     $this->session->set_userdata('ci_seesion_key', $authArray);
@@ -86,9 +85,7 @@ class Auth extends CI_Controller {
 
 	// action create user method
     public function actionCreate() {
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
         $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
         // $this->form_validation->set_rules('phone', 'Phone', 'required');
@@ -102,7 +99,7 @@ class Auth extends CI_Controller {
 
             $this->load->library('encrypt');
             $mailData = array(
-                'topMsg' => $data['username'],
+                'topMsg' => $data['email'],
                 'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
                 'thanksMsg' => 'Thanks for your cooperation!', 
                 'verificationLink' => $verificationLink
@@ -114,19 +111,21 @@ class Auth extends CI_Controller {
             $this->mail_model->setTemplateName('register_temp');
             $this->mail_model->setTemplatePath('mail/');
             $chkStatus = $this->mail_model->sendMail();
-            var_dump($chkStatus);die;
             if ($chkStatus) {
-                $this->user_model->setUserID(md5($data['email']));
+                $this->user_model->setUserID(md5($data['email'].time()));
                 $this->user_model->setRefID($data['sponsor']);
                 $this->user_model->setEmail($data['email']);
-                $this->user_model->setUserName($data['username']);
+                $this->user_model->setAddress($data['address']);
                 $this->user_model->setPassword($data['password']);
                 $this->user_model->setMobile($data['phone']);
                 $this->user_model->setActive(false);
                 $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
                 $this->user_model->setVerificationCode($verificationCode);
+                $this->user_model->setIsAdmin(false);
                 $chk = $this->user_model->create();
                 if ($chk) {
+                    $user = $this->user_model->getUserDetailByEmail($data['email']);
+                    $this->usercoin_model->create($user['user_id']);
                     $this->session->set_flashdata('success', 'Congratulations! Please check your email to confirm the registration');
                     redirect('auth/login');
                 } else {

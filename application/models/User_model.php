@@ -12,12 +12,13 @@ class User_model extends CI_Model
     private $_userID;
     private $_refID;
     private $_email;
-    private $_userName;
+    private $_address;
     private $_password;
     private $_avatar;
     private $_mobile;
     private $_active;
     private $_verificationCode;
+    private $_is_admin;
 
     public function __construct()
     {
@@ -33,8 +34,8 @@ class User_model extends CI_Model
         $this->_refID = $refID;
     }
  
-    public function setUserName($userName) {
-        $this->_userName = $userName;
+    public function setAddress($address) {
+        $this->_address = $address;
     }
  
     public function setEmail($email) {
@@ -61,6 +62,10 @@ class User_model extends CI_Model
         $this->_verificationCode = $verificationCode;
     }
 
+    public function setIsAdmin($isAdmin) {
+        $this->_is_admin = $isAdmin;
+    }
+
     // get all users
     public function getAll()
     {
@@ -69,7 +74,7 @@ class User_model extends CI_Model
 
     // login method and password verify
     public function login() {
-        $query = $this->mongo_db->or_where(['username' => $this->_email, 'email' => $this->_email])
+        $query = $this->mongo_db->where('email', $this->_email)
             ->limit(1)->get('users');
         if (count($query) > 0) {
             if ($this->verifyHash($this->_password, $query[0]['password'])) {
@@ -87,16 +92,17 @@ class User_model extends CI_Model
             'user_id' => $this->_userID,
             'ref_id' => $this->_refID,
             'email' => $this->_email,
-            'username' => $this->_userName,
+            'address' => $this->_address,
             'password' => $hash,
             'avatar' => $this->_avatar,
             'mobile' => $this->_mobile,
             'active' => $this->_active,
             'verification_code' => $this->_verificationCode,
             'created_at' => date('Y-m-d h:i:s'),
-            'updated_at' => date('Y-m-d h:i:s')
+            'updated_at' => date('Y-m-d h:i:s'),
+            'is_admin' => $this->_is_admin
         );
-        $query = $this->mongo_db->or_where(['username' => $this->_userName, 'email' => $this->_email])->get('users');
+        $query = $this->mongo_db->where('email', $this->_email)->get('users');
         if (empty($query)) {
             $this->mongo_db->insert('users', $data);
             return true;
@@ -106,22 +112,11 @@ class User_model extends CI_Model
     }
  
     //update user
-    public function update() {
-        $data = array(
-            'first_name' => $this->_firstName,
-            'last_name' => $this->_lastName,
-            'contact_no' => $this->_contactNo,
-            'address' => $this->_address,
-            'dob' => $this->_dob,
-            'modified_date' => $this->_timeStamp,
-        );
-        $this->db->where('id', $this->_userID);
-        $msg = $this->db->update('users', $data);
-        if ($msg == 1) {
-            return true;
-        } else {
-            return false;
-        }
+    public function update($data, $userId) {
+        $this->mongo_db->set($data)
+            ->where('user_id', $userId)
+            ->update('users');
+        return true;
     }
  
     //change password
@@ -140,16 +135,14 @@ class User_model extends CI_Model
     }
  
     // get User Detail
-    public function getUserDetails() {
-        $this->db->select(array('m.id as user_id', 'CONCAT(m.first_name, " ", m.last_name) as full_name', 'm.first_name', 'm.last_name', 'm.email', 'm.contact_no', 'm.address', 'm.dob'));
-        $this->db->from('users as m');
-        $this->db->where('m.id', $this->_userID);
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query->row_array();
-        } else {
-            return false;
-        }
+    public function getUserDetailByUserId($userId) {
+        $query = $this->mongo_db->where('user_id', $userId)->get('users');
+        return $query[0];
+    }
+
+    public function getUserDetailByEmail($email) {
+        $query = $this->mongo_db->where('email', $email)->get('users');
+        return $query[0];
     }
  
     // update Forgot Password
@@ -177,10 +170,7 @@ class User_model extends CI_Model
                 'active' => true,
                 'verification_code' => 1
             );
-            $this->mongo_db->set($data)
-                ->where('user_id', $query[0]['user_id'])
-                ->update('users');
-            return true;
+            $this->update($data, $query[0]['user_id']);
         }
         
         return false;

@@ -82,6 +82,7 @@
         
         <script type="text/javascript">
             $(function () {
+                $('.alert-result').delay(3000).fadeOut();
                 toastr.options = {
                     "closeButton": true,
                     "debug": false,
