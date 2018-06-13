@@ -65,7 +65,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/angular-animate.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/angular-messages.min.js"></script>
-        <script src="<?php echo base_url(); ?>assets/js/angular/angular-ui-bootstrap.min.js"></script>
+        <!-- <script src="<?php echo base_url(); ?>assets/js/angular/angular-ui-bootstrap.min.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+        
         <script src="<?php echo base_url(); ?>assets/js/angular/qrcode.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/angular-qr.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/moment.min.js"></script>
@@ -79,7 +81,9 @@
         <script src="<?php echo base_url(); ?>assets/js/angular/app.js"></script>
 
         <script src="<?php echo base_url(); ?>assets/js/utils.js"></script>
-        
+
+        <script src="<?php echo base_url(); ?>assets/js/angular/controllers/user.controller.js"></script>
+
         <script type="text/javascript">
             $(function () {
                 $('.alert-result').delay(3000).fadeOut();

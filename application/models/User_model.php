@@ -66,10 +66,10 @@ class User_model extends CI_Model
         $this->_is_admin = $isAdmin;
     }
 
-    // get all users
-    public function getAll()
+    // get all users except current user
+    public function getAll($userId)
     {
-        return $this->mongo_db->get('users');
+        return $this->mongo_db->where_ne('user_id', $userId)->get('users');
     }
 
     // login method and password verify

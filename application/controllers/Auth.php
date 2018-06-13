@@ -67,7 +67,7 @@ class Auth extends CI_Controller {
                 if ($result['active']) {
                     $authArray = array(
                         'user_id' => $result['user_id'],
-                        'email' => $result['email']
+                        'email' => $result['email'],
                         'is_admin' => $result['is_admin']
                     );
                     $this->session->set_userdata('ci_session_key_generate', TRUE);
