@@ -12,7 +12,7 @@ class Usercoin_model extends CI_Model
     private $_userID;
     private $_coin_addr;
     private $_coin_type;
-    private $_total;
+    private $_balance;
 
     public function __construct()
     {
@@ -32,8 +32,8 @@ class Usercoin_model extends CI_Model
         $this->_coin_type = $coinType;
     }
 
-    public function setTotal($total) {
-        $this->_total = $total;
+    public function setBalance($balance) {
+        $this->_balance = $balance;
     }
 
     // get all user coins
@@ -49,13 +49,13 @@ class Usercoin_model extends CI_Model
 
     public function create($userId)
     {
-        $types = ['xgold','btc','eth','ltc','usdt'];
+        $types = ['xgold','btc','eth','ltc','bch'];
         foreach ($types as $type) {
             $data = [
                 'user_id' => $userId,
                 'coin_addr' => '',
                 'coin_type' => $type,
-                'total' => '0'
+                'balance' => 0.00
             ];
             $this->mongo_db->insert('user_coin', $data);
         }

@@ -5,7 +5,7 @@
                 <div class="pull-left">
                     <h4 class="page-title">USER</h4>                    
                     <div class="clearfix"></div>
-                    <a style="margin-top:10px;" href="javascript:void(0)" class="btn btn-block btn-success btn-sm">
+                    <a ng-click="addUser()" style="margin-top:10px;" href="javascript:void(0)" class="btn btn-block btn-success btn-sm">
                         <i class="fa fa-plus"></i> 
                         Thêm user
                     </a>
@@ -50,7 +50,7 @@
                                     <i class="fa fa-pencil" aria-hidden="true" style="color:#fff;"></i> 
                                 </a>
                             </button>
-                            <button class="btn btn-danger btn-xs">
+                            <button ng-click="deleteUser(user)" class="btn btn-danger btn-xs">
                                 <a href="javascript:void(0)">
                                     <i class="fa fa-trash" aria-hidden="true" style="color:#fff;"></i> 
                                 </a>
@@ -75,33 +75,64 @@
 
 </div> <!-- container -->
 
+<script type="text/ng-template" id="popup-add.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()">&times;</button>
+        <h3 class="modal-title">Add user</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" ng-model="userModalAdd.email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" ng-model="userModalAdd.address" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Mobile</label>
+            <input type="text" ng-model="userModalAdd.mobile" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Role</label>
+            <select class="form-control" ng-model="userModalAdd.selectedOption">
+                <option ng-repeat="value in ['Admin','User']">{{ value }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="add()" type="button" class="btn btn-primary">Add</button>
+        <button ng-click="close()" type="button" class="btn btn-default">Close</button>
+    </div>
+</script>
+
 <script type="text/ng-template" id="popup-edit.html">
-        <div class="modal-header">
-            <button type="button" class="close" ng-click="close()">&times;</button>
-            <h3 class="modal-title">Edit user</h3>
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()">&times;</button>
+        <h3 class="modal-title">Edit user</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" ng-model="userModal.email" class="form-control">
         </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label>Email</label>
-                <input type="text" ng-model="userModal.email" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Address</label>
-                <input type="text" ng-model="userModal.address" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Mobile</label>
-                <input type="text" ng-model="userModal.mobile" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Role</label>
-                <select class="form-control" ng-model="userModal.selectedOption">
-                    <option ng-repeat="value in ['Admin','User']">{{ value }}</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" ng-model="userModal.address" class="form-control">
         </div>
-        <div class="modal-footer">
-            <button ng-click="update()" type="button" class="btn btn-primary">Update</button>
-            <button ng-click="close()" type="button" class="btn btn-default">Close</button>
+        <div class="form-group">
+            <label>Mobile</label>
+            <input type="text" ng-model="userModal.mobile" class="form-control">
         </div>
+        <div class="form-group">
+            <label>Role</label>
+            <select class="form-control" ng-model="userModal.selectedOption">
+                <option ng-repeat="value in ['Admin','User']">{{ value }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-click="update()" type="button" class="btn btn-primary">Update</button>
+        <button ng-click="close()" type="button" class="btn btn-default">Close</button>
+    </div>
 </script>

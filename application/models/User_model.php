@@ -10,7 +10,6 @@ class User_model extends CI_Model
 
     // Declaration of a variables
     private $_userID;
-    private $_refID;
     private $_email;
     private $_address;
     private $_password;
@@ -28,10 +27,6 @@ class User_model extends CI_Model
     //Declaration of a methods
     public function setUserID($userID) {
         $this->_userID = $userID;
-    }
-
-    public function setRefID($refID) {
-        $this->_refID = $refID;
     }
  
     public function setAddress($address) {
@@ -90,7 +85,6 @@ class User_model extends CI_Model
         $hash = $this->hash($this->_password);
         $data = array(
             'user_id' => $this->_userID,
-            'ref_id' => $this->_refID,
             'email' => $this->_email,
             'address' => $this->_address,
             'password' => $hash,
@@ -118,6 +112,10 @@ class User_model extends CI_Model
             ->update('users');
         return true;
     }
+
+    public function delete($userId) {
+        return $this->mongo_db->where('user_id', $userId)->delete('users');
+    } 
  
     //change password
     public function changePassword() {
@@ -137,12 +135,12 @@ class User_model extends CI_Model
     // get User Detail
     public function getUserDetailByUserId($userId) {
         $query = $this->mongo_db->where('user_id', $userId)->get('users');
-        return $query[0];
+        return $query;
     }
 
     public function getUserDetailByEmail($email) {
         $query = $this->mongo_db->where('email', $email)->get('users');
-        return $query[0];
+        return $query;
     }
  
     // update Forgot Password

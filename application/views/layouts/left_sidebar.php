@@ -17,7 +17,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('referral') ?>"><i class="fi-target"></i> <span> Referral </span></a>
+                    <a href="<?= base_url('referral') ?>"><i class="fi-target"></i> <span> Referrals </span></a>
                 </li>
                 <li>
                     <a href="<?= base_url('user') ?>"><i class="mdi mdi-account-multiple"></i> <span> Users </span></a>

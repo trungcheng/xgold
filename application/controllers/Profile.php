@@ -17,20 +17,21 @@ class Profile extends MY_Controller {
 
 	public function index()
 	{
+
 		$data = $this->user_model->getUserDetailByUserId($this->userInfo['user_id']);
 		$userCoin = $this->usercoin_model->getCoinAddrUser($this->userInfo['user_id']);
-		$data['coinAddr'] = $userCoin;
-		$data['pageName'] = 'Profile';
+		$data[0]['coinAddr'] = $userCoin;
+		$data[0]['pageName'] = 'Profile';
 
-		$this->layout->view('profile/index', $data);
+		$this->layout->view('profile/index', $data[0]);
 	}
 
 	public function password()
 	{
 		$data = $this->user_model->getUserDetailByUserId($this->userInfo['user_id']);
-		$data['pageName'] = 'Change password';
+		$data[0]['pageName'] = 'Change password';
 
-		$this->layout->view('profile/password', $data);
+		$this->layout->view('profile/password', $data[0]);
 	}
 
 	public function updateInfo()
@@ -65,7 +66,7 @@ class Profile extends MY_Controller {
 	        } else {
 				$data = $this->input->post('Password');
 				$user = $this->user_model->getUserDetailByUserId($this->userInfo['user_id']);
-				if ($this->user_model->verifyHash($data['oldpass'], $user['password'])) {
+				if ($this->user_model->verifyHash($data['oldpass'], $user[0]['password'])) {
 					$this->user_model->update(
 						['password' => $this->user_model->hash($data['newpass'])], 
 						$this->userInfo['user_id']

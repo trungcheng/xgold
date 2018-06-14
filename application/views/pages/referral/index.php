@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12 hidden-xs">
+        <!-- <div class="col-sm-12 hidden-xs">
             <div class="card-box">
                 <h4 class="m-t-0 dis_inline header-title m-b-20"><b>Referral transaction:</b></h4>
                 <div id="w1" class="grid-view">
@@ -110,6 +110,6 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

@@ -9,11 +9,14 @@ class Auth extends CI_Controller {
         $this->layout->setLayout('layouts/auth');
         $this->load->library('form_validation');
         $this->load->model('user_model');
+        $this->load->model('usercoin_model');
+        $this->load->model('affiliate_model');
         $this->load->model('mail_model');
     }
 
     public function login()
     {
+        // var_dump($this->user_model->hash('12345678'));die;
         if (!empty($this->input->get('usid'))) {
             $verificationCode = urldecode(base64_decode($this->input->get('usid')));
             $this->user_model->setVerificationCode($verificationCode);
@@ -112,8 +115,7 @@ class Auth extends CI_Controller {
             $this->mail_model->setTemplatePath('mail/');
             $chkStatus = $this->mail_model->sendMail();
             if ($chkStatus) {
-                $this->user_model->setUserID(md5($data['email'].time()));
-                $this->user_model->setRefID($data['sponsor']);
+                $this->user_model->setUserID('XGOLD'.md5($data['email'].time()));
                 $this->user_model->setEmail($data['email']);
                 $this->user_model->setAddress($data['address']);
                 $this->user_model->setPassword($data['password']);
@@ -125,7 +127,16 @@ class Auth extends CI_Controller {
                 $chk = $this->user_model->create();
                 if ($chk) {
                     $user = $this->user_model->getUserDetailByEmail($data['email']);
+                    // create coin default addr
                     $this->usercoin_model->create($user['user_id']);
+                    // create ref
+                    if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
+                        $sponsor = $this->user_model->getUserDetailByUserId($data['sponsor']);
+                        if (!empty($sponsor)) {
+                            $this->affiliate_model->create($user['user_id'], $data['sponsor']);
+                        }
+                    }
+
                     $this->session->set_flashdata('success', 'Congratulations! Please check your email to confirm the registration');
                     redirect('auth/login');
                 } else {
