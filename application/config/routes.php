@@ -53,6 +53,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['dashboard'] = 'dashboard/index';
 $route['referral'] = 'referral/index';
 $route['profile'] = 'profile/index';
+$route['user'] = 'user/index';
+$route['event'] = 'event/index';
 
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';

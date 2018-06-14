@@ -134,12 +134,12 @@ class User_model extends CI_Model
  
     // get User Detail
     public function getUserDetailByUserId($userId) {
-        $query = $this->mongo_db->where('user_id', $userId)->get('users');
+        $query = $this->mongo_db->where('user_id', $userId)->select(['user_id', 'email', 'address', 'mobile', 'avatar', 'is_admin'])->get('users');
         return $query;
     }
 
     public function getUserDetailByEmail($email) {
-        $query = $this->mongo_db->where('email', $email)->get('users');
+        $query = $this->mongo_db->where('email', $email)->select(['user_id', 'email', 'address', 'mobile', 'avatar', 'is_admin'])->get('users');
         return $query;
     }
  

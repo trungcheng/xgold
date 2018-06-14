@@ -30,8 +30,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input id="referral_text" readonly="" type="text" class="form-control" value="http://member.tekycorp.com/ref/levanluong.html">
-                            <span id="referral_copy" class="input-group-addon copy_addon btn btn-primary" style="cursor: pointer" >COPY</span>
+                            <input id="referral_text" readonly="" type="text" class="form-control" value="<?= $link_sponsor ?>">
+                            <span id="referral_copy" class="input-group-addon copy_addon btn btn-primary" style="cursor:pointer" >COPY</span>
                         </div>
                         <div class="buy-tkc-button m-t-20">
                             <a href="<?= base_url('dashboard/index') ?>" class="btn btn-custom waves-light waves-effect w-md">BUY TKC NOW</a>
@@ -66,23 +66,36 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <a href="/referral/index?sort=name" data-sort="name">Name</a>
-                                </th>
-                                <th>
                                     <a href="/referral/index?sort=email" data-sort="email">Email</a>
                                 </th>
                                 <th>
                                     <a href="/referral/index?sort=joinTime" data-sort="joinTime">Join Time</a>
                                 </th>
-                                <th>Referral Bonus</th>
+                                <th>Referral Bonus (%)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="4">
-                                    <div class="empty">No results found.</div>
-                                </td>
-                            </tr>
+                            <?php
+                                if (!empty($refs)) {
+                                    foreach ($refs as $ref) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $ref['email'] ?></td>
+                                            <td><?= $ref['created'] ?></td>
+                                            <td><?= $ref['affBonus'] ?>%</td>
+                                        </tr>
+                                        <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="empty">No results found.</div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>

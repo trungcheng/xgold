@@ -9,6 +9,8 @@ class Event_model extends CI_Model
 {
 
     // Declaration of a variables
+    private $_eventID;
+    private $_name;
     private $_from_date;
     private $_to_date;
     private $_bonus;
@@ -20,6 +22,14 @@ class Event_model extends CI_Model
     }
  
     //Declaration of a methods
+    public function setEventID($eventID) {
+        $this->_eventID = $eventID;
+    }
+
+    public function setName($name) {
+        $this->_name = $name;
+    }
+
     public function setFromDate($fromDate) {
         $this->_from_date = $fromDate;
     }
@@ -42,15 +52,39 @@ class Event_model extends CI_Model
         return $this->mongo_db->get('events');
     }
 
-    public function create($data)
+    public function create()
     {
         $data = [
-            'from_date' => $data['fromDate'],
-            'to_date' => $data['toDate'],
-            'bonus' => $data['bonus'],
-            'is_selected' => false
+            'event_id' => $this->_eventID,
+            'name' => $this->_name,
+            'from_date' => $this->_from_date,
+            'to_date' => $this->_to_date,
+            'bonus' => $this->_bonus,
+            'is_selected' => $this->_is_selected
         ];
-        return $this->mongo_db->insert('events', $data);
+        $query = $this->mongo_db->where('name', $this->_name)->get('events');
+        if (empty($query)) {
+            $this->mongo_db->insert('events', $data);
+            return true;
+        }
+
+        return false;
+    }
+
+    public function update($data, $eventId) {
+        $this->mongo_db->set($data)
+            ->where('event_id', $eventId)
+            ->update('events');
+        return true;
+    }
+
+    public function delete($eventId) {
+        return $this->mongo_db->where('event_id', $eventId)->delete('events');
+    } 
+
+    public function getEventDetailByEventId($eventId) {
+        $query = $this->mongo_db->where('event_id', $eventId)->get('events');
+        return $query;
     }
 
 }

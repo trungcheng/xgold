@@ -1,13 +1,13 @@
-<div class="container" ng-controller="UserController" ng-init="loadInit()">
+<div class="container" ng-controller="EventController" ng-init="loadInit()">
     <div class="row">
         <div class="col-xs-12">
             <div class="page-title-box">
                 <div class="pull-left">
-                    <h4 class="page-title">USER</h4>                    
+                    <h4 class="page-title">EVENT</h4>                    
                     <div class="clearfix"></div>
-                    <a ng-click="addUser()" style="margin-top:10px;" href="javascript:void(0)" class="btn btn-block btn-success btn-sm">
+                    <a ng-click="addEvent()" style="margin-top:10px;" href="javascript:void(0)" class="btn btn-block btn-success btn-sm">
                         <i class="fa fa-plus"></i> 
-                        Thêm user
+                        Thêm event
                     </a>
                 </div>
                 <div class="pull-right price_box">
@@ -31,26 +31,28 @@
             <table ng-cloak class="table table-hover table-striped">
                 <thead>
                     <th>STT</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Mobile</th>
-                    <th>Role</th>
+                    <th>Name</th>
+                    <th>From date</th>
+                    <th>To date</th>
+                    <th>Bonus (%)</th>
+                    <th>Active</th>
                     <th>Option</th>
                 </thead>
                 <tbody>
-                    <tr ng-cloak ng-repeat="user in users track by $index">
+                    <tr ng-cloak ng-repeat="event in events track by $index">
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.address }}</td>
-                        <td>{{ user.mobile }}</td>
-                        <td>{{ (user.is_admin) ? 'Admin' : 'User' }}</td>
+                        <td>{{ event.name }}</td>
+                        <td>{{ event.from_date }}</td>
+                        <td>{{ event.to_date }}</td>
+                        <td>{{ event.bonus }}%</td>
+                        <td>{{ (event.is_selected) ? 'Yes' : 'No' }}</td>
                         <td>
-                            <button ng-click="editUser(user)" class="btn btn-primary btn-xs" style="margin-right:5px;">
+                            <button ng-click="editEvent(event)" class="btn btn-primary btn-xs" style="margin-right:5px;">
                                 <a href="javascript:void(0)">
                                     <i class="fa fa-pencil" aria-hidden="true" style="color:#fff;"></i> 
                                 </a>
                             </button>
-                            <button ng-click="deleteUser(user)" class="btn btn-danger btn-xs">
+                            <button ng-click="deleteEvent(event)" class="btn btn-danger btn-xs">
                                 <a href="javascript:void(0)">
                                     <i class="fa fa-trash" aria-hidden="true" style="color:#fff;"></i> 
                                 </a>
@@ -62,8 +64,8 @@
                         <i style="font-size:40px;position:fixed;left:50%;top:35%;z-index:99;" class="fa fa-spinner fa-spin"></i>
                     </div>
 
-                    <div ng-if="!loading && users.length === 0">
-                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Không tìm thấy user!</h5>
+                    <div ng-if="!loading && events.length === 0">
+                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Không tìm thấy event!</h5>
                     </div>
 
                 </tbody>
@@ -78,25 +80,29 @@
 <script type="text/ng-template" id="popup-add.html">
     <div class="modal-header">
         <button type="button" class="close" ng-click="close()">&times;</button>
-        <h3 class="modal-title">Add user</h3>
+        <h3 class="modal-title">Add event</h3>
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>Email</label>
-            <input type="text" ng-model="userModalAdd.email" class="form-control" placeholder="Email address...">
+            <label>Name</label>
+            <input type="text" ng-model="eventModalAdd.name" class="form-control" placeholder="Event name...">
+        </div>
+        <div class="form-group col-md-6" style="padding-left:0px">
+            <label>From date</label>
+            <input placeholder="Event time start..." datetime-picker type="text" ng-model="eventModalAdd.from_date" class="form-control datetimepicker">
+        </div>
+        <div class="form-group col-md-6" style="padding-right:0px;">
+            <label>To date</label>
+            <input placeholder="Event time end..." type="text" ng-model="eventModalAdd.to_date" class="form-control datetimepicker">
         </div>
         <div class="form-group">
-            <label>Address</label>
-            <input type="text" ng-model="userModalAdd.address" class="form-control" placeholder="Address...">
+            <label>Bonus</label>
+            <input placeholder="Event bonus..." type="text" ng-model="eventModalAdd.bonus" class="form-control">
         </div>
         <div class="form-group">
-            <label>Mobile</label>
-            <input type="text" ng-model="userModalAdd.mobile" class="form-control" placeholder="Mobile number...">
-        </div>
-        <div class="form-group">
-            <label>Role</label>
-            <select class="form-control" ng-model="userModalAdd.selectedOption">
-                <option ng-repeat="value in ['Admin','User']">{{ value }}</option>
+            <label>Kích hoạt</label>
+            <select class="form-control" ng-model="eventModalAdd.selectedOption">
+                <option ng-repeat="value in ['Yes','No']">{{ value }}</option>
             </select>
         </div>
     </div>
@@ -104,30 +110,36 @@
         <button ng-click="add()" type="button" class="btn btn-primary">Add</button>
         <button ng-click="close()" type="button" class="btn btn-default">Close</button>
     </div>
+
 </script>
 
 <script type="text/ng-template" id="popup-edit.html">
     <div class="modal-header">
         <button type="button" class="close" ng-click="close()">&times;</button>
-        <h3 class="modal-title">Edit user</h3>
+        <h3 class="modal-title">Edit event</h3>
     </div>
     <div class="modal-body">
+        <input type="hidden" ng-model="eventModal.event_id">
         <div class="form-group">
-            <label>Email</label>
-            <input type="text" ng-model="userModal.email" class="form-control" placeholder="Email address...">
+            <label>Name</label>
+            <input type="text" ng-model="eventModal.name" class="form-control" placeholder="Event name...">
         </div>
         <div class="form-group">
-            <label>Address</label>
-            <input type="text" ng-model="userModal.address" class="form-control" placeholder="Address...">
+            <label>From date</label>
+            <input placeholder="Event time start..." type="text" ng-model="eventModal.from_date" class="form-control">
         </div>
         <div class="form-group">
-            <label>Mobile</label>
-            <input type="text" ng-model="userModal.mobile" class="form-control" placeholder="Mobile number...">
+            <label>To date</label>
+            <input placeholder="Event time end..." type="text" ng-model="eventModal.to_date" class="form-control">
         </div>
         <div class="form-group">
-            <label>Role</label>
-            <select class="form-control" ng-model="userModal.selectedOption">
-                <option ng-repeat="value in ['Admin','User']">{{ value }}</option>
+            <label>Bonus</label>
+            <input placeholder="Event bonus..." type="text" ng-model="eventModal.bonus" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Kích hoạt</label>
+            <select class="form-control" ng-model="eventModal.selectedOption">
+                <option ng-repeat="value in ['Yes','No']">{{ value }}</option>
             </select>
         </div>
     </div>

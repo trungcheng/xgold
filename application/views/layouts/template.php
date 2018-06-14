@@ -10,7 +10,7 @@
         <title><?= $pageName ?> | Xgold</title>
 
         <link href="<?php echo base_url(); ?>assets/v2/css/bootstrap.min.css" rel="stylesheet">
-
+        <link href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
         <!-- Bootstrap SweetAlert Style -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" />
         <!-- Toaster Notify Style -->
@@ -49,7 +49,7 @@
         <script src="<?php echo base_url(); ?>assets/js/yii.js"></script>
         <script src="<?php echo base_url(); ?>assets/v2/js/modernizr.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/v2/js/bootstrap.min.js"></script>
-
+        <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
         <!-- Bootstrap SweetAlert Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js"></script>
         <!-- Toaster Notify Scripts -->
@@ -83,6 +83,7 @@
         <script src="<?php echo base_url(); ?>assets/js/utils.js"></script>
 
         <script src="<?php echo base_url(); ?>assets/js/angular/controllers/user.controller.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/controllers/event.controller.js"></script>
 
         <script type="text/javascript">
             $(function () {
@@ -104,7 +105,15 @@
                     "showMethod": "fadeIn",
                     "hideMethod": "fadeOut"
                 };
-            })
+            });
+            $(document).on('click', '#referral_copy', function() {
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($('#referral_text').val()).select();
+                document.execCommand("copy");
+                $temp.remove();
+                toastr.success('Copied', 'SUCCESS');
+            });
         </script>
 
     </body>
