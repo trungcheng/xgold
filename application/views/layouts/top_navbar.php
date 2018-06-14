@@ -26,11 +26,20 @@
                 </li>
 
                 <li class="dropdown hidden-xs icon-nav-left">
-                    <a href="/cdn-cgi/l/email-protection#56353938223735221622333d2f353924267835393b" class="waves-effect waves-light"><i class="mdi mdi-email-outline"></i> <span class="__cf_email__" data-cfemail="bfdcd0d1cbdedccbffcbdad4c6dcd0cdcf91dcd0d2">[email&#160;protected]</span></a>                                
+                    <a href="/cdn-cgi/l/email-protection#56353938223735221622333d2f353924267835393b" class="waves-effect waves-light"><i class="mdi mdi-email-outline"></i> <span class="__cf_email__" data-cfemail="bfdcd0d1cbdedccbffcbdad4c6dcd0cdcf91dcd0d2">admin@xgold.vn</span></a>                                
                 </li>
             </ul>
             <!-- Right(Notification) -->
             <ul class="nav navbar-nav navbar-right">
+                <?php
+                    if (!empty($messages)) {
+                        ?>
+                        <li class="dropdown user-box" style="width:600px;height:40px;margin-top:15px;line-height:40px;color:#fff;">
+                            <marquee direction="left"><?= implode(' ************** ', $messages) ?></marquee>
+                        </li>
+                        <?php
+                    }
+                ?>
                 <li class="dropdown user-box">
                     <a href="" class="dropdown-toggle waves-effect user-link" data-toggle="dropdown" aria-expanded="true">
                         <span class="color-white m-r-10"></span> <img src="<?php echo base_url(); ?>assets/v2/images/users/no-avatar.jpg" alt="user-img" class="img-circle user-img">

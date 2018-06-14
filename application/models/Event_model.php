@@ -52,6 +52,14 @@ class Event_model extends CI_Model
         return $this->mongo_db->get('events');
     }
 
+    public function getSelectedEvents()
+    {
+        return $this->mongo_db->where('is_selected', true)
+            // ->where_lte('from_date', date('Y-m-d h:i:s'))
+            // ->where_gte('to_date', date('Y-m-d h:i:s'))
+            ->get('events');
+    }
+
     public function create()
     {
         $data = [

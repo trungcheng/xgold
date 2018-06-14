@@ -52,4 +52,9 @@ class Setting_model extends CI_Model
         return $this->mongo_db->get('setting');
     }
 
+    public function update($data)
+    {
+        return $this->mongo_db->set($data)->update('setting');
+    }
+
 }
