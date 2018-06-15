@@ -72,6 +72,11 @@
                     <div class="help-block"></div>
                 </div>
 
+                <div class="form-group">
+                    <label class="control-label" for="member-address">Notification</label>
+                    <textarea name="Setting[notification]" class="form-control"><?= $setting[0]['notification'] ?></textarea>
+                </div>
+
                 <div class="form-group pull-right">
                 	<button type="submit" class="btn btn-primary">Update</button>
                 	<button type="reset" class="btn btn-default">Cancel</button>

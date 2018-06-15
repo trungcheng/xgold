@@ -32,10 +32,10 @@
             <!-- Right(Notification) -->
             <ul class="nav navbar-nav navbar-right">
                 <?php
-                    if (!empty($messages)) {
+                    if ($message !== '' && $message !== null) {
                         ?>
                         <li class="dropdown user-box" style="width:500px;height:40px;margin-top:15px;line-height:40px;color:#fff;background:#47ab8e;border-radius:10px;padding-left:5px;padding-right:5px;">
-                            <marquee direction="left"><?= implode(' ************** ', $messages) ?></marquee>
+                            <marquee direction="left"><?= $message ?></marquee>
                         </li>
                         <?php
                     }
