@@ -34,7 +34,7 @@
                 <?php
                     if (!empty($messages)) {
                         ?>
-                        <li class="dropdown user-box" style="width:600px;height:40px;margin-top:15px;line-height:40px;color:#fff;">
+                        <li class="dropdown user-box" style="width:500px;height:40px;margin-top:15px;line-height:40px;color:#fff;font-weight:bold;background:#7b5050;border-radius:10px;">
                             <marquee direction="left"><?= implode(' ************** ', $messages) ?></marquee>
                         </li>
                         <?php
