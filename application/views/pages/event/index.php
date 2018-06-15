@@ -89,7 +89,7 @@
         </div>
         <div class="form-group col-md-6" style="padding-left:0px">
             <label>From date</label>
-            <input placeholder="Event time start..." datetime-picker type="text" ng-model="eventModalAdd.from_date" class="form-control datetimepicker">
+            <input placeholder="Event time start..." type="text" ng-model="eventModalAdd.from_date" class="form-control datetimepicker">
         </div>
         <div class="form-group col-md-6" style="padding-right:0px;">
             <label>To date</label>
@@ -126,11 +126,11 @@
         </div>
         <div class="form-group">
             <label>From date</label>
-            <input placeholder="Event time start..." type="text" ng-model="eventModal.from_date" class="form-control">
+            <input placeholder="Event time start..." type="text" ng-model="eventModal.from_date" class="form-control datetimepicker">
         </div>
         <div class="form-group">
             <label>To date</label>
-            <input placeholder="Event time end..." type="text" ng-model="eventModal.to_date" class="form-control">
+            <input placeholder="Event time end..." type="text" ng-model="eventModal.to_date" class="form-control datetimepicker">
         </div>
         <div class="form-group">
             <label>Bonus</label>
