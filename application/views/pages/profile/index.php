@@ -39,7 +39,7 @@
                         <p class="text-muted font-13">
                             <img src="<?= $avatar ?>" alt="" class="thumb-lg img-circle">
                         </p>
-                        <h3 class="panel-title m-t-20">Personal Information</h3>
+                        <h3 class="panel-title m-t-20"><?= $user_id ?></h3>
                     </div>
                     <hr>
                     <div class="text-left">

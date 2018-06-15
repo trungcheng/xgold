@@ -77,7 +77,7 @@ class Auth extends CI_Controller {
                     $this->session->set_userdata('ci_seesion_key', $authArray);
                     redirect('dashboard');
                 } else {
-                    $this->session->set_flashdata('error', 'We need access to your email to confirm the registration');
+                    $this->session->set_flashdata('error', 'Please access to your email to confirm the registration');
                     redirect('auth/login');
                 }
             } else {
@@ -115,7 +115,7 @@ class Auth extends CI_Controller {
             $this->mail_model->setTemplatePath('mail/');
             $chkStatus = $this->mail_model->sendMail();
             if ($chkStatus) {
-                $this->user_model->setUserID('XGOLD'.md5($data['email'].time()));
+                $this->user_model->setUserID('XGOLD'.substr(md5($data['email'].time()), 0, 12));
                 $this->user_model->setEmail($data['email']);
                 $this->user_model->setAddress($data['address']);
                 $this->user_model->setPassword($data['password']);

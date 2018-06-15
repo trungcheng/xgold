@@ -11,7 +11,7 @@
 	Welcome to XGOLD system!
 	<br /><br />
 	<?= $bodyMsg ?><br />
-	<span>Please click to confirm button on the bottom to confirm your registration!</span>
+	<span>Please click to link on the bottom to confirm your registration!</span>
 	<br />
 	<br />
 	<a href="<?= $verificationLink ?>"><?= $verificationLink ?></a>
