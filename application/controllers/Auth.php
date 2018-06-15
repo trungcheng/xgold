@@ -12,6 +12,7 @@ class Auth extends CI_Controller {
         $this->load->model('usercoin_model');
         $this->load->model('affiliate_model');
         $this->load->model('mail_model');
+        $this->load->helper('setting_helper');
     }
 
     public function login()
@@ -113,7 +114,7 @@ class Auth extends CI_Controller {
             $this->mail_model->setMailContent($mailData);
             $this->mail_model->setTemplateName('register_temp');
             $this->mail_model->setTemplatePath('mail/');
-            $chkStatus = $this->mail_model->sendMail();
+            $chkStatus = $this->mail_model->sendMail(get_setting());
             if ($chkStatus) {
                 $this->user_model->setUserID('XGOLD'.substr(md5($data['email'].time()), 0, 9));
                 $this->user_model->setEmail($data['email']);
@@ -128,12 +129,12 @@ class Auth extends CI_Controller {
                 if ($chk) {
                     $user = $this->user_model->getUserDetailByEmail($data['email']);
                     // create coin default addr
-                    $this->usercoin_model->create($user['user_id']);
+                    $this->usercoin_model->create($user[0]['user_id']);
                     // create ref
                     if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
                         $sponsor = $this->user_model->getUserDetailByUserId($data['sponsor']);
                         if (!empty($sponsor)) {
-                            $this->affiliate_model->create($user['user_id'], $data['sponsor']);
+                            $this->affiliate_model->create($user[0]['user_id'], $data['sponsor']);
                         }
                     }
 
@@ -195,7 +196,7 @@ class Auth extends CI_Controller {
                 $this->mail_model->setMailContent($mailData);
                 $this->mail_model->setTemplateName('resetpwd_temp');
                 $this->mail_model->setTemplatePath('mail/');
-                $chkStatus = $this->mail_model->sendMail();
+                $chkStatus = $this->mail_model->sendMail(get_setting());
                 if ($chkStatus) {
                     redirect('auth/forgotpwd?msg=2');
                 } else {

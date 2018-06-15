@@ -41,10 +41,21 @@ class Mail_model extends CI_Model {
     }
 
     // smtpMail
-    public function sendMail() {
-
-        //Load email library
+    public function sendMail($setting) {
         $this->load->library('email');
+
+        $config = [];
+        $config['protocol']     = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.googlemail.com';
+        $config['smtp_port']    = '465';
+        $config['smtp_timeout'] = '30';
+        $config['smtp_user']    = $setting[0]['mail_sender'];
+        $config['smtp_pass']    = $setting[0]['pass_mail_sender'];
+        $config['charset']      = 'utf-8';
+        $config['newline']      = '\r\n';
+        $config['mailtype']     = 'html';
+
+        $this->email->initialize($config);
         $this->email->set_mailtype('html');
         $this->email->set_newline("\r\n");
         //Email content

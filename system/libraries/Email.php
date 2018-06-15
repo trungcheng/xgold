@@ -881,6 +881,18 @@ class CI_Email {
 		return $this;
 	}
 
+	public function set_smtp_user($smtp_user)
+	{
+		$this->smtp_user = $smtp_user;
+		return $this;
+	}
+
+	public function set_smtp_pass($smtp_pass)
+	{
+		$this->smtp_pass = $smtp_pass;
+		return $this;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

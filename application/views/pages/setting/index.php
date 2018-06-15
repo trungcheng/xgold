@@ -36,33 +36,40 @@
         	<form id="form_profile" action="<?= base_url('setting/update') ?>" method="post">
                 
                 <div class="form-group">
-                    <label class="control-label" for="member-phone">Affiliate bonus</label>
+                    <label class="control-label" for="member-phone">Affiliate bonus (%)</label>
                     <input type="text" id="member-phone" class="form-control" name="Setting[aff_bonus]" value="<?= $setting[0]['aff_bonus'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">Token rate</label>
-                    <input type="text" id="member-address" class="form-control" name="Setting[token_rate]" value="<?= $setting[0]['token_rate'] ?>"><div class="help-block"></div>
-                </div>
-
-                <div class="form-group">
                     <label class="control-label" for="member-address">BTC rate</label>
-                    <input type="text" id="member-address" class="form-control" name="Setting[btc_rate]" value="<?= $setting[0]['btc_rate'] ?>"><div class="help-block"></div>
+                    <input type="text" class="form-control" name="Setting[btc_rate]" value="<?= $setting[0]['btc_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="member-address">ETH rate</label>
-                    <input type="text" id="member-address" class="form-control" name="Setting[eth_rate]" value="<?= $setting[0]['eth_rate'] ?>"><div class="help-block"></div>
+                    <input type="text" class="form-control" name="Setting[eth_rate]" value="<?= $setting[0]['eth_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="member-address">LTC rate</label>
-                    <input type="text" id="member-address" class="form-control" name="Setting[ltc_rate]" value="<?= $setting[0]['ltc_rate'] ?>"><div class="help-block"></div>
+                    <input type="text" class="form-control" name="Setting[ltc_rate]" value="<?= $setting[0]['ltc_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="member-address">BCH rate</label>
-                    <input type="text" id="member-address" class="form-control" name="Setting[bch_rate]" value="<?= $setting[0]['bch_rate'] ?>"><div class="help-block"></div>
+                    <input type="text" class="form-control" name="Setting[bch_rate]" value="<?= $setting[0]['bch_rate'] ?>"><div class="help-block"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="member-address">Email address sender</label>
+                    <input type="text" class="form-control" name="Setting[mail_sender]" value="<?= $setting[0]['mail_sender'] ?>"><div class="help-block"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="member-address">Password email address sender</label>
+                    <input id="passwordSender" style="position:relative;" type="password" class="form-control" name="Setting[pass_mail_sender]" value="<?= $setting[0]['pass_mail_sender'] ?>">
+                    <i onclick="enablePass()" style="position:absolute;right:25px;margin-top:-25px;cursor:pointer" class="fa fa-eye"></i>
+                    <div class="help-block"></div>
                 </div>
 
                 <div class="form-group pull-right">
