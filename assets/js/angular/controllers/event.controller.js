@@ -78,7 +78,7 @@
                 $('.datetimepicker').datetimepicker({
                     format: 'yyyy-mm-dd hh:ii:ss'
                 });
-            },1000)
+            },100)
         }
 
         var ModalInstanceEditCtrl = function ($scope, $uibModalInstance, event) {

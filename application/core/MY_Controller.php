@@ -28,7 +28,7 @@ class MY_Controller extends CI_Controller
                 $fromDate = new DateTime($event['from_date']);
                 $toDate = new DateTime($event['to_date']);
                 if ($fromDate <= $currentDate && $currentDate <= $toDate) {
-                    $messages[] = '<u><b>'.$event['name'].'</b></u>: Từ ngày '.$event['from_date'].' đến ngày '.$event['to_date'].' khuyến mãi '.$event['bonus'].'% cho mỗi lượt mua token.';
+                    $messages[] = '<u><b>'.$event['name'].'</b></u>: Từ ngày <u><b>'.$event['from_date'].'</b></u> đến ngày <u><b>'.$event['to_date'].'</b></u> khuyến mãi <u><b>'.$event['bonus'].'%</b></u> cho mỗi lượt mua token.';
                 }
             }
             $global_data = array('messages' => $messages);
