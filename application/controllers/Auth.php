@@ -115,7 +115,7 @@ class Auth extends CI_Controller {
             $this->mail_model->setTemplatePath('mail/');
             $chkStatus = $this->mail_model->sendMail();
             if ($chkStatus) {
-                $this->user_model->setUserID('XGOLD'.substr(md5($data['email'].time()), 0, 12));
+                $this->user_model->setUserID('XGOLD'.substr(md5($data['email'].time()), 0, 9));
                 $this->user_model->setEmail($data['email']);
                 $this->user_model->setAddress($data['address']);
                 $this->user_model->setPassword($data['password']);
