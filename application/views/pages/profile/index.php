@@ -40,6 +40,7 @@
                             <img src="<?= $avatar ?>" alt="" class="thumb-lg img-circle">
                         </p>
                         <h3 class="panel-title m-t-20"><?= $user_id ?></h3>
+                        <span><?= ($is_admin) ? '(Admin)' : '(Member)' ?></span>
                     </div>
                     <hr>
                     <div class="text-left">
@@ -125,7 +126,7 @@
                                     <div class="form-group field-member-ethaddress" style="line-height:35px;">
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">
-                                                <label style="font-size:13px;" class="control-label"><?= strtoupper($coin['coin_type']) ?> address to contribute
+                                                <label style="font-size:13px;" class="control-label"><?= $coin['coin_name'] ?> address
                                                 </label>
                                             </label>
                                             <div class="col-md-8">

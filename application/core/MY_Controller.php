@@ -14,9 +14,9 @@ class MY_Controller extends CI_Controller
             redirect(base_url('auth/login'));
         }
         // var_dump($this->uri->segment(1));die;
-        if ($this->uri->segment(1) == 'setting' || $this->uri->segment(1) == 'user' || $this->uri->segment(1) == 'event') {
+        if ($this->uri->segment(1) == 'setting' || $this->uri->segment(1) == 'user' || $this->uri->segment(1) == 'event' || $this->uri->segment(1) == 'statistical') {
             if (!$ci_seesion_key['is_admin']) {
-                redirect(base_url('dashboard/index'));       
+                redirect(base_url('dashboard/index'));
             }
         }
 

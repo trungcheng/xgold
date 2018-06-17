@@ -8,7 +8,7 @@
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
-            <ul class="metisMenu nav" id="side-menu">
+            <ul class="metismenu nav" id="side-menu">
                 <li class="menu-title">Navigation</li>
                 <li>
                     <a  href="<?= base_url('dashboard') ?>">
@@ -16,6 +16,21 @@
                         <span> Dashboard </span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="<?= base_url('ico') ?>"><i class="mdi mdi-cash-usd"></i> <span> ICO </span></a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);"><i class="mdi mdi-cash-usd"></i> <span> Finance </span> <span class="menu-arrow"></span></a>
+                    <ul class="nav-second-level collapse" aria-expanded="false">
+                        <li><a href="admin-grid.html">Bitcoin Wallet</a></li>
+                        <li><a href="admin-sweet-alert.html">Ethereum Wallet</a></li>
+                        <li><a href="admin-tiles.html">Litecoin Wallet</a></li>
+                        <li><a href="admin-nestable.html">Bitcoin Cash Wallet</a></li>
+                    </ul>
+                </li>
+
                 <li>
                     <a href="<?= base_url('referral') ?>"><i class="fi-target"></i> <span> Referrals </span></a>
                 </li>
@@ -29,7 +44,10 @@
                     <a href="<?= base_url('user') ?>"><i class="mdi mdi-account-multiple"></i> <span> Users </span></a>
                 </li>
                 <li>
-                    <a href="<?= base_url('setting') ?>"><i class="mdi mdi-camera-timer"></i> <span> Setting </span></a>
+                    <a href="<?= base_url('setting') ?>"><i class="mdi mdi-settings"></i> <span> Setting </span></a>
+                </li>
+                <li>
+                    <a href="<?= base_url('statistical') ?>"><i class="mdi mdi-chart-bar"></i> <span> Statistical </span></a>
                 </li>
                 <?php
                 }

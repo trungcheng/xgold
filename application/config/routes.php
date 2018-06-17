@@ -55,6 +55,7 @@ $route['referral'] = 'referral/index';
 $route['profile'] = 'profile/index';
 $route['user'] = 'user/index';
 $route['event'] = 'event/index';
+$route['ico'] = 'ico/index';
 
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';

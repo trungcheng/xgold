@@ -12,6 +12,7 @@ class Usercoin_model extends CI_Model
     private $_userID;
     private $_coin_addr;
     private $_coin_type;
+    private $_coin_name;
     private $_balance;
 
     public function __construct()
@@ -32,6 +33,10 @@ class Usercoin_model extends CI_Model
         $this->_coin_type = $coinType;
     }
 
+    public function setCoinName($coinName) {
+        $this->_coin_name = $coinName;
+    }
+
     public function setBalance($balance) {
         $this->_balance = $balance;
     }
@@ -47,15 +52,36 @@ class Usercoin_model extends CI_Model
         return $this->mongo_db->where('user_id', $userId)->get('user_coin');
     }
 
+    public function getCoinAddrUserWithoutToken($userId)
+    {
+        return $this->mongo_db->where('user_id', $userId)
+            ->where_ne('coin_type', 'token')
+            ->get('user_coin');
+    }
+
+    public function getCoinAddrUserToken($userId)
+    {
+        return $this->mongo_db->where('user_id', $userId)
+            ->where('coin_type', 'token')
+            ->get('user_coin');
+    }
+
     public function create($userId)
     {
-        $types = ['xgold','btc','eth','ltc','bch'];
-        foreach ($types as $type) {
+        $types = [
+            'token' => 'Xgold',
+            'btc' => 'Bitcoin',
+            'eth' => 'Ethereum',
+            'ltc' => 'Litecoin',
+            'bch' => 'Bitcoin Cash'
+        ];
+        foreach ($types as $type => $name) {
             $data = [
                 'user_id' => $userId,
                 'coin_addr' => '',
                 'coin_type' => $type,
-                'balance' => 0.00
+                'coin_name' => $name,
+                'balance' => 0.0
             ];
             $this->mongo_db->insert('user_coin', $data);
         }
@@ -63,6 +89,14 @@ class Usercoin_model extends CI_Model
 
     public function update($userId, $type, $addr) {
         $this->mongo_db->set(['coin_addr' => $addr])
+            ->where('user_id', $userId)
+            ->where('coin_type', $type)
+            ->update('user_coin');
+        return true;
+    }
+
+    public function updateBalance($userId, $type, $balance) {
+        $this->mongo_db->set(['balance' => $balance])
             ->where('user_id', $userId)
             ->where('coin_type', $type)
             ->update('user_coin');

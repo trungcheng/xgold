@@ -32,4 +32,10 @@ class Setting extends MY_Controller {
 			redirect('setting/index');
 		}
 	}
+
+	public function getAll()
+	{
+		$setting = $this->setting_model->getCoinRate();
+		echo json_encode(['data' => $setting]);
+	}
 }

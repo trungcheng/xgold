@@ -14,7 +14,11 @@ class Setting_model extends CI_Model
     private $_eth_rate;
     private $_ltc_rate;
     private $_bch_rate;
-    private $_token_rate;
+    private $_mail_sender;
+    private $_pass_mail_sender;
+    private $_notification;
+    private $_token_wallet;
+    private $_withdraw_fee;
 
     public function __construct()
     {
@@ -42,14 +46,35 @@ class Setting_model extends CI_Model
         $this->_bch_rate = $rate;
     }
 
-    public function setTokenRate($rate) {
-        $this->_token_rate = $rate;
+    public function setMailSender($mailSender) {
+        $this->_mail_sender = $mailSender;
+    }
+
+    public function setPassMailSender($passMailSender) {
+        $this->_pass_mail_sender = $passMailSender;
+    }
+
+    public function setNotification($notification) {
+        $this->_notification = $notification;
+    }
+
+    public function setTokenWallet($tokenWallet) {
+        $this->_token_wallet = $tokenWallet;
+    }
+
+    public function setWithdrawFee($withdrawFee) {
+        $this->_withdraw_fee = $withdrawFee;
     }
 
     // get all
     public function getAll()
     {
         return $this->mongo_db->get('setting');
+    }
+
+    public function getCoinRate()
+    {
+        return $this->mongo_db->select(['btc_rate', 'eth_rate', 'ltc_rate', 'bch_rate'])->get('setting');
     }
 
     public function update($data)

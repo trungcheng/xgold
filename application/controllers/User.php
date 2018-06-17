@@ -11,6 +11,7 @@ class User extends MY_Controller {
 		$this->layout->setLayout('layouts/template');
 		$this->load->library('form_validation');
 		$this->load->model('user_model');
+		$this->load->model('usercoin_model');
     	$this->userInfo = $this->session->userdata('ci_seesion_key');
     }
 
@@ -82,6 +83,12 @@ class User extends MY_Controller {
 	    } else {
 	    	echo json_encode(['status' => false, 'message' => 'User not found', 'type' => 'error']);
 	    }
+	}
+
+	public function getCoinsWithoutToken()
+	{
+		$coins = $this->usercoin_model->getCoinAddrUserWithoutToken($this->userInfo['user_id']);
+		echo json_encode(['data' => $coins]);
 	}
 
 }

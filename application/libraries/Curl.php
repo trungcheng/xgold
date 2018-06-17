@@ -1,7 +1,7 @@
 <?php
 class Curl {
     
-    const USER_AGENT = 'Kinglive';
+    const USER_AGENT = 'Xgold';
 
     function __construct() {
         if (!extension_loaded('curl')) {

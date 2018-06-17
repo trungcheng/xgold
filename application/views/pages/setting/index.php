@@ -73,9 +73,21 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="control-label" for="member-address">Token wallet to send</label>
+                    <input type="text" class="form-control" name="Setting[token_wallet]" value="<?= $setting[0]['token_wallet'] ?>"><div class="help-block"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="member-address">Withdraw fee</label>
+                    <input type="text" class="form-control" name="Setting[withdraw_fee]" value="<?= $setting[0]['withdraw_fee'] ?>"><div class="help-block"></div>
+                </div>
+
+                <div class="form-group">
                     <label class="control-label" for="member-address">Notification</label>
                     <textarea name="Setting[notification]" class="form-control"><?= $setting[0]['notification'] ?></textarea>
                 </div>
+
+
 
                 <div class="form-group pull-right">
                 	<button type="submit" class="btn btn-primary">Update</button>
