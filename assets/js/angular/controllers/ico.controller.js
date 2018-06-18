@@ -8,6 +8,7 @@
     function IcoController($rootScope, $scope, $q, $http, $window, $timeout, $uibModal) {
 
         $scope.coins = [];
+        $scope.transactions = [];
         $scope.loading = false;
 
         $scope.buy = {};
@@ -21,11 +22,13 @@
             var getSetting = $http.get('/setting/getAll');
             var getEventBonus = $http.get('/event/getEventBonus');
             var getCoinsWithoutToken = $http.get('/user/getCoinsWithoutToken');
+            var getTransaction = $http.get('/ico/getTransaction');
 
-            $q.all([getSetting, getEventBonus, getCoinsWithoutToken]).then(function (response) {
+            $q.all([getSetting, getEventBonus, getCoinsWithoutToken, getTransaction]).then(function (response) {
             	$scope.buyInfo = response[0].data.data[0];
             	$scope.buy.bonus = response[1].data.bonus;
             	$scope.coins = response[2].data.data;
+            	$scope.transactions = response[3].data.data;
                 angular.forEach($scope.coins, function (v, k) {
                 	if (v.coin_type == 'btc') {
                 		$scope.buy.fromAddress = v.coin_addr;
@@ -52,8 +55,11 @@
 	    };
 
 	    $scope.buyIco = function () {
+	    	$scope.buyLoading = true;
 	    	$http.post('/ico/buy', $scope.buy).success(function (response) {
+	    		$scope.buyLoading = false;
 	    		if (response.status) {
+	    			$scope.loadInit();
 	    			toastr.success(response.message, 'SUCCESS');
 	    		} else {
 	    			toastr.error(response.message, 'ERROR');

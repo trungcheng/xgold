@@ -26,7 +26,7 @@
 
     <!-- end row -->
     <div class="row">
-        <div class="col-lg-8">                              
+        <div class="col-lg-8" ng-cloak>                              
             <div class="card-box">
                 <div class="col-md-5">
                     <h4 class="header-title m-t-0 m-b-30">Choose payment currency:</h4>
@@ -74,13 +74,16 @@
                                     </div>
                                     <div class="pull-right">
                                         <p><b>{{ buy.amount | number }}</b> TKC</p>
-                                        <p><b>{{ buy.value | number }}</b> {{ buy.currency }}</p>
+                                        <p><b>{{ buy.value }}</b> {{ buy.currency }}</p>
                                         <p><b>{{ buy.bonusTotal | number }}</b> TKC ({{ buy.bonus | number }}%)</p>
                                         <p><b>{{ (buy.amount + ((buy.bonus * buy.amount) / 100)) | number }}</b> TKC</p>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <button type="button" ng-click="buyIco()" class="pull-right btn btn-custom waves-effect waves-light" >BUY NOW</button>
+                                    <button type="button" ng-click="buyIco()" class="pull-right btn btn-custom waves-effect waves-light" >
+                                		<i ng-if="buyLoading" style="margin-right:5px;" class="fa fa-spinner fa-spin"></i>
+                                    	BUY NOW
+                                    </button>
                                 </div>
 
                             </div>
@@ -115,7 +118,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4" ng-cloak>
             <div class="card-box have_min">
                 <h4 class="header-title m-t-0 m-b-30">Review your receiving ETH wallet:</h4>
                 <form action="">
@@ -128,11 +131,16 @@
                 </form>
             </div>
         </div>
+
+        <div ng-if="loading">
+            <i style="font-size:40px;position:fixed;left:50%;top:50%;z-index:99;" class="fa fa-spinner fa-spin"></i>
+        </div>
+
         <div class="col-lg-12">
             <div class="card-box table-responsive">
                 <h4 class="m-t-0 header-title m-b-30"><b>Your transaction history:</b></h4>
 
-                <div class="row" style="margin-bottom: 10px">
+                <!-- <div class="row" style="margin-bottom: 10px">
                     <div class="col-sm-12">
                         <div class="form-inline pull-right">
                             <div class="form-group">
@@ -145,39 +153,39 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-sm-12 table-responsive">
                         <table class="table table-bordered table-striped">
+                            <thead>
+                                <th>#</th>
+                                <th>From</th>
+                                <th>Value</th>
+                                <th>Amount</th>
+                                <th>Bonus</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <th>Buy detail</th>
-                                    <th>TKC delivery detail</th>
-                                </tr>
                                 <tr ng-if="!transactions.length">
-                                    <td colspan="3" class="text-danger text-center">You don't have any transactions</td>
+                                    <td colspan="8" class="text-danger text-center">You don't have any transactions</td>
                                 </tr>
-                                <!-- <tr ng-repeat="transaction in transactions">
-                                    <td>
-                                        <p>txHash:
-                                            {{transaction.id}}
-                                        </p>
-                                        <p>From: {{transaction.from}}</p>
-                                        <p>To: {{transaction.to}}</p>
-                                        <p>Time: {{transaction.time * 1000| date:'dd/MM/yyyy h:mma'}}</p>
-                                        <p>Value: {{transaction.value}} {{transaction.currency}}</p>
-                                    </td>
-                                    <td>
-                                        <p>Amount: {{transaction.buyAmount}} TKC</p>
-                                        <p>Bonus: {{transaction.bonusAmount}} TKC</p>
-                                        <p>Status: {{transaction.deliveryTime?'Completed':'Pending'}}</p>
-                                    </td>
-                                </tr> -->
+                                <tr ng-cloak ng-repeat="transaction in transactions track by $index">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ transaction.from_addr }}</td>
+                                    <td>{{ transaction.amount_currency_buy }} {{ transaction.buy_by.toUpperCase() }}</td>
+                                    <td>{{ transaction.total }} TKC</td>
+                                    <td>{{ transaction.bonus }}%</td>
+                                    <td ng-if="transaction.status == 1">Pending</td>
+                                    <td ng-if="transaction.status == 2">Complete</td>
+                                    <td ng-if="transaction.status == 3">Fail</td>
+                                    <td>{{ transaction.created_at }}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 10px">
+                <!-- <div class="row" style="margin-bottom: 10px">
                     <div class="col-sm-12">
                         <div class="form-inline pull-right">
                             <div class="form-group">
@@ -190,7 +198,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
