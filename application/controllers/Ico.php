@@ -26,12 +26,6 @@ class Ico extends MY_Controller {
 		$this->layout->view('ico/index', $data);
 	}
 
-	public function getTransaction()
-	{
-		$transactions = $this->transaction_model->getTokenTransactions($this->userInfo['user_id']);
-		echo json_encode(['data' => $transactions]);
-	}
-
 	public function buy()
 	{
 		try {
@@ -58,11 +52,11 @@ class Ico extends MY_Controller {
 					                }
 					            }
 					        }
-					        if ($request->amount * $totalBonus === $request->bonusTotal) {
-								$tokenBalance = $userToken[0]['balance'] + $request->amount + $request->bonusTotal;
-		    				} else {
-		    					$tokenBalance = $userToken[0]['balance'] + $request->amount;
-		    				}
+					        if ($totalBonus == 0) {
+					        	$tokenBalance = $userToken[0]['balance'] + $request->amount;
+					        } else {
+					        	$tokenBalance = $userToken[0]['balance'] + $request->amount + ($request->amount * $totalBonus / 100);
+					        }
 		    				// +token
 		    				$this->usercoin_model->updateBalance($this->userInfo['user_id'], 'token', $tokenBalance);
 		    				// add transaction
@@ -96,15 +90,34 @@ class Ico extends MY_Controller {
 		    					}
 		    				}
 
-		    				echo json_encode(['status' => true, 'message' => 'Buy token has been processed']);
+		    				$response = [
+		    					'status' => true, 
+		    					'message' => 'Buy token has been processed'
+		    				];
+		    				break;
 		    			} else {
-		    				echo json_encode(['status' => false, 'message' => 'Your '.$item['coin_name'].' balance is not enough to buy']);
+		    				$response = [
+		    					'status' => false, 
+		    					'message' => 'Your '.$item['coin_name'].' balance is not enough to buy'
+		    				];
+		    				break;
 		    			}
+		    		} else {
+		    			$response = [
+		    				'status' => false, 
+		    				'message' => 'Please input currency address to buy token'
+		    			];
+		    			break;
 		    		}
 		    	}
 		    } else {
-		    	echo json_encode(['status' => false, 'message' => 'Please input token number']);
+		    	$response = [
+		    		'status' => false, 
+		    		'message' => 'Please input token number'
+		    	];
 			}
+
+			echo json_encode($response);
 		} catch (Exception $e) {
 			echo json_encode(['status' => false, 'message' => $e->getMessage()]);
 		}

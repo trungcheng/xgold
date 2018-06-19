@@ -35,6 +35,7 @@
                     <th>Address</th>
                     <th>Mobile</th>
                     <th>Role</th>
+                    <th>Created</th>
                     <th>Option</th>
                 </thead>
                 <tbody>
@@ -44,6 +45,7 @@
                         <td>{{ user.address }}</td>
                         <td>{{ user.mobile }}</td>
                         <td>{{ (user.is_admin) ? 'Admin' : 'User' }}</td>
+                        <td>{{ user.created_at }}</td>
                         <td>
                             <button ng-click="editUser(user)" class="btn btn-primary btn-xs" style="margin-right:5px;">
                                 <a href="javascript:void(0)">

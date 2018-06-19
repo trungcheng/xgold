@@ -98,22 +98,4 @@ class Event extends MY_Controller {
 	    }
 	}
 
-	public function getEventBonus()
-	{
-		$bonusEvents = $this->event_model->getSelectedEvents();
-		$totalBonus = 0;
-		if (!empty($bonusEvents)) {
-            foreach ($bonusEvents as $event) {
-                $currentDate = new DateTime(date('Y-m-d h:i:s'));
-                $fromDate = new DateTime($event['from_date']);
-                $toDate = new DateTime($event['to_date']);
-                if ($fromDate <= $currentDate && $currentDate <= $toDate) {
-                	$totalBonus += intval($event['bonus']);
-                }
-            }
-        }
-
-        echo json_encode(['bonus' => $totalBonus]);
-	}
-
 }

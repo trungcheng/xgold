@@ -33,9 +33,4 @@ class Setting extends MY_Controller {
 		}
 	}
 
-	public function getAll()
-	{
-		$setting = $this->setting_model->getCoinRate();
-		echo json_encode(['data' => $setting]);
-	}
 }

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <div class="page-title-box">
+            <div class="page-title-box" style="min-height:65px;">
                 <div class="pull-left">
                     <h4 class="page-title">PROFILE</h4>                    
                     <div class="clearfix"></div>

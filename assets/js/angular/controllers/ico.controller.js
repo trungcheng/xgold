@@ -10,19 +10,20 @@
         $scope.coins = [];
         $scope.transactions = [];
         $scope.loading = false;
-
         $scope.buy = {};
-        $scope.buy.currency = 'BTC';
-	    $scope.buy.amount = 0;
-	    $scope.buy.value = 0;
 
 		$scope.loadInit = function () {
             $scope.loading = true;
 
-            var getSetting = $http.get('/setting/getAll');
-            var getEventBonus = $http.get('/event/getEventBonus');
-            var getCoinsWithoutToken = $http.get('/user/getCoinsWithoutToken');
-            var getTransaction = $http.get('/ico/getTransaction');
+            $scope.buy.currency = 'BTC';
+		    $scope.buy.amount = 0;
+		    $scope.buy.value = 0;
+		    $scope.buy.bonusTotal = 0;
+
+            var getSetting = $http.get('/api/getAllSetting');
+            var getEventBonus = $http.get('/api/getEventBonus');
+            var getCoinsWithoutToken = $http.get('/api/getCoinsWithoutToken');
+            var getTransaction = $http.get('/api/getTokenTransaction');
 
             $q.all([getSetting, getEventBonus, getCoinsWithoutToken, getTransaction]).then(function (response) {
             	$scope.buyInfo = response[0].data.data[0];
@@ -57,13 +58,15 @@
 	    $scope.buyIco = function () {
 	    	$scope.buyLoading = true;
 	    	$http.post('/ico/buy', $scope.buy).success(function (response) {
-	    		$scope.buyLoading = false;
-	    		if (response.status) {
-	    			$scope.loadInit();
-	    			toastr.success(response.message, 'SUCCESS');
-	    		} else {
-	    			toastr.error(response.message, 'ERROR');
-	    		}
+	    		$timeout(function() {
+	    			$scope.buyLoading = false;
+		    		if (response.status) {
+		    			$scope.loadInit();
+		    			toastr.success(response.message, 'SUCCESS');
+		    		} else {
+		    			toastr.error(response.message, 'ERROR');
+		    		}
+	    		}, 1000);
 	    	});
 	    }
 

@@ -13,7 +13,6 @@ class MY_Controller extends CI_Controller
             // Prevent infinite loop by checking that this isn't the login controller
             redirect(base_url('auth/login'));
         }
-        // var_dump($this->uri->segment(1));die;
         if ($this->uri->segment(1) == 'setting' || $this->uri->segment(1) == 'user' || $this->uri->segment(1) == 'event' || $this->uri->segment(1) == 'statistical') {
             if (!$ci_seesion_key['is_admin']) {
                 redirect(base_url('dashboard/index'));
@@ -21,18 +20,7 @@ class MY_Controller extends CI_Controller
         }
 
         $setting = $this->setting_model->getAll();
-        // $messages = [];
-        // if (!empty($events)) {
-        //     foreach ($events as $event) {
-        //         $currentDate = new DateTime(date('Y-m-d h:i:s'));
-        //         $fromDate = new DateTime($event['from_date']);
-        //         $toDate = new DateTime($event['to_date']);
-        //         if ($fromDate <= $currentDate && $currentDate <= $toDate) {
-        //             $messages[] = '<u><b>'.$event['name'].'</b></u>: Từ ngày <u><b>'.$event['from_date'].'</b></u> đến ngày <u><b>'.$event['to_date'].'</b></u> khuyến mãi <u><b>'.$event['bonus'].'%</b></u> cho mỗi lượt mua token.';
-        //         }
-        //     }
-            $global_data = array('message' => $setting[0]['notification']);
-            $this->load->vars($global_data);
-        // }
+        $global_data = array('message' => $setting[0]['notification']);
+        $this->load->vars($global_data);
     }
 }

@@ -50,11 +50,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
+$route['statistical'] = 'statistical/index';
 $route['dashboard'] = 'dashboard/index';
 $route['referral'] = 'referral/index';
 $route['profile'] = 'profile/index';
-$route['user'] = 'user/index';
 $route['event'] = 'event/index';
+$route['user'] = 'user/index';
 $route['ico'] = 'ico/index';
 
 $route['default_controller'] = 'dashboard';

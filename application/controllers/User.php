@@ -85,10 +85,4 @@ class User extends MY_Controller {
 	    }
 	}
 
-	public function getCoinsWithoutToken()
-	{
-		$coins = $this->usercoin_model->getCoinAddrUserWithoutToken($this->userInfo['user_id']);
-		echo json_encode(['data' => $coins]);
-	}
-
 }

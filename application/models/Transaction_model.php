@@ -49,4 +49,39 @@ class Transaction_model extends CI_Model
             ->get('transactions');
     }
 
+    public function countToken()
+    {
+        $pipeline = [
+            [
+                '$match' => [
+                    'created_at' => [
+                        '$gt' => date('2018-06-10 00:00:00'), 
+                        '$lte' => date('2018-06-20 23:59:59')
+                    ]
+                ],
+            ],
+            [
+                '$group' => [
+                    '_id' => [ 
+                        'year' => ['$year' => '$created_at'],
+                        'month' => ['$month' => '$created_at'],
+                        'day' => ['$dayOfMonth' => '$created_at']
+                    ],
+                    // 'btc' => [
+                    //     '$match' => [
+                    //         'coin_type' => 'btc'
+                    //     ],
+                    //     'depositTotal' => [],
+                    //     'withdrawTotal' => []
+                    // ],
+                    'tokenBuy' => ['$sum' => '$total']
+                ]
+            ]
+        ];
+        $option = [
+            'cursor' => [ 'batchSize' => 0 ]
+        ];
+        return $this->mongo_db->aggregate('transactions', $pipeline, $option);
+    }
+
 }
