@@ -13,6 +13,8 @@ class Ico extends MY_Controller {
 		$this->load->model('usercoin_model');
 		$this->load->model('transaction_model');
 		$this->load->model('event_model');
+		$this->load->model('setting_model');
+		$this->load->model('affiliate_model');
 		$this->userInfo = $this->session->userdata('ci_seesion_key');
     }
 
@@ -36,9 +38,7 @@ class Ico extends MY_Controller {
 			$postdata = file_get_contents("php://input");
 		    $request = json_decode($postdata);
 		    if ($request && $request->amount !== 0) {
-		    	
 		    	$userCoin = $this->usercoin_model->getCoinAddrUser($this->userInfo['user_id']);
-		    	
 		    	foreach ($userCoin as $item) {
 		    		if ($item['coin_type'] === strtolower($request->currency) && $item['coin_addr'] === $request->fromAddress) {
 		    			if ($item['balance'] >= $request->value) {
@@ -46,7 +46,6 @@ class Ico extends MY_Controller {
 		    				// +-coin
 		    				$this->usercoin_model->updateBalance($this->userInfo['user_id'], $item['coin_type'], $item['balance']);
 							$userToken = $this->usercoin_model->getCoinAddrUserToken($this->userInfo['user_id']);
-							
 							$bonusEvents = $this->event_model->getSelectedEvents();
 							$totalBonus = 0;
 							if (!empty($bonusEvents)) {
@@ -85,10 +84,17 @@ class Ico extends MY_Controller {
 		    					'refund_for_trans' => 0,
 		    					'created_at' => date('Y-m-d h:i:s')
 		    				];
-		    				$this->transaction_model->create($data);
-
-		    				// check affiliate bonus
-		    				
+		    				$tran = $this->transaction_model->create($data);
+		    				// +affiliate bonus
+		    				$affs = $this->affiliate_model->getAffiliate($this->userInfo['user_id']);
+		    				if (!empty($affs)) {
+		    					foreach ($affs as $aff) {
+		    						$bonus = $this->setting_model->getAll();
+		    						$userCoin = $this->usercoin_model->getCoinAddrUserToken($aff['user_id']);
+		    						$balanceUpdate = $userCoin[0]['balance'] + (($request->amount) * ($bonus[0]['aff_bonus']) / 100);
+		    						$this->usercoin_model->updateBalance($aff['user_id'], 'token', $balanceUpdate);
+		    					}
+		    				}
 
 		    				echo json_encode(['status' => true, 'message' => 'Buy token has been processed']);
 		    			} else {

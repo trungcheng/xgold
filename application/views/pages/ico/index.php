@@ -136,7 +136,7 @@
             <i style="font-size:40px;position:fixed;left:50%;top:50%;z-index:99;" class="fa fa-spinner fa-spin"></i>
         </div>
 
-        <div class="col-lg-12">
+        <div class="col-lg-12" ng-cloak>
             <div class="card-box table-responsive">
                 <h4 class="m-t-0 header-title m-b-30"><b>Your transaction history:</b></h4>
 

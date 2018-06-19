@@ -32,6 +32,11 @@ class Affiliate_model extends CI_Model
         return $this->mongo_db->where('user_id', $userId)->get('affiliates');
     }
 
+    public function getAffiliate($refId)
+    {
+        return $this->mongo_db->where('ref_id', $refId)->get('affiliates');
+    }
+
     public function create($userId, $refId)
     {
         return $this->mongo_db->insert('affiliates', [

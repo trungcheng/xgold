@@ -17,6 +17,8 @@ class Transaction_model extends CI_Model
     private $_subtotal;
     private $_coin_type;
     private $_buy_by;
+    private $_amount_currency_buy;
+    private $_bonus;
     private $_status;
     private $_trans_fee;
     private $_trans_id;
