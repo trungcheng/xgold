@@ -25,7 +25,7 @@ class Statistical extends MY_Controller {
 	public function countDataByDateRange()
 	{
 		$transactions = $this->transaction_model->countToken();
-		var_dump($transactions);die;
+		echo json_encode(['data' => $transactions]);die;
 	}
 
 }

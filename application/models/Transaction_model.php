@@ -51,42 +51,135 @@ class Transaction_model extends CI_Model
 
     public function countToken()
     {
-        $fromDate = date(DATE_ISO8601, strtotime('2018-06-13 00:00:00'));
-        $toDate = date(DATE_ISO8601, strtotime('2018-06-30 23:59:59'));
-        $transactions = $this->getAll();
-        var_dump($transactions[0]['created_at']);die;
-        var_dump($fromDate);die;
+        $fromDate = new DateTime('2018-06-13 00:00:00');
+        $toDate = new DateTime('2018-06-30 23:59:59');
         $pipeline = [
             [
                 '$match' => [
                     'created_at' => [
-                        '$gt' => $fromDate, 
-                        '$lte' => $toDate
+                        '$gte' => new \MongoDB\BSON\UTCDateTime($fromDate->getTimestamp() * 1000),
+                        '$lte' => new \MongoDB\BSON\UTCDateTime($toDate->getTimestamp() * 1000)
                     ]
-                ],
+                ]
             ],
             [
                 '$group' => [
-                    '_id' => [ 
-                        'year' => ['$year' => '$created_at'],
-                        'month' => ['$month' => '$created_at'],
-                        'day' => ['$dayOfMonth' => '$created_at']
+                    '_id' => [
+                        '$dateToParts' => ['date' => '$created_at']
                     ],
-                    // 'btc' => [
-                    //     '$match' => [
-                    //         'coin_type' => 'btc'
-                    //     ],
-                    //     'depositTotal' => [],
-                    //     'withdrawTotal' => []
-                    // ],
-                    'tokenBuy' => ['$sum' => '$total']
+                    'token_buy' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$eq' => ['$coin_type', 'token']
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]],
+                    'btc_deposit' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$and' => [
+                                    ['$eq' => ['$coin_type', 'btc']],
+                                    ['$eq' => ['$trans_type', 2]]
+                                ]
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]],
+                    'btc_withdraw' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$and' => [
+                                    ['$eq' => ['$coin_type', 'btc']],
+                                    ['$eq' => ['$trans_type', 3]]
+                                ]
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]],
+                    'eth_deposit' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$and' => [
+                                    ['$eq' => ['$coin_type', 'eth']],
+                                    ['$eq' => ['$trans_type', 2]]
+                                ]
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]],
+                    'eth_withdraw' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$and' => [
+                                    ['$eq' => ['$coin_type', 'eth']],
+                                    ['$eq' => ['$trans_type', 3]]
+                                ]
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]],
+                    'ltc_deposit' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$and' => [
+                                    ['$eq' => ['$coin_type', 'ltc']],
+                                    ['$eq' => ['$trans_type', 2]]
+                                ]
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]],
+                    'ltc_withdraw' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$and' => [
+                                    ['$eq' => ['$coin_type', 'ltc']],
+                                    ['$eq' => ['$trans_type', 3]]
+                                ]
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]],
+                    'bch_deposit' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$and' => [
+                                    ['$eq' => ['$coin_type', 'bch']],
+                                    ['$eq' => ['$trans_type', 2]]
+                                ]
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]],
+                    'bch_withdraw' => ['$sum' => [
+                        '$cond' => [
+                            [
+                                '$and' => [
+                                    ['$eq' => ['$coin_type', 'bch']],
+                                    ['$eq' => ['$trans_type', 3]]
+                                ]
+                            ],
+                            '$total',
+                            0
+                        ]
+                    ]]
                 ]
             ]
         ];
-        $option = [
-            'cursor' => [ 'batchSize' => 0 ]
+        $options = [
+            'cursor' => [ 'batchSize' => 0 ],
+            'allowDiskUse' => true
         ];
-        return $this->mongo_db->aggregate('transactions', $pipeline, $option);
+        return $this->mongo_db->aggregate('transactions', $pipeline, $options);
     }
 
 }
