@@ -51,12 +51,17 @@ class Transaction_model extends CI_Model
 
     public function countToken()
     {
+        $fromDate = date(DATE_ISO8601, strtotime('2018-06-13 00:00:00'));
+        $toDate = date(DATE_ISO8601, strtotime('2018-06-30 23:59:59'));
+        $transactions = $this->getAll();
+        var_dump($transactions[0]['created_at']);die;
+        var_dump($fromDate);die;
         $pipeline = [
             [
                 '$match' => [
                     'created_at' => [
-                        '$gt' => date('2018-06-10 00:00:00'), 
-                        '$lte' => date('2018-06-20 23:59:59')
+                        '$gt' => $fromDate, 
+                        '$lte' => $toDate
                     ]
                 ],
             ],
