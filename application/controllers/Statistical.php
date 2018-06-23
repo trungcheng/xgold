@@ -25,7 +25,15 @@ class Statistical extends MY_Controller {
 	public function countDataByDateRange()
 	{
 		$transactions = $this->transaction_model->countToken();
-		echo json_encode(['data' => $transactions]);die;
+		$data = [];
+
+		foreach ($transactions as $tran) {
+            // $mongoDate = new \MongoDB\BSON\UTCDateTime($tran['created_at']['$date']);
+            $tran['_id']['time'] = date('Y-m-d H:i:s', strtotime($tran['_id']['time'] . "+7 hours"));
+            $data[] = $tran;
+        }
+
+		echo json_encode(['data' => $data]);die;
 	}
 
 }

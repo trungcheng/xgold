@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     <tr ng-cloak ng-repeat="item in items track by $index">
-                        <th>{{ item.time }}</th>
+                        <th>{{ item._id.time }}</th>
                         <td ng-if="coin !== 'token'" ng-repeat="coin in coins">
                             {{ item[coin+'_deposit'] + ' | ' + item[coin+'_withdraw'] }}
                         </td>

@@ -89,7 +89,12 @@ class Transaction_model extends CI_Model
             [
                 '$group' => [
                     '_id' => [
-                        '$dateToParts' => ['date' => '$created_at']
+                        'time' => [
+                            '$dateToString' => [
+                                'format' => '%G-%m-%d %H:%M:%S', 
+                                'date' => '$created_at'
+                            ]
+                        ]
                     ],
                     'token_buy' => ['$sum' => [
                         '$cond' => [
