@@ -8,7 +8,7 @@
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b>0</b> TKC</span>
+                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b><?= $tokenCount ?></b> TKC</span>
                     </p>
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet

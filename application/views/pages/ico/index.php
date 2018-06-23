@@ -10,7 +10,7 @@
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b>0</b> TKC</span>
+                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b><?= $tokenCount ?></b> TKC</span>
                     </p>
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
@@ -159,12 +159,12 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <th>#</th>
-                                <th>From</th>
-                                <th>Value</th>
+                                <th>From Address</th>
+                                <th>Buy By</th>
                                 <th>Amount</th>
                                 <th>Bonus</th>
-                                <th>Status</th>
                                 <th>Time</th>
+                                <th>Status</th>
                             </thead>
                             <tbody>
                                 <tr ng-if="!transactions.length">
@@ -176,10 +176,19 @@
                                     <td>{{ transaction.amount_currency_buy }} {{ transaction.buy_by.toUpperCase() }}</td>
                                     <td>{{ transaction.total }} TKC</td>
                                     <td>{{ transaction.bonus }}%</td>
-                                    <td ng-if="transaction.status == 1">Pending</td>
-                                    <td ng-if="transaction.status == 2">Complete</td>
-                                    <td ng-if="transaction.status == 3">Fail</td>
-                                    <td>{{ transaction.created_at }}</td>
+                                    <td>{{ transaction.time }}</td>
+                                    <td ng-if="transaction.status == 1">
+                                        <button class="btn btn-warning btn-xs">Pending</button>
+                                    </td>
+                                    <td ng-if="transaction.status == 2">
+                                        <button class="btn btn-success btn-xs">Success</button>
+                                    </td>
+                                    <td ng-if="transaction.status == 3">
+                                        <button class="btn btn-danger btn-xs">Failed</button>
+                                    </td>
+                                    <td ng-if="transaction.status == 4">
+                                        <button class="btn btn-info btn-xs">Waiting refund</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

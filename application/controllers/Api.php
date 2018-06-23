@@ -17,6 +17,7 @@ class Api extends REST_Controller
         $this->load->model('transaction_model');
         $this->load->model('usercoin_model');
         $this->load->model('affiliate_model');
+        $this->load->library('Curl');
         $this->userInfo = $this->session->userdata('ci_seesion_key');
     }
 
@@ -63,10 +64,35 @@ class Api extends REST_Controller
     public function getTokenTransaction_get()
     {
         $transactions = $this->transaction_model->getTokenTransactions($this->userInfo['user_id']);
+        $data = [];
+
+        foreach ($transactions as $tran) {
+            $mongoDate = new \MongoDB\BSON\UTCDateTime($tran['created_at']['$date']);
+            $tran['time'] = $mongoDate->toDateTime()->modify('+7 hour')->format('Y-m-d H:i:s');
+            $data[] = $tran;
+        }
 
         $this->set_response([
             'status' => true,
-            'data' => $transactions
+            'data' => $data
+        ], REST_Controller::HTTP_OK);
+    }
+
+    public function getTransactions_get()
+    {
+        $type = $this->input->get('coinType');
+        $transactions = $this->transaction_model->getTransactions($this->userInfo['user_id'], $type);
+        $data = [];
+
+        foreach ($transactions as $tran) {
+            $mongoDate = new \MongoDB\BSON\UTCDateTime($tran['created_at']['$date']);
+            $tran['time'] = $mongoDate->toDateTime()->modify('+7 hour')->format('Y-m-d H:i:s');
+            $data[] = $tran;
+        }
+
+        $this->set_response([
+            'status' => true,
+            'data' => $data
         ], REST_Controller::HTTP_OK);
     }
 
@@ -93,10 +119,29 @@ class Api extends REST_Controller
     public function getRefTransaction_get($userId)
     {
         $transactions = $this->transaction_model->getTokenTransactions($userId);
+        $data = [];
+
+        foreach ($transactions as $tran) {
+            $mongoDate = new \MongoDB\BSON\UTCDateTime($tran['created_at']['$date']);
+            $tran['time'] = $mongoDate->toDateTime()->modify('+7 hour')->format('Y-m-d H:i:s');
+            $data[] = $tran;
+        }
 
         $this->set_response([
             'status' => true,
-            'data' => $transactions
+            'data' => $data
         ], REST_Controller::HTTP_OK);
     }
+
+    public function getCoinAddr_get()
+    {
+        $coinName = $this->input->get('name');
+        $userCoin = $this->usercoin_model->getCoinAddrByUserAndName($this->userInfo['user_id'], $coinName);
+
+        $this->set_response([
+            'status' => true,
+            'data' => $userCoin[0]
+        ], REST_Controller::HTTP_OK);
+    }
+
 }

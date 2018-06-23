@@ -42,6 +42,18 @@ class Transaction_model extends CI_Model
         return true;
     }
 
+    public function update($tranId, $data)
+    {
+        if ($data['status'] == 'pending') $data['status'] = 1;
+        if ($data['status'] == 'success') $data['status'] = 2;
+        if ($data['status'] == 'failed') $data['status'] = 3;
+        if ($data['status'] == 'wait-confirm-refund') $data['status'] = 4;
+        
+        return $this->mongo_db->set($data)
+            ->where('trans_id', $tranId)
+            ->update('transactions');
+    }
+
     public function getTokenTransactions($userId)
     {
         return $this->mongo_db->where('user_id', $userId)
@@ -49,10 +61,22 @@ class Transaction_model extends CI_Model
             ->get('transactions');
     }
 
+    public function getTransactions($userId, $type)
+    {
+        return $this->mongo_db->where('user_id', $userId)
+            ->where('coin_type', $type)
+            ->get('transactions');
+    }
+
+    public function getPendingTransactions()
+    {
+        return $this->mongo_db->where('status', 1)->get('transactions');
+    }    
+
     public function countToken()
     {
         $fromDate = new DateTime('2018-06-13 00:00:00');
-        $toDate = new DateTime('2018-06-30 23:59:59');
+        $toDate = new DateTime('2020-06-30 23:59:59');
         $pipeline = [
             [
                 '$match' => [

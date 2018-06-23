@@ -51,12 +51,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $route['statistical'] = 'statistical/index';
+$route['setting'] = 'setting/index';
 $route['dashboard'] = 'dashboard/index';
 $route['referral'] = 'referral/index';
 $route['profile'] = 'profile/index';
 $route['event'] = 'event/index';
 $route['user'] = 'user/index';
 $route['ico'] = 'ico/index';
+
+$route['finance/wallet/bitcoin'] = 'finance/btc';
+$route['finance/wallet/ethereum'] = 'finance/eth';
+$route['finance/wallet/litecoin'] = 'finance/ltc';
+$route['finance/wallet/bitcoin-cash'] = 'finance/bch';
 
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';

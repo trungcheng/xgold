@@ -169,9 +169,9 @@ class User_model extends CI_Model
                 'verification_code' => 1
             );
             $this->update($data, $query[0]['user_id']);
-            return true;
+            return ['status' => true, 'userId' => $query[0]['user_id']];
         } else {
-            return false;
+            return ['status' => false];
         }
     }
  

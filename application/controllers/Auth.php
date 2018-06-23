@@ -13,6 +13,7 @@ class Auth extends CI_Controller {
         $this->load->model('affiliate_model');
         $this->load->model('mail_model');
         $this->load->helper('setting_helper');
+        $this->load->library('Curl');
     }
 
     public function login()
@@ -22,7 +23,8 @@ class Auth extends CI_Controller {
             $verificationCode = urldecode(base64_decode($this->input->get('usid')));
             $this->user_model->setVerificationCode($verificationCode);
             $result = $this->user_model->activate();
-            if ($result) {
+            if ($result['status']) {
+                $this->createUserCoin($result['userId']);
                 $this->session->set_flashdata('success', 'Confirm the registration success');
             } else {
                 $this->session->set_flashdata('error', 'Confirm the registration failed');
@@ -52,7 +54,6 @@ class Auth extends CI_Controller {
 
     // action login method
     public function doLogin() {
-        // Check form  validation
         $this->form_validation->set_rules('email', 'Email', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         if ($this->form_validation->run() == FALSE) {
@@ -127,11 +128,9 @@ class Auth extends CI_Controller {
                 $this->user_model->setIsAdmin(false);
                 $chk = $this->user_model->create();
                 if ($chk) {
-                    $user = $this->user_model->getUserDetailByEmail($data['email']);
-                    // create coin default addr
-                    $this->usercoin_model->create($user[0]['user_id']);
                     // create ref
                     if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
+                        $user = $this->user_model->getUserDetailByEmail($data['email']);
                         $sponsor = $this->user_model->getUserDetailByUserId($data['sponsor']);
                         if (!empty($sponsor)) {
                             $this->affiliate_model->create($user[0]['user_id'], $data['sponsor']);
@@ -230,4 +229,38 @@ class Auth extends CI_Controller {
         $this->output->set_header("Pragma: no-cache");
         redirect('auth/login');
     }
+
+    public function createUserCoin($userId) {
+        $token = $this->curl->getToken();
+        $cbs = $this->curl->createAddress($token);
+        foreach ($cbs as $cb) {
+            $coinName = '';
+            switch ($cb->currency) {
+                case 'btc':
+                    $coinName = 'Bitcoin';
+                    break;
+                case 'eth':
+                    $coinName = 'Ethereum';
+                    break;
+                case 'ltc':
+                    $coinName = 'Litecoin';
+                    break;
+                case 'token':
+                    $coinName = 'Xgold';
+                    break;
+                default:
+                    $coinName = 'Bitcoin Cash';
+                    break;
+            }
+            $data = [
+                'user_id' => $userId,
+                'coin_addr' => $cb->address,
+                'coin_type' => $cb->currency,
+                'coin_name' => $coinName,
+                'balance' => 0.0
+            ];
+            $this->usercoin_model->create($data);
+        }
+    }
+
 }

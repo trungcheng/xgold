@@ -18,6 +18,7 @@ class Usercoin_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Curl');
     }
  
     //Declaration of a methods
@@ -66,25 +67,16 @@ class Usercoin_model extends CI_Model
             ->get('user_coin');
     }
 
-    public function create($userId)
+    public function getCoinAddrByUserAndName($userId, $name)
     {
-        $types = [
-            'token' => 'Xgold',
-            'btc' => 'Bitcoin',
-            'eth' => 'Ethereum',
-            'ltc' => 'Litecoin',
-            'bch' => 'Bitcoin Cash'
-        ];
-        foreach ($types as $type => $name) {
-            $data = [
-                'user_id' => $userId,
-                'coin_addr' => '',
-                'coin_type' => $type,
-                'coin_name' => $name,
-                'balance' => 0.0
-            ];
-            $this->mongo_db->insert('user_coin', $data);
-        }
+        return $this->mongo_db->where('user_id', $userId)
+            ->where('coin_name', $name)
+            ->get('user_coin');
+    }
+
+    public function create($data)
+    {
+        return $this->mongo_db->insert('user_coin', $data);
     }
 
     public function update($userId, $type, $addr) {

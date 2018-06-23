@@ -87,6 +87,7 @@
         <script src="<?php echo base_url(); ?>assets/js/angular/controllers/ico.controller.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/controllers/referral.controller.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/angular/controllers/statistical.controller.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/angular/controllers/finance.controller.js"></script>
 
         <script type="text/javascript">
             $(function () {

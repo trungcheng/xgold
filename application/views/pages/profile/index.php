@@ -16,7 +16,7 @@
                 <?php } ?>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b>0</b> TKC</span>
+                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b><?= $tokenCount ?></b> TKC</span>
                     </p>
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
@@ -85,6 +85,34 @@
                         
                         <form id="form_profile" action="<?= base_url('profile/updateInfo') ?>" method="post">
                             <input type="hidden" name="_csrf" value="J0grpYWA6UWSyGSQaQhBt6ajKyp4PqP5PIrNppHxKJlwLE7x7uWiaMOuCahQYir1485MGSBYzatFw4HrvMkf7A==">
+
+                            <div class="form-group field-member-phone" style="line-height:35px;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Xgold ID</label></label>
+                                    <div class="col-md-8">
+                                        <input readonly type="text" id="member-phone" class="form-control" value="<?= $user_id ?>"><div class="help-block"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group field-member-phone" style="line-height:35px;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Sponsor</label></label>
+                                    <div class="col-md-8">
+                                        <input readonly type="text" id="member-phone" class="form-control" value="<?= isset($sponsor) ? $sponsor : '' ?>"><div class="help-block"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group field-member-phone" style="line-height:35px;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Email</label></label>
+                                    <div class="col-md-8">
+                                        <input readonly type="text" id="member-phone" class="form-control" value="<?= $email ?>"><div class="help-block"></div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="form-group field-member-phone" style="line-height:35px;">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Phone</label></label>
@@ -120,7 +148,7 @@
                                 </div>
                             </div>   -->
 
-                            <?php
+                            <!-- <?php
                                 foreach ($coinAddr as $coin) {
                                     ?>
                                     <div class="form-group field-member-ethaddress" style="line-height:35px;">
@@ -136,7 +164,7 @@
                                     </div> 
                                     <?php
                                 }
-                            ?>                         
+                            ?>  -->                        
                         
                             <!-- <div class="form-group field-member-ethaddress">
                                 <div class="form-group">

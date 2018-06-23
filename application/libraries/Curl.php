@@ -20,21 +20,70 @@ class Curl {
         $this->setopt(CURLOPT_RETURNTRANSFER, TRUE);
     }
 
-    function get($url, $data=array()) {
-        $query = '';
-        foreach($data as $key=>$value) {
-            $query .= $key . "=" . $value . "&";
+    function get($url, $headers=array()) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $info = json_decode($response);
+        
+        return $info;
+    }
+
+    function checkTransaction($hash, $token) {
+        $headers = ['access-token: '.$token];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, API_URL.'/v2/get_transaction_detail/'.$hash);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $info = json_decode($response);
+        
+        return $info;
+    }
+
+    function createAddress($token) { 
+        $headers = ['access-token: '.$token];
+        $nodes = [
+            API_URL.'/v2/create/btc',
+            API_URL.'/v2/create/eth',
+            API_URL.'/v2/create/ltc',
+            API_URL.'/v2/create/bch'
+        ];
+        $node_count = count($nodes);
+        $curl_arr = array();
+        $master = curl_multi_init();
+        for($i = 0; $i < $node_count; $i++)
+        {
+            $url =$nodes[$i];
+            $curl_arr[$i] = curl_init($url);
+            curl_setopt($curl_arr[$i], CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl_arr[$i], CURLOPT_RETURNTRANSFER, true);
+            curl_multi_add_handle($master, $curl_arr[$i]);
         }
-        $query = rtrim($query, '&');
-        $this->setopt(CURLOPT_URL, $url . '?' . $query);
-        $this->setopt(CURLOPT_HTTPGET, TRUE);
-        $this->_exec();
+        do {
+            curl_multi_exec($master,$running);
+        } while($running > 0);
+        for($i = 0; $i < $node_count; $i++)
+        {
+            $results[] = curl_multi_getcontent  ( $curl_arr[$i]  );
+        }
+
+        $results[] = '{"code": 200, "currency": "token", "address": ""}';
+        $response = [];
+        foreach ($results as $result) {
+            $response[] = json_decode($result);
+        }
+
+        return $response;
     }
 
     function getV2($url, $data=array()) {
         $this->setopt(CURLOPT_URL, $url . '?' . http_build_query($data));
         $this->setopt(CURLOPT_HTTPGET, TRUE);
-        $this->_exec();
+        
+        return json_decode(curl_exec($this->curl));
     }
 
     function post($url, $data=array()) {       
@@ -53,13 +102,21 @@ class Curl {
         $this->_exec();
     }
 
-    function postV1($url, $data=array()) {    
-        $this->setopt(CURLOPT_URL, $url);
-        $this->setopt(CURLOPT_POST, TRUE);
-        $this->setopt(CURLOPT_POSTFIELDS, http_build_query($data));
-        $this->setopt(CURLOPT_HEADER, FALSE);
-
-        return json_decode(curl_exec($this->curl));
+    function getToken() { 
+        $headers = ['api-key: '.API_KEY, 'secret: '.API_SECRET, 'Content-Type: application/x-www-form-urlencoded']; 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
+        curl_setopt($ch, CURLOPT_URL, API_URL.'/v2/token');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, []);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($ch);
+        
+        return json_decode($response)->access_token;
     }
 
     function postV2($url, $data=array()){

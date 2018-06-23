@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+define('API_URL', 'https://gw.egate.global');
+define('API_KEY', 'key-gxssyyxomdzvtnbkrbo3l');
+define('API_SECRET', 'pnEKsVMLWYca5g3kj-V42OBBRTCDRflKeNXTKUE7');
+
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

@@ -11,6 +11,7 @@ class Profile extends MY_Controller {
 		$this->layout->setLayout('layouts/template');
 		$this->load->library('form_validation');
 		$this->load->model('user_model');
+		$this->load->model('affiliate_model');
 		$this->load->model('usercoin_model');
     	$this->userInfo = $this->session->userdata('ci_seesion_key');
     }
@@ -19,8 +20,10 @@ class Profile extends MY_Controller {
 	{
 
 		$data = $this->user_model->getUserDetailByUserId($this->userInfo['user_id']);
-		$userCoin = $this->usercoin_model->getCoinAddrUser($this->userInfo['user_id']);
-		$data[0]['coinAddr'] = $userCoin;
+		$sponsor = $this->affiliate_model->getAll($this->userInfo['user_id']);
+		if (!empty($sponsor)) {
+			$data[0]['sponsor'] = $sponsor[0]['ref_id'];
+		}
 		$data[0]['pageName'] = 'Profile';
 
 		$this->layout->view('profile/index', $data[0]);
@@ -38,9 +41,9 @@ class Profile extends MY_Controller {
 	{
 		try {
 			$dataProfile = $this->input->post('Profile');
-			$dataCoin = $this->input->post('Coin');
+			// $dataCoin = $this->input->post('Coin');
 			// var_dump($dataCoin);die;
-			if (!empty($dataProfile) && !empty($dataCoin)) {
+			if (!empty($dataProfile)) {
 				$this->user_model->update($dataProfile, $this->userInfo['user_id']);
 				foreach ($dataCoin as $type => $addr) {
 					$this->usercoin_model->update($this->userInfo['user_id'], $type, $addr);

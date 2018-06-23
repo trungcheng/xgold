@@ -16,7 +16,7 @@
                 <?php } ?>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b>0</b> TKC</span>
+                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b><?= $tokenCount ?></b> TKC</span>
                     </p>
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
@@ -41,22 +41,22 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">BTC rate</label>
+                    <label class="control-label" for="member-address">BTC rate (%)</label>
                     <input type="text" class="form-control" name="Setting[btc_rate]" value="<?= $setting[0]['btc_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">ETH rate</label>
+                    <label class="control-label" for="member-address">ETH rate (%)</label>
                     <input type="text" class="form-control" name="Setting[eth_rate]" value="<?= $setting[0]['eth_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">LTC rate</label>
+                    <label class="control-label" for="member-address">LTC rate (%)</label>
                     <input type="text" class="form-control" name="Setting[ltc_rate]" value="<?= $setting[0]['ltc_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">BCH rate</label>
+                    <label class="control-label" for="member-address">BCH rate (%)</label>
                     <input type="text" class="form-control" name="Setting[bch_rate]" value="<?= $setting[0]['bch_rate'] ?>"><div class="help-block"></div>
                 </div>
 
@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">Withdraw fee</label>
+                    <label class="control-label" for="member-address">Withdraw fee (%)</label>
                     <input type="text" class="form-control" name="Setting[withdraw_fee]" value="<?= $setting[0]['withdraw_fee'] ?>"><div class="help-block"></div>
                 </div>
 
@@ -86,8 +86,6 @@
                     <label class="control-label" for="member-address">Notification</label>
                     <textarea name="Setting[notification]" class="form-control"><?= $setting[0]['notification'] ?></textarea>
                 </div>
-
-
 
                 <div class="form-group pull-right">
                 	<button type="submit" class="btn btn-primary">Update</button>

@@ -58,14 +58,15 @@
 	    $scope.buyIco = function () {
 	    	$scope.buyLoading = true;
 	    	$http.post('/ico/buy', $scope.buy).success(function (response) {
-	    		$timeout(function() {
+	    		console.log(response);
+                $timeout(function() {
 	    			$scope.buyLoading = false;
-		    		if (response.status) {
-		    			$scope.loadInit();
-		    			toastr.success(response.message, 'SUCCESS');
-		    		} else {
-		    			toastr.error(response.message, 'ERROR');
-		    		}
+                    if (response.status) {
+                        $scope.loadInit();
+                        toastr.success(response.message, 'SUCCESS');
+                    } else {
+                        toastr.error(response.message, 'ERROR');
+                    }
 	    		}, 1000);
 	    	});
 	    }

@@ -24,10 +24,10 @@
                 <li>
                     <a href="javascript: void(0);"><i class="mdi mdi-cash-usd"></i> <span> Finance </span> <span class="menu-arrow"></span></a>
                     <ul class="nav-second-level collapse" aria-expanded="false">
-                        <li><a href="admin-grid.html">Bitcoin Wallet</a></li>
-                        <li><a href="admin-sweet-alert.html">Ethereum Wallet</a></li>
-                        <li><a href="admin-tiles.html">Litecoin Wallet</a></li>
-                        <li><a href="admin-nestable.html">Bitcoin Cash Wallet</a></li>
+                        <li><a href="<?= base_url('finance/wallet/bitcoin') ?>">Bitcoin Wallet</a></li>
+                        <li><a href="<?= base_url('finance/wallet/ethereum') ?>">Ethereum Wallet</a></li>
+                        <li><a href="<?= base_url('finance/wallet/litecoin') ?>">Litecoin Wallet</a></li>
+                        <li><a href="<?= base_url('finance/wallet/bitcoin-cash') ?>">Bitcoin Cash Wallet</a></li>
                     </ul>
                 </li>
 

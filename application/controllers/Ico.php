@@ -60,6 +60,8 @@ class Ico extends MY_Controller {
 		    				// +token
 		    				$this->usercoin_model->updateBalance($this->userInfo['user_id'], 'token', $tokenBalance);
 		    				// add transaction
+		    				$now = new DateTime();
+		    				$time = new \MongoDB\BSON\UTCDateTime($now->getTimestamp() * 1000);
 		    				$data = [
 		    					'user_id' => $this->userInfo['user_id'],
 		    					'from_addr' => $request->fromAddress,
@@ -76,17 +78,17 @@ class Ico extends MY_Controller {
 		    					'trans_id' => '',
 		    					'trans_type' => 1,
 		    					'refund_for_trans' => 0,
-		    					'created_at' => date('Y-m-d h:i:s')
+		    					'created_at' => $time
 		    				];
-		    				$tran = $this->transaction_model->create($data);
+		    				$this->transaction_model->create($data);
 		    				// +affiliate bonus
-		    				$affs = $this->affiliate_model->getAffiliate($this->userInfo['user_id']);
+		    				$affs = $this->affiliate_model->getAll($this->userInfo['user_id']);
 		    				if (!empty($affs)) {
 		    					foreach ($affs as $aff) {
 		    						$bonus = $this->setting_model->getAll();
-		    						$userCoin = $this->usercoin_model->getCoinAddrUserToken($aff['user_id']);
+		    						$userCoin = $this->usercoin_model->getCoinAddrUserToken($aff['ref_id']);
 		    						$balanceUpdate = $userCoin[0]['balance'] + (($request->amount) * ($bonus[0]['aff_bonus']) / 100);
-		    						$this->usercoin_model->updateBalance($aff['user_id'], 'token', $balanceUpdate);
+		    						$this->usercoin_model->updateBalance($aff['ref_id'], 'token', $balanceUpdate);
 		    					}
 		    				}
 
