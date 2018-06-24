@@ -15,6 +15,8 @@ class Finance extends MY_Controller {
 		$this->load->model('event_model');
 		$this->load->model('setting_model');
 		$this->load->model('affiliate_model');
+		$this->load->model('mail_model');
+		$this->load->helper('setting_helper');
 		$this->load->library('Curl');
 		$this->userInfo = $this->session->userdata('ci_seesion_key');
     }
@@ -131,33 +133,55 @@ class Finance extends MY_Controller {
 		    }
 		}
 
-		// $now = new DateTime();
-		// $time = new \MongoDB\BSON\UTCDateTime($now->getTimestamp() * 1000);
-		// $data = [
-		// 	'user_id' => $this->userInfo['user_id'],
-		// 	'from_addr' => $request->fromAddr,
-		// 	'to_addr' => $request->toAddr,
-		// 	'total' => $request->amount,
-		// 	'fee' => 0,
-		// 	'subtotal' => 0,
-		// 	'coin_type' => $request->coinType,
-		// 	'buy_by' => $request->coinType,
-		// 	'amount_currency_buy' => $request->amount,
-		// 	'bonus' => $totalBonus,
-		// 	'status' => 1,
-		// 	'trans_fee' => 0,
-		// 	'trans_id' => $request->tranId,
-		// 	'trans_type' => 3,
-		// 	'refund_for_trans' => 0,
-		// 	'created_at' => $time
-		// ];
-		// $this->transaction_model->create($data);
+		$coinBalance = $this->usercoin_model->getCoinAddrByUserAndType($this->userInfo['user_id'], $request->coinType);
+		if ((int)$request->amount == 0) {
+			$json = [
+	    		'status' => false, 
+	    		'message' => 'Please input amount to withdraw',
+	    		'type' => 'error'
+	    	];
+	    	goto a;
+		}
+		if ((int)$request->amount > (int)$coinBalance[0]['balance']) {
+			$json = [
+	    		'status' => false, 
+	    		'message' => 'The amount is over your '.$request->coinType.' balance',
+	    		'type' => 'error'
+	    	];
+	    	goto a;
+		}
 
-		$json = [
-    		'status' => false, 
-    		'message' => 'This function has been blocked',
-    		'type' => 'error'
-    	];
+		$wCode = uniqid();
+        $wLink = site_url().'finance/withdraw/confirm?wCode='.urlencode(base64_encode($wCode)).'&wid='.$this->userInfo['user_id'].'&currency='.$request->coinType.'&from='.$request->fromAddr.'&to='.$request->toAddr.'&amount='.$request->amount.'&note=withdraw';
+
+        $this->load->library('encrypt');
+        $mailData = array(
+            'topMsg' => $this->userInfo['email'],
+            'bodyMsg' => 'We just have received your withdraw '.$request->coinType.' request. Please click to link in the below to confirm withdraw process.', 
+            'thanksMsg' => 'Thanks for your cooperation!', 
+            'wLink' => $wLink
+        );
+        $this->mail_model->setMailTo($this->userInfo['email']);
+        $this->mail_model->setMailFrom('Xgold');
+        $this->mail_model->setMailSubject('[Xgold] - Confirm the withdraw process');
+        $this->mail_model->setMailContent($mailData);
+        $this->mail_model->setTemplateName('withdraw_confirm_temp');
+        $this->mail_model->setTemplatePath('mail/');
+        $chkStatus = $this->mail_model->sendMail(get_setting());
+        if ($chkStatus) {
+            $this->user_model->updateVerificationCode($wCode, $this->userInfo['user_id']);
+            $json = [
+	    		'status' => true, 
+	    		'message' => 'Please check your email to confirm your withdraw process',
+	    		'type' => 'success'
+	    	];
+        } else {
+        	$json = [
+	    		'status' => false, 
+	    		'message' => 'An error occurred',
+	    		'type' => 'error'
+	    	];
+        }
 
 		a:
 
@@ -212,6 +236,20 @@ class Finance extends MY_Controller {
                             }
                             if ($tran['trans_type'] == 3 && $check->type == 4) {
                                 // withdraw
+                                $setting = $this->setting->getWithdrawFee();
+                                if (intval($setting[0]['withdraw_fee']) !== 0) {
+                                	$withDrawFee = $check->amount * ($setting[0]['withdraw_fee']);
+                            	} else {
+                            		$withDrawFee = 0;
+                            	}
+                                $userCoin = $this->usercoin_model->getCoinAddrUser($tran['user_id']);
+                                foreach ($userCoin as $item) {
+                                    if ($item['coin_type'] === $tran['coin_type'] && $item['coin_type'] === $check->symbol) {
+                                        $balance = ($item['balance']) - ($check->amount) - $withDrawFee;
+                                        // +coin
+                                        $this->usercoin_model->updateBalance($tran['user_id'], $item['coin_type'], $balance);
+                                    }
+                                }
                             }
                         }
                     }

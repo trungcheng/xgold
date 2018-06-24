@@ -144,4 +144,77 @@ class Api extends REST_Controller
         ], REST_Controller::HTTP_OK);
     }
 
+    public function confirm_get()
+    {
+        if (!empty($this->input->get('wCode')) && !empty($this->input->get('wid'))) {
+            $userId = $this->input->get('wid');
+            $wCode = urldecode(base64_decode($this->input->get('wCode')));
+            $result = $this->user_model->confirm($userId, $wCode);
+            if ($result['status']) {
+                $data = [
+                    'currency' => $this->input->get('currency'),
+                    'from' => $this->input->get('from'),
+                    'to' => $this->input->get('to'),
+                    'amount' => $this->input->get('amount'),
+                    'note' => $this->input->get('note')
+                ];
+
+                foreach ($data as $item) {
+                    if (!$item || $item == '' || $item == null) {
+                        $this->set_response([
+                            'status' => false,
+                            'message' => 'Confirm failed, data invalid'
+                        ], REST_Controller::HTTP_OK); 
+                    }
+                }
+
+                $token = $this->curl->getToken();
+                $send = $this->curl->send($token, $data);
+                if ($send->code == 200 && $send->is_success) {
+                    $now = new DateTime();
+                    $time = new \MongoDB\BSON\UTCDateTime($now->getTimestamp() * 1000);
+                    $data = [
+                        'user_id' => $userId,
+                        'from_addr' => $data['from'],
+                        'to_addr' => $data['to'],
+                        'total' => $data['amount'],
+                        'fee' => 0,
+                        'subtotal' => 0,
+                        'coin_type' => $data['currency'],
+                        'buy_by' => $data['currency'],
+                        'amount_currency_buy' => $data['amount'],
+                        'bonus' => 0,
+                        'status' => 1,
+                        'trans_fee' => 0,
+                        'trans_id' => $send->trans_id,
+                        'trans_type' => 3,
+                        'refund_for_trans' => 0,
+                        'created_at' => $time
+                    ];
+                    $this->transaction_model->create($data);
+
+                    $this->set_response([
+                        'status' => true,
+                        'message' => 'Confirm success, back to system to check history'
+                    ], REST_Controller::HTTP_OK);
+                } else {
+                    $this->set_response([
+                        'status' => false,
+                        'message' => $send->msg
+                    ], REST_Controller::HTTP_OK);    
+                }
+            } else {
+                $this->set_response([
+                    'status' => false,
+                    'message' => 'Confirm failed, user not found, back to system to withdraw again'
+                ], REST_Controller::HTTP_OK);
+            }
+        } else {
+            $this->set_response([
+                'status' => false,
+                'message' => 'Confirm failed, no data provided, back to system to withdraw again'
+            ], REST_Controller::HTTP_OK);
+        }
+    }
+
 }

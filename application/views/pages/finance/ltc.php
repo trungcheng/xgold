@@ -7,7 +7,7 @@
                     <h4 class="page-title">LITECOIN WALLET</h4>                                    
                     <div class="clearfix"></div>
                 </div>
-                <div class="pull-right price_box">
+                <div ng-cloak class="pull-right price_box">
                     <p>
                         <i class="mdi mdi-gift"></i> Your LTC Balance: <span><b>{{ balance }}</b> LTC</span>
                     </p>
@@ -73,7 +73,7 @@
                                         <input type="text" id="fromAddr" class="form-control" name="fromAddr" placeholder="From address...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="pwd">BTC Amount</label>
+                                        <label for="pwd">LTC Amount</label>
                                         <input type="number" id="amount" class="form-control" name="amount" placeholder="Amount currency number...">
                                     </div>
                                     <div class="form-group">
@@ -99,7 +99,7 @@
                                         <input type="text" id="toAddr" class="form-control" name="toAddr" placeholder="From address...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="pwd">BTC Amount</label>
+                                        <label for="pwd">LTC Amount</label>
                                         <input type="number" id="amount" class="form-control" name="amount" placeholder="Amount currency number...">
                                     </div>
                                     <button style="float:right" type="submit" class="btn btn-default">CANCEL</button>

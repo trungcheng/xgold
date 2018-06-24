@@ -7,7 +7,7 @@
                     <h4 class="page-title">BITCOIN WALLET</h4>                                    
                     <div class="clearfix"></div>
                 </div>
-                <div class="pull-right price_box">
+                <div ng-cloak class="pull-right price_box">
                     <p>
                         <i class="mdi mdi-gift"></i> Your BTC Balance: <span><b>{{ balance }}</b> BTC</span>
                     </p>

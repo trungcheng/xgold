@@ -159,6 +159,12 @@ class User_model extends CI_Model
 
         return false;
     }
+
+    public function updateVerificationCode($code, $userId) {
+        return $this->mongo_db->set(['verification_code' => $code])
+            ->where('user_id', $userId)
+            ->update('users');
+    }
  
     // active user
     public function activate() {
@@ -170,6 +176,21 @@ class User_model extends CI_Model
             );
             $this->update($data, $query[0]['user_id']);
             return ['status' => true, 'userId' => $query[0]['user_id']];
+        } else {
+            return ['status' => false];
+        }
+    }
+
+    public function confirm($userId, $wCode) {
+        $query = $this->mongo_db->where('user_id', $userId)
+            ->where('verification_code', $wCode)
+            ->get('users');
+        if (!empty($query)) {
+            $data = array(
+                'verification_code' => 1
+            );
+            $this->update($data, $query[0]['user_id']);
+            return ['status' => true];
         } else {
             return ['status' => false];
         }

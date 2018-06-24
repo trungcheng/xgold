@@ -64,6 +64,8 @@ $route['finance/wallet/ethereum'] = 'finance/eth';
 $route['finance/wallet/litecoin'] = 'finance/ltc';
 $route['finance/wallet/bitcoin-cash'] = 'finance/bch';
 
+$route['finance/withdraw/confirm'] = 'api/confirm';
+
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

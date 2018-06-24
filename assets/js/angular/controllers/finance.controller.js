@@ -102,7 +102,7 @@
                     headers : { 'Content-Type' : 'application/json' }
                 }).success(function (response) {
                     swal({ title: '', text: response.message, type: response.type }, function (isConfirm) {
-                        $('#withdrawForm')[0].reset();
+                        // $('#withdrawForm')[0].reset();
                     });
                 });
             });

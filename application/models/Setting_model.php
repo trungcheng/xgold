@@ -77,6 +77,11 @@ class Setting_model extends CI_Model
         return $this->mongo_db->select(['btc_rate', 'eth_rate', 'ltc_rate', 'bch_rate'])->get('setting');
     }
 
+    public function getWithdrawFee()
+    {
+        return $this->mongo_db->select('withdraw_fee')->get('setting');   
+    }
+
     public function update($data)
     {
         return $this->mongo_db->set($data)->update('setting');
