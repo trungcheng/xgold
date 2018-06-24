@@ -26,9 +26,10 @@
     <div class="row">
         
         <div class="col-md-12">
+            <input type="text" id="daterange" class="form-control" style="width:310px;float:right;margin-bottom:10px;" />
             <table ng-cloak class="table table-hover table-striped">
                 <thead>
-                    <th>Time / Crypto</th>
+                    <th>Time / Currency</th>
                     <th ng-if="coin !== 'token'" ng-repeat="coin in coins">{{ coin.toUpperCase() }} (Nạp | Rút)</th>
                     <th ng-if="coin == 'token'" ng-repeat="coin in coins">{{ coin.toUpperCase() }} (Mua)</th>
                 </thead>
@@ -48,7 +49,7 @@
                     </div>
 
                     <div ng-if="!loading && items.length === 0">
-                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Không tìm thấy lịch sử giao dịch!</h5>
+                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Không tìm thấy lịch sử giao dịch nào!</h5>
                     </div>
 
                 </tbody>
@@ -60,3 +61,19 @@
 
 
 </div> <!-- container -->
+
+<script type="text/javascript">
+    $('#daterange').daterangepicker({
+        opens: 'left',
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerSeconds: true,
+        endDate: moment().format("YYYY/MM/DD HH:mm:ss"),
+        startDate: moment().subtract(7, 'day').format('YYYY/MM/DD HH:mm:ss'),
+        locale: {
+            format: 'YYYY/MM/DD HH:mm:ss',
+            applyLabel: "Lọc",
+            cancelLabel: "Trở lại"
+        }
+    });
+</script>

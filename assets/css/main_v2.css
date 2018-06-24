@@ -26,6 +26,12 @@
     margin-left: 10px;
     cursor: pointer;
 }
+.card {
+    border-right: 1px solid #999;
+}
+.card:last-child {
+    border-right: none;
+}
 
 
 

@@ -11,6 +11,7 @@
 
         <link href="<?php echo base_url(); ?>assets/v2/css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <!-- Bootstrap SweetAlert Style -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" />
         <!-- Toaster Notify Style -->
@@ -24,7 +25,10 @@
         <link href="<?php echo base_url(); ?>assets/v2/css/responsive.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/css/main_v2.css" rel="stylesheet">
 
-        <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+        <!-- <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script> -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         
     </head>
 

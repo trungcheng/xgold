@@ -24,7 +24,8 @@ class Statistical extends MY_Controller {
 
 	public function countDataByDateRange()
 	{
-		$transactions = $this->transaction_model->countToken();
+		$dates = $this->input->get('date');
+		$transactions = $this->transaction_model->countToken(explode(',', $dates));
 		$data = [];
 
 		foreach ($transactions as $tran) {

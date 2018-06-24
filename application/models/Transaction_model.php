@@ -71,12 +71,19 @@ class Transaction_model extends CI_Model
     public function getPendingTransactions()
     {
         return $this->mongo_db->where('status', 1)->get('transactions');
-    }    
+    }
 
-    public function countToken()
+    public function getUserPendingTransactions($userId)
     {
-        $fromDate = new DateTime('2018-06-13 00:00:00');
-        $toDate = new DateTime('2020-06-30 23:59:59');
+        return $this->mongo_db->where('status', 1)
+            ->where('user_id', $userId)
+            ->get('transactions');
+    }
+
+    public function countToken($dates)
+    {
+        $fromDate = new DateTime($dates[0]);
+        $toDate = new DateTime($dates[1]);
         $pipeline = [
             [
                 '$match' => [
