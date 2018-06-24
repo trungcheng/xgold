@@ -21,6 +21,11 @@
 .table th, .table tr td {
 	text-align: center;
 }
+#captImg i {
+    font-size: 18px;
+    margin-left: 10px;
+    cursor: pointer;
+}
 
 
 

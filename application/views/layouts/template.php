@@ -23,6 +23,8 @@
         <link href="<?php echo base_url(); ?>assets/v2/css/menu.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/v2/css/responsive.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/css/main_v2.css" rel="stylesheet">
+
+        <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
         
     </head>
 
@@ -45,7 +47,6 @@
             </footer>    
         </div>
 
-        <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/yii.js"></script>
         <script src="<?php echo base_url(); ?>assets/v2/js/modernizr.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/v2/js/bootstrap.min.js"></script>

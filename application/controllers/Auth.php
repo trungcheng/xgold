@@ -16,6 +16,55 @@ class Auth extends CI_Controller {
         $this->load->library('Curl');
     }
 
+    private function _create_captcha()
+    {
+        $this->load->helper('captcha');
+        $options = array(
+            'img_path' => FCPATH.'assets/images/captcha/',
+            'img_url' => site_url().'assets/images/captcha/',
+            'img_width' => '160',
+            'img_height' => '38',
+            'word_length'   => 5,
+            'font_size'     => 20
+            // 'expiration' => 7200
+        );
+        //now we will create the captcha by using the helper function create_captcha()
+        $cap = create_captcha($options);
+        $image = $cap['image'];
+        $this->session->set_userdata('captchaword', $cap['word']);
+        // we will return the image html code
+        return $image;
+    }
+
+    public function refreshCaptcha() {
+        // Captcha configuration
+        $this->load->helper('captcha');
+        $config = array(
+            'img_path'      => FCPATH.'assets/images/captcha/',
+            'img_url'       => site_url().'assets/images/captcha/',
+            'img_width'     => '160',
+            'img_height'    => '38',
+            'word_length'   => 5,
+            'font_size'     => 20
+        );
+        $captcha = create_captcha($config);
+        // Unset previous captcha and set new captcha word
+        $this->session->unset_userdata('captchaword');
+        $this->session->set_userdata('captchaword', $captcha['word']);
+        // Display captcha image
+        echo json_encode(['data' => $captcha['image']]);
+    }
+
+    public function check_captcha($string)
+    {
+        if ($string==$this->session->userdata('captchaword')) {
+            return true;
+        } else {
+            $this->form_validation->set_message('check_captcha', 'Wrong captcha code');
+            return false;
+        }
+    }
+
     public function login()
     {
         // var_dump($this->user_model->hash('12345678'));die;
@@ -32,6 +81,7 @@ class Auth extends CI_Controller {
         }
         $data = [];
         $data['pageName'] = 'Login';
+        $data['image'] = $this->_create_captcha();
         $this->layout->auth('login', $data);
     }
 
@@ -42,6 +92,7 @@ class Auth extends CI_Controller {
             $data['sponsor'] = $this->input->get('sponsor');
         }
         $data['pageName'] = 'Register';
+        $data['image'] = $this->_create_captcha();
         $this->layout->auth('register', $data);
 	}
 
@@ -56,6 +107,7 @@ class Auth extends CI_Controller {
     public function doLogin() {
         $this->form_validation->set_rules('email', 'Email', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
         if ($this->form_validation->run() == FALSE) {
             //Field validation failed.  User redirected to login page
             $this->login();
@@ -93,6 +145,7 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
         $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
+        $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
         // $this->form_validation->set_rules('phone', 'Phone', 'required');
         // $this->form_validation->set_rules('birthday', 'Date of Birth(DD-MM-YYYY)', 'required');
         if ($this->form_validation->run() == FALSE) {

@@ -23,7 +23,9 @@
         <link href="<?php echo base_url(); ?>assets/v2/css/menu.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/v2/css/responsive.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/css/main_v2.css" rel="stylesheet">
-        
+
+        <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+
     </head>
 
     <body class="bg-accpunt-pages">
@@ -60,7 +62,6 @@
         </section>
         <!-- END HOME -->
 
-        <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/yii.js"></script>
         <script src="<?php echo base_url(); ?>assets/v2/js/modernizr.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/v2/js/bootstrap.min.js"></script>
@@ -108,6 +109,13 @@
                 if (baseUrl.indexOf('forgotpwd') !== -1) {
                     $('.signup').addClass('active');
                 }
+            });
+            $(document).on('click', '.refreshCaptcha', function () {
+                $.get('<?php echo base_url().'auth/refreshCaptcha'; ?>', function(data) {
+                    var response = JSON.parse(data);
+                    $('#captImg').html(response.data);
+                    $('#captImg').append('<i style="font-size:18px;margin-left:10px;cursor:pointer;" class="fa fa-refresh refreshCaptcha"></i>');
+                });
             });
         </script>
         

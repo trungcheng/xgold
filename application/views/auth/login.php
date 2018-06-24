@@ -43,12 +43,17 @@
         
             <div class="form-group m-b-20">
                 <div class="col-xs-12">
-                    <div class="checkbox checkbox-success">
+                    <!-- <div class="checkbox checkbox-success">
                         <input name="remember" id="remember" type="checkbox" />
                         <label for="remember">
                             Remember me
                         </label>
-                    </div>
+                    </div> -->
+                    <input placeholder="Enter captcha..." style="width:50%;margin-right:10px;" class="form-control col-md-6" type="text" required name="captcha" value="" />
+                    <p id="captImg">
+                        <?= $image ?>
+                        <i class="fa fa-refresh refreshCaptcha" title="Refresh captcha image"></i>
+                    </p>
 
                 </div>
             </div>
