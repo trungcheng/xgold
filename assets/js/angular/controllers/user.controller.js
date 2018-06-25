@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('Xgold')
+        .module('Bitgame')
         .controller('UserController', UserController);
 
     function UserController($rootScope, $scope, $http, $window, $timeout, $uibModal) {

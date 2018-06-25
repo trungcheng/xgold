@@ -16,54 +16,54 @@ class Auth extends CI_Controller {
         $this->load->library('Curl');
     }
 
-    private function _create_captcha()
-    {
-        $this->load->helper('captcha');
-        $options = array(
-            'img_path' => FCPATH.'assets/images/captcha/',
-            'img_url' => site_url().'assets/images/captcha/',
-            'img_width' => '160',
-            'img_height' => '38',
-            'word_length'   => 5,
-            'font_size'     => 20
-            // 'expiration' => 7200
-        );
-        //now we will create the captcha by using the helper function create_captcha()
-        $cap = create_captcha($options);
-        $image = $cap['image'];
-        $this->session->set_userdata('captchaword', $cap['word']);
-        // we will return the image html code
-        return $image;
-    }
+    // private function _create_captcha()
+    // {
+    //     $this->load->helper('captcha');
+    //     $options = array(
+    //         'img_path' => FCPATH.'assets/images/captcha/',
+    //         'img_url' => site_url().'assets/images/captcha/',
+    //         'img_width' => '160',
+    //         'img_height' => '38',
+    //         'word_length'   => 5,
+    //         'font_size'     => 20
+    //         // 'expiration' => 7200
+    //     );
+    //     //now we will create the captcha by using the helper function create_captcha()
+    //     $cap = create_captcha($options);
+    //     $image = $cap['image'];
+    //     $this->session->set_userdata('captchaword', $cap['word']);
+    //     // we will return the image html code
+    //     return $image;
+    // }
 
-    public function refreshCaptcha() {
-        // Captcha configuration
-        $this->load->helper('captcha');
-        $config = array(
-            'img_path'      => FCPATH.'assets/images/captcha/',
-            'img_url'       => site_url().'assets/images/captcha/',
-            'img_width'     => '160',
-            'img_height'    => '38',
-            'word_length'   => 5,
-            'font_size'     => 20
-        );
-        $captcha = create_captcha($config);
-        // Unset previous captcha and set new captcha word
-        $this->session->unset_userdata('captchaword');
-        $this->session->set_userdata('captchaword', $captcha['word']);
-        // Display captcha image
-        echo json_encode(['data' => $captcha['image']]);
-    }
+    // public function refreshCaptcha() {
+    //     // Captcha configuration
+    //     $this->load->helper('captcha');
+    //     $config = array(
+    //         'img_path'      => FCPATH.'assets/images/captcha/',
+    //         'img_url'       => site_url().'assets/images/captcha/',
+    //         'img_width'     => '160',
+    //         'img_height'    => '38',
+    //         'word_length'   => 5,
+    //         'font_size'     => 20
+    //     );
+    //     $captcha = create_captcha($config);
+    //     // Unset previous captcha and set new captcha word
+    //     $this->session->unset_userdata('captchaword');
+    //     $this->session->set_userdata('captchaword', $captcha['word']);
+    //     // Display captcha image
+    //     echo json_encode(['data' => $captcha['image']]);
+    // }
 
-    public function check_captcha($string)
-    {
-        if ($string==$this->session->userdata('captchaword')) {
-            return true;
-        } else {
-            $this->form_validation->set_message('check_captcha', 'Wrong captcha code');
-            return false;
-        }
-    }
+    // public function check_captcha($string)
+    // {
+    //     if ($string==$this->session->userdata('captchaword')) {
+    //         return true;
+    //     } else {
+    //         $this->form_validation->set_message('check_captcha', 'Wrong captcha code');
+    //         return false;
+    //     }
+    // }
 
     public function login()
     {
@@ -81,7 +81,11 @@ class Auth extends CI_Controller {
         }
         $data = [];
         $data['pageName'] = 'Login';
-        $data['image'] = $this->_create_captcha();
+        // $data['image'] = $this->_create_captcha();
+        $this->load->library('recaptcha');
+        //Store the captcha HTML for correct MVC pattern use.
+        $data['recaptcha_html'] = $this->recaptcha->render();
+
         $this->layout->auth('login', $data);
     }
 
@@ -92,7 +96,10 @@ class Auth extends CI_Controller {
             $data['sponsor'] = $this->input->get('sponsor');
         }
         $data['pageName'] = 'Register';
-        $data['image'] = $this->_create_captcha();
+        $this->load->library('recaptcha');
+        //Store the captcha HTML for correct MVC pattern use.
+        $data['recaptcha_html'] = $this->recaptcha->render();
+        // $data['image'] = $this->_create_captcha();
         $this->layout->auth('register', $data);
 	}
 
@@ -105,99 +112,123 @@ class Auth extends CI_Controller {
 
     // action login method
     public function doLogin() {
+        $this->load->library('recaptcha');
+
         $this->form_validation->set_rules('email', 'Email', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
-        $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
+        // $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
         if ($this->form_validation->run() == FALSE) {
             //Field validation failed.  User redirected to login page
             $this->login();
         } else {
-            //Field validation succeeded.  Validate against database
-            $email = $this->input->post('email');
-            $password = $this->input->post('password');
- 
-            $this->user_model->setEmail($email);
-            $this->user_model->setPassword($password);
-            //query the database
-            $result = $this->user_model->login();
-            if ($result) {
-                if ($result['active']) {
-                    $authArray = array(
-                        'user_id' => $result['user_id'],
-                        'email' => $result['email'],
-                        'is_admin' => $result['is_admin']
-                    );
-                    $this->session->set_userdata('ci_session_key_generate', TRUE);
-                    $this->session->set_userdata('ci_seesion_key', $authArray);
-                    redirect('dashboard');
+            // Catch the user's answer
+            $captcha_answer = $this->input->post('g-recaptcha-response');
+            // Verify user's answer
+            $response = $this->recaptcha->verifyResponse($captcha_answer);
+            // Processing ...
+            if ($response['success']) {
+                //Field validation succeeded.  Validate against database
+                $email = $this->input->post('email');
+                $password = $this->input->post('password');
+     
+                $this->user_model->setEmail($email);
+                $this->user_model->setPassword($password);
+                //query the database
+                $result = $this->user_model->login();
+                if ($result) {
+                    if ($result['active']) {
+                        $authArray = array(
+                            'user_id' => $result['user_id'],
+                            'email' => $result['email'],
+                            'is_admin' => $result['is_admin']
+                        );
+                        $this->session->set_userdata('ci_session_key_generate', TRUE);
+                        $this->session->set_userdata('ci_seesion_key', $authArray);
+                        redirect('dashboard');
+                    } else {
+                        $this->session->set_flashdata('error', 'Please access to your email to confirm the registration');
+                        redirect('auth/login');
+                    }
                 } else {
-                    $this->session->set_flashdata('error', 'Please access to your email to confirm the registration');
-                    redirect('auth/login');
+                    redirect('auth/login?msg=1');
                 }
             } else {
-                redirect('auth/login?msg=1');
+                $this->session->set_flashdata('error', 'Incorrect captcha');
+                redirect('auth/login');
             }
         }
     }
 
 	// action create user method
     public function actionCreate() {
+        $this->load->library('recaptcha');
+
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
-        $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
+        // $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
         $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
         // $this->form_validation->set_rules('phone', 'Phone', 'required');
         // $this->form_validation->set_rules('birthday', 'Date of Birth(DD-MM-YYYY)', 'required');
         if ($this->form_validation->run() == FALSE) {
             $this->register();
         } else {
-            $data = $this->input->post();
-            $verificationCode = uniqid();
-            $verificationLink = site_url() . 'auth/login?usid=' . urlencode(base64_encode($verificationCode));
+            // Catch the user's answer
+            $captcha_answer = $this->input->post('g-recaptcha-response');
+            // Verify user's answer
+            $response = $this->recaptcha->verifyResponse($captcha_answer);
+            // Processing ...
+            if ($response['success']) {
+                $data = $this->input->post();
+                $verificationCode = uniqid();
+                $verificationLink = site_url() . 'auth/login?usid=' . urlencode(base64_encode($verificationCode));
 
-            $this->load->library('encrypt');
-            $mailData = array(
-                'topMsg' => $data['email'],
-                'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
-                'thanksMsg' => 'Thanks for your cooperation!', 
-                'verificationLink' => $verificationLink
-            );
-            $this->mail_model->setMailTo($data['email']);
-            $this->mail_model->setMailFrom('Xgold');
-            $this->mail_model->setMailSubject('[Xgold] - Verify the registration');
-            $this->mail_model->setMailContent($mailData);
-            $this->mail_model->setTemplateName('register_temp');
-            $this->mail_model->setTemplatePath('mail/');
-            $chkStatus = $this->mail_model->sendMail(get_setting());
-            if ($chkStatus) {
-                $this->user_model->setUserID('XGOLD'.substr(md5($data['email'].time()), 0, 9));
-                $this->user_model->setEmail($data['email']);
-                $this->user_model->setAddress($data['address']);
-                $this->user_model->setPassword($data['password']);
-                $this->user_model->setMobile($data['phone']);
-                $this->user_model->setActive(false);
-                $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
-                $this->user_model->setVerificationCode($verificationCode);
-                $this->user_model->setIsAdmin(false);
-                $chk = $this->user_model->create();
-                if ($chk) {
-                    // create ref
-                    if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
-                        $user = $this->user_model->getUserDetailByEmail($data['email']);
-                        $sponsor = $this->user_model->getUserDetailByUserId($data['sponsor']);
-                        if (!empty($sponsor)) {
-                            $this->affiliate_model->create($user[0]['user_id'], $data['sponsor']);
+                $this->load->library('encrypt');
+                $mailData = array(
+                    'topMsg' => $data['email'],
+                    'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
+                    'thanksMsg' => 'Thanks for your cooperation!', 
+                    'verificationLink' => $verificationLink
+                );
+                $this->mail_model->setMailTo($data['email']);
+                $this->mail_model->setMailFrom('Xgold');
+                $this->mail_model->setMailSubject('[Xgold] - Verify the registration');
+                $this->mail_model->setMailContent($mailData);
+                $this->mail_model->setTemplateName('register_temp');
+                $this->mail_model->setTemplatePath('mail/');
+                $chkStatus = $this->mail_model->sendMail(get_setting());
+                if ($chkStatus) {
+                    $this->user_model->setUserID('XGOLD'.substr(md5($data['email'].time()), 0, 9));
+                    $this->user_model->setEmail($data['email']);
+                    $this->user_model->setAddress($data['address']);
+                    $this->user_model->setPassword($data['password']);
+                    $this->user_model->setMobile($data['phone']);
+                    $this->user_model->setActive(false);
+                    $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
+                    $this->user_model->setVerificationCode($verificationCode);
+                    $this->user_model->setIsAdmin(false);
+                    $chk = $this->user_model->create();
+                    if ($chk) {
+                        // create ref
+                        if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
+                            $user = $this->user_model->getUserDetailByEmail($data['email']);
+                            $sponsor = $this->user_model->getUserDetailByUserId($data['sponsor']);
+                            if (!empty($sponsor)) {
+                                $this->affiliate_model->create($user[0]['user_id'], $data['sponsor']);
+                            }
                         }
-                    }
 
-                    $this->session->set_flashdata('success', 'Congratulations! Please check your email to confirm the registration');
-                    redirect('auth/login');
+                        $this->session->set_flashdata('success', 'Congratulations! Please check your email to confirm the registration');
+                        redirect('auth/login');
+                    } else {
+                        $this->session->set_flashdata('error', 'Can not create user! Maybe this user already existed.');
+                        redirect('auth/register');
+                    }
                 } else {
-                    $this->session->set_flashdata('error', 'Can not create user! Maybe this user already existed.');
+                    $this->session->set_flashdata('error', 'The error occurred when sent mail process');
                     redirect('auth/register');
                 }
             } else {
-                $this->session->set_flashdata('error', 'The error occurred when sent mail process');
+                $this->session->set_flashdata('error', 'Incorrect captcha');
                 redirect('auth/register');
             }
         }

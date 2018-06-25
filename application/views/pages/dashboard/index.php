@@ -80,7 +80,7 @@
 
     <!-- end row -->
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-12">
             <div class="card-box">
                 <h4 class="header-title m-b-15 m-t-0">Wallet total</h4>
                 <div class="text-center m-b-30">
@@ -105,50 +105,54 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card-box">
-                <h4 class="m-t-0 header-title">PENDING TRANSACTION</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>CHECK HASH</th>
-                            <th>TRANSACTION TYPE</th>
-                            <th>ADDRESS</th>
-                            <th>AMOUNT</th>
-                            <th>TIME</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            if (!empty($transactions)) {
-                                foreach ($transactions as $key => $tran) {
-                                    ?>
-                                    <tr>
-                                        <th scope="row"><?= $key + 1 ?></th>
-                                        <td><?= $tran['trans_id'] ?></td>
-                                        <td><?php
-                                            if ($tran['trans_type'] == 1) {
-                                                echo 'BUY TOKEN';
-                                            } else if ($tran['trans_type'] == 2) {
-                                                echo 'DEPOSIT '.strtoupper($tran['coin_type']);
-                                            } else {
-                                                echo 'WITHDRAW '.strtoupper($tran['coin_type']);
-                                            }
-                                        ?></td>
-                                        <td><?= $tran['to_addr'] ?></td>
-                                        <td><?= $tran['total'] ?></td>
-                                        <td><?= $tran['time'] ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                            } else {
-                                ?>
-                                <td colspan="7">You don't have any pending transactions</td>
+            <div class="card-box table-responsive">
+                <h4 class="m-t-0 header-title" style="margin-bottom:20px;">PENDING TRANSACTION</h4>
+                <div class="row">
+                    <div class="col-sm-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Check Hash</th>
+                                    <th>Transaction Type</th>
+                                    <th>Address</th>
+                                    <th>Amount</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <?php
-                            }
-                        ?>
-                    </tbody>
-                </table>
+                                    if (!empty($transactions)) {
+                                        foreach ($transactions as $key => $tran) {
+                                            ?>
+                                            <tr>
+                                                <th scope="row"><?= $key + 1 ?></th>
+                                                <td><?= $tran['trans_id'] ?></td>
+                                                <td><?php
+                                                    if ($tran['trans_type'] == 1) {
+                                                        echo 'Buy token';
+                                                    } else if ($tran['trans_type'] == 2) {
+                                                        echo 'Deposit '.$tran['coin_type'];
+                                                    } else {
+                                                        echo 'Withdraw '.$tran['coin_type'];
+                                                    }
+                                                ?></td>
+                                                <td><?= $tran['to_addr'] ?></td>
+                                                <td><?= $tran['total'] ?></td>
+                                                <td><?= $tran['time'] ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        <td colspan="7">You don't have any pending transactions</td>
+                                        <?php
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </div>

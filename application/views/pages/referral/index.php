@@ -61,34 +61,35 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <table ng-cloak class="table table-striped table-bordered toggle-circle m-b-0">
-                        <thead>
-                            <tr>
-                                <th>Email</th>
-                                <th>Join Time</th>
-                                <th>Referral Bonus (%)</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-cloak ng-repeat="ref in refs track by $index">
-                                <td>{{ ref.email }}</td>
-                                <td>{{ ref.created }}</td>
-                                <td>{{ ref.affBonus }}%</td>
-                                <td>
-                                    <a href="javascript:void(0)" ng-click="seeAct(ref)">See activities</a>
-                                </td>
-                            </tr>
-                            <tr ng-if="!loading && refs.length == 0">
-                                <td colspan="5">
-                                    <div class="empty">No results found.</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div ng-if="loading">
-                        <i style="font-size:40px;position:fixed;left:50%;top:50%;z-index:99;" class="fa fa-spinner fa-spin"></i>
+                    <div class="col-md-12 table-responsive">
+                        <table ng-cloak class="table table-striped table-bordered toggle-circle m-b-0">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Join Time</th>
+                                    <th>Referral Bonus (%)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-cloak ng-repeat="ref in refs track by $index">
+                                    <td>{{ ref.email }}</td>
+                                    <td>{{ ref.created }}</td>
+                                    <td>{{ ref.affBonus }}%</td>
+                                    <td>
+                                        <a href="javascript:void(0)" ng-click="seeAct(ref)">See activities</a>
+                                    </td>
+                                </tr>
+                                <tr ng-if="!loading && refs.length == 0">
+                                    <td colspan="5">
+                                        <div class="empty">No results found.</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div ng-if="loading">
+                            <i style="font-size:40px;position:fixed;left:50%;top:50%;z-index:99;" class="fa fa-spinner fa-spin"></i>
+                        </div>
                     </div>
                 </div>
             </div>

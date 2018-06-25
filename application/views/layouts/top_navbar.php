@@ -3,10 +3,11 @@
     <div class="topbar-left">
         <a href="/" class="logo">
             <span>
-                <img src="<?php echo base_url(); ?>assets/v2/images/logo.png" alt="" height="25">
+                <img src="<?php echo base_url(); ?>assets/images/200x200-mau.png" alt="" style="width:18%;margin-left:-37px">
+                <span style="color:#fff;">BITGAME</span>
             </span>
             <i>
-                <img src="<?php echo base_url(); ?>assets/v2/images/logo_sm.png" alt="" height="28">
+                <img src="<?php echo base_url(); ?>assets/images/64x64-mau.png" alt="" height="28">
             </i>
         </a>
     </div>

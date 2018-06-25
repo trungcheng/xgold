@@ -108,43 +108,45 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="history" ng-if="type == 'transaction history'">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <th>#</th>
-                                    <th>Check Hash</th>
-                                    <th>Transaction Type</th>
-                                    <th>Send To</th>
-                                    <th>Amount</th>
-                                    <th>Time</th>
-                                    <th>Status</th>
-                                </thead>
-                                <tbody>
-                                    <tr ng-if="!transactions.length">
-                                        <td colspan="8" class="text-danger text-center">You don't have any transactions</td>
-                                    </tr>
-                                    <tr ng-cloak ng-repeat="transaction in transactions track by $index">
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ transaction.trans_id }}</td>
-                                        <td ng-if="transaction.trans_type == 2">Deposit</td>
-                                        <td ng-if="transaction.trans_type == 3">Withdraw</td>
-                                        <td>{{ transaction.to_addr }}</td>
-                                        <td>{{ transaction.total }}</td>
-                                        <td>{{ transaction.time }}</td>
-                                        <td ng-if="transaction.status == 1">
-                                            <button class="btn btn-warning btn-xs">Pending</button>
-                                        </td>
-                                        <td ng-if="transaction.status == 2">
-                                            <button class="btn btn-success btn-xs">Success</button>
-                                        </td>
-                                        <td ng-if="transaction.status == 3">
-                                            <button class="btn btn-danger btn-xs">Failed</button>
-                                        </td>
-                                        <td ng-if="transaction.status == 4">
-                                            <button class="btn btn-info btn-xs">Waiting refund</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Check Hash</th>
+                                        <th>Transaction Type</th>
+                                        <th>Send To</th>
+                                        <th>Amount</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="!transactions.length">
+                                            <td colspan="8" class="text-danger text-center">You don't have any transactions</td>
+                                        </tr>
+                                        <tr ng-cloak ng-repeat="transaction in transactions track by $index">
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ transaction.trans_id }}</td>
+                                            <td ng-if="transaction.trans_type == 2">Deposit</td>
+                                            <td ng-if="transaction.trans_type == 3">Withdraw</td>
+                                            <td>{{ transaction.to_addr }}</td>
+                                            <td>{{ transaction.total }}</td>
+                                            <td>{{ transaction.time }}</td>
+                                            <td ng-if="transaction.status == 1">
+                                                <button class="btn btn-warning btn-xs">Pending</button>
+                                            </td>
+                                            <td ng-if="transaction.status == 2">
+                                                <button class="btn btn-success btn-xs">Success</button>
+                                            </td>
+                                            <td ng-if="transaction.status == 3">
+                                                <button class="btn btn-danger btn-xs">Failed</button>
+                                            </td>
+                                            <td ng-if="transaction.status == 4">
+                                                <button class="btn btn-info btn-xs">Waiting refund</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

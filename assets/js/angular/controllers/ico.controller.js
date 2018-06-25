@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('Xgold')
+        .module('Bitgame')
         .controller('IcoController', IcoController);
 
     function IcoController($rootScope, $scope, $q, $http, $window, $timeout, $uibModal) {

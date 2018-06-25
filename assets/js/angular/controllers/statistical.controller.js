@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('Xgold')
+        .module('Bitgame')
         .controller('StatisticalController', StatisticalController);
 
     function StatisticalController($rootScope, $scope, $q, $http, $window, $timeout, $uibModal) {

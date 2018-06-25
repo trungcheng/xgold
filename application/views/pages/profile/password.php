@@ -50,7 +50,7 @@
                     <hr>
                     <div class="text-left">
                         <p class="text-muted font-13">
-                            <strong>TKC</strong><span class="m-l-15 pull-right">0</span>
+                            <strong>TKC</strong><span class="m-l-15 pull-right"><?= $tokenCount ?></span>
                         </p>
                         <p class="text-muted font-13">
                             <strong>Email</strong><span class="m-l-15 pull-right"><?= $email ?></span>
@@ -119,8 +119,8 @@
 
 							<div class="form-group m-t-30">
 	                            <div class="col-md-12" style="margin-top:30px;">
-	                                <button type="submit" class="btn btn-custom waves-effect waves-light"><i class="fa fa-edit" ></i> Change password</button>
-	                                <button type="reset" class="btn btn-default btn-reset waves-effect waves-light"><i class="glyphicon glyphicon-refresh" ></i> Reset</button>
+	                                <button type="submit" class="btn btn-custom waves-effect waves-light change-pass-btn"><i class="fa fa-edit" ></i> Change password</button>
+	                                <button style="margin-left:0px" type="reset" class="btn btn-default btn-reset waves-effect waves-light"><i class="glyphicon glyphicon-refresh" ></i> Reset</button>
 	                            </div>
                         	</div>
 

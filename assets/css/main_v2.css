@@ -33,6 +33,21 @@
     border-right: none;
 }
 
+@media (max-width: 768px) {
+    .card {
+        border-right: none;
+    }
+    .card:last-child {
+        border-right: none;
+    }
+    .profile-btn {
+        width: 52%;
+    }
+    .change-pass-btn i {
+        margin-left: -32px;
+    }
+}
+
 
 
 

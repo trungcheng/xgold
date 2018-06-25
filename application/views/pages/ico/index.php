@@ -156,7 +156,7 @@
                 </div> -->
                 <div class="row">
                     <div class="col-sm-12 table-responsive">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-striped">
                             <thead>
                                 <th>#</th>
                                 <th>From Address</th>

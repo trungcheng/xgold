@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('Xgold')
+        .module('Bitgame')
         .controller('FinanceController', FinanceController);
 
     function FinanceController($rootScope, $scope, $q, $http, $window, $timeout, $uibModal) {

@@ -7,7 +7,7 @@
         <meta name="csrf-param" content="_csrf">
         <meta name="csrf-token" content="d0chSEubJ8HssoqhYutZwvS1Bk5Wr6QgyZP4OGQnDdoZNGsGOe1FitrH2ugooxyNpPtzeQ_E7Ffk5olMHnd8kw==">
         
-        <title><?= $pageName ?> | Xgold</title>
+        <title><?= $pageName ?> | Bitgame</title>
 
         <link href="<?php echo base_url(); ?>assets/v2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -25,6 +25,7 @@
         <link href="<?php echo base_url(); ?>assets/css/main_v2.css" rel="stylesheet">
 
         <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
 
     </head>
 
@@ -40,7 +41,7 @@
                                     <div class="pull-left">
                                         <h2 class="text-uppercase text-center">
                                             <a href="/" class="text-success">
-                                                <span style="color:#64c5b1">XGOLD</span>
+                                                <span style="color:#64c5b1">BITGAME</span>
                                             </a>
                                         </h2> 
                                     </div>

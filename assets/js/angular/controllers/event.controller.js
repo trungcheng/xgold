@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('Xgold')
+        .module('Bitgame')
         .controller('EventController', EventController);
 
     function EventController($rootScope, $scope, $http, $window, $timeout, $uibModal) {

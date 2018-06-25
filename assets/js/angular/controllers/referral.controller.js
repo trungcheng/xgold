@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('Xgold')
+        .module('Bitgame')
         .controller('RefController', RefController);
 
     function RefController($rootScope, $scope, $q, $http, $window, $timeout, $uibModal) {
