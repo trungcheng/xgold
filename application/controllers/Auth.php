@@ -165,8 +165,8 @@ class Auth extends CI_Controller {
 
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
-        // $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
-        $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
+        $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
+        // $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
         // $this->form_validation->set_rules('phone', 'Phone', 'required');
         // $this->form_validation->set_rules('birthday', 'Date of Birth(DD-MM-YYYY)', 'required');
         if ($this->form_validation->run() == FALSE) {
