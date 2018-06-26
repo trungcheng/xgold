@@ -87,6 +87,7 @@ File: Menu
   height: 36px;
   width: 36px;
   margin: 0 auto;
+  margin-right: -10px;
 }
 .navbar-default .right-menu-item {
   height: 36px;
