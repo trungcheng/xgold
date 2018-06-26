@@ -58,7 +58,6 @@
 	    $scope.buyIco = function () {
 	    	$scope.buyLoading = true;
 	    	$http.post('/ico/buy', $scope.buy).success(function (response) {
-	    		console.log(response);
                 $timeout(function() {
 	    			$scope.buyLoading = false;
                     if (response.status) {

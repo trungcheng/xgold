@@ -46,6 +46,16 @@
                 <li>
                     <a href="<?= base_url('setting') ?>"><i class="mdi mdi-settings"></i> <span> Setting </span></a>
                 </li>
+
+                <li>
+                    <a href="javascript: void(0);"><i class="mdi mdi-email-outline"></i> <span> Mail template </span> <span class="menu-arrow"></span></a>
+                    <ul class="nav-second-level collapse" aria-expanded="false">
+                        <li><a href="<?= base_url('mail/register') ?>">Register template</a></li>
+                        <li><a href="<?= base_url('mail/reset') ?>">Reset password template</a></li>
+                        <li><a href="<?= base_url('mail/withdraw') ?>">Withdraw confirm template</a></li>
+                    </ul>
+                </li>
+
                 <li>
                     <a href="<?= base_url('statistical') ?>"><i class="mdi mdi-chart-bar"></i> <span> Statistical </span></a>
                 </li>

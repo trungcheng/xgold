@@ -330,7 +330,7 @@ class Auth extends CI_Controller {
                     $coinName = 'Litecoin';
                     break;
                 case 'token':
-                    $coinName = 'Xgold';
+                    $coinName = 'Bitgame';
                     break;
                 default:
                     $coinName = 'Bitcoin Cash';

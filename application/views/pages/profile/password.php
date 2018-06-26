@@ -22,10 +22,10 @@
                 <?php } ?>
 	            <div class="pull-right price_box">
 	                <p>
-	                    <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b><?= $tokenCount ?></b> TKC</span>
+	                    <i class="mdi mdi-gift"></i> Your BGC Balance: <span><b><?= $tokenCount ?></b> BGC</span>
 	                </p>
 	                <!--<p class="text-right">
-	                    <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
+	                    <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
 	                </p>-->
 	            </div>
 	        </div>
@@ -50,7 +50,7 @@
                     <hr>
                     <div class="text-left">
                         <p class="text-muted font-13">
-                            <strong>TKC</strong><span class="m-l-15 pull-right"><?= $tokenCount ?></span>
+                            <strong>BGC</strong><span class="m-l-15 pull-right"><?= $tokenCount ?></span>
                         </p>
                         <p class="text-muted font-13">
                             <strong>Email</strong><span class="m-l-15 pull-right"><?= $email ?></span>

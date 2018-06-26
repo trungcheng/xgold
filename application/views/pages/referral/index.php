@@ -5,14 +5,14 @@
                 <div class="pull-left">
                     <h4 class="page-title">REFERRAL</h4>                                    
                     <div class="clearfix"></div>
-                    <p class="m-t-10 m-b-0 hidden-xs">Your reward amounts to 5.0% of all TKC tokens purchased by your referrals.</p>
+                    <p class="m-t-10 m-b-0 hidden-xs">Your reward amounts to 5.0% of all BGC tokens purchased by your referrals.</p>
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b><?= $tokenCount ?></b> TKC</span>
+                        <i class="mdi mdi-gift"></i> Your BGC Balance: <span><b><?= $tokenCount ?></b> BGC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -33,13 +33,13 @@
                             <input id="referral_text" readonly="" type="text" class="form-control" value="<?= $link_sponsor ?>">
                             <span id="referral_copy" class="input-group-addon copy_addon btn btn-primary" style="cursor:pointer" >COPY</span>
                         </div>
-                        <div class="buy-tkc-button m-t-20">
-                            <a href="<?= base_url('ico') ?>" class="btn btn-custom waves-light waves-effect w-md">BUY TKC NOW</a>
+                        <div class="buy-BGC-button m-t-20">
+                            <a href="<?= base_url('ico') ?>" class="btn btn-custom waves-light waves-effect w-md">BUY BGC NOW</a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-top-10 alert alert-info alert-dismissible fade in" role="alert">
-                            This is your TKC referral link. You can use it to share the project with your friends and other interested parties. If any of them sign up with this link, they will be added to your referral program. 
+                            This is your BGC referral link. You can use it to share the project with your friends and other interested parties. If any of them sign up with this link, they will be added to your referral program. 
                         </div>
                     </div>
                 </div>                                    

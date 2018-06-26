@@ -25,6 +25,7 @@ class Setting extends MY_Controller {
 
 	public function update()
 	{
+		// var_dump(htmlentities($this->input->post('register_temp')));die;
 		$data = $this->input->post('Setting');
 		if (!empty($data)) {
 			$this->setting_model->update($data);

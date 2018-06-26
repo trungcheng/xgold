@@ -16,10 +16,10 @@
                 <?php } ?>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b><?= $tokenCount ?></b> TKC</span>
+                        <i class="mdi mdi-gift"></i> Your BGC Balance: <span><b><?= $tokenCount ?></b> BGC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -41,22 +41,22 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">BTC rate (%)</label>
+                    <label class="control-label" for="member-address">BTC rate</label>
                     <input type="text" class="form-control" name="Setting[btc_rate]" value="<?= $setting[0]['btc_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">ETH rate (%)</label>
+                    <label class="control-label" for="member-address">ETH rate</label>
                     <input type="text" class="form-control" name="Setting[eth_rate]" value="<?= $setting[0]['eth_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">LTC rate (%)</label>
+                    <label class="control-label" for="member-address">LTC rate</label>
                     <input type="text" class="form-control" name="Setting[ltc_rate]" value="<?= $setting[0]['ltc_rate'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">BCH rate (%)</label>
+                    <label class="control-label" for="member-address">BCH rate</label>
                     <input type="text" class="form-control" name="Setting[bch_rate]" value="<?= $setting[0]['bch_rate'] ?>"><div class="help-block"></div>
                 </div>
 
@@ -98,3 +98,9 @@
     </div>
 
 </div> <!-- container -->
+
+<script type="text/javascript">
+    CKEDITOR.replace('register_temp');
+    CKEDITOR.replace('reset_temp');
+    CKEDITOR.replace('withdraw_temp');
+</script>

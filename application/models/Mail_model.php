@@ -46,11 +46,12 @@ class Mail_model extends CI_Model {
 
         $config = [];
         $config['protocol']     = 'smtp';
-        $config['smtp_host']    = 'ssl://smtp.googlemail.com';
-        $config['smtp_port']    = '465';
+        $config['smtp_host']    = 'smtp.mandrillapp.com';
+        $config['smtp_port']    = '587';
         $config['smtp_timeout'] = '30';
         $config['smtp_user']    = $setting[0]['mail_sender'];
         $config['smtp_pass']    = $setting[0]['pass_mail_sender'];
+        $config['smtp_crypto']  = 'tls';
         $config['charset']      = 'utf-8';
         $config['newline']      = '\r\n';
         $config['mailtype']     = 'html';

@@ -12,7 +12,7 @@
                         <i class="mdi mdi-gift"></i> Your BCH Balance: <span><b>{{ balance }}</b> BCH</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>

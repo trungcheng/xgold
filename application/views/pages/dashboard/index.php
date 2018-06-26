@@ -8,10 +8,10 @@
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your TKC Balance: <span><b><?= $tokenCount ?></b> TKC</span>
+                        <i class="mdi mdi-gift"></i> Your BGC Balance: <span><b><?= $tokenCount ?></b> BGC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="wigdet-two-content">
                     <h5 class="">
-                        Enter your Ethereum address to receive and store your TKC tokens 
+                        Enter your Ethereum address to receive and store your BGC tokens 
                     </h5>
                     <p class="m-0">Step 1</p>
                 </div>
