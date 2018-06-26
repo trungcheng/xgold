@@ -47,7 +47,7 @@
             </div>
 
             <footer class="footer text-right">
-                Copyright © 2018. Teky Corp. All Rights Reserved.
+                Copyright © 2018. Bitgame Team. All Rights Reserved.
             </footer>    
         </div>
 

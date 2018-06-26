@@ -40,11 +40,20 @@
     .card:last-child {
         border-right: none;
     }
+    .reset-btn {
+        width: 46%;
+    }
     .profile-btn {
         width: 52%;
     }
+    .change-pass-btn {
+        width: 58%;
+    }
     .change-pass-btn i {
         margin-left: -32px;
+    }
+    .reset-btn i {
+        margin-left: -10px;
     }
 }
 

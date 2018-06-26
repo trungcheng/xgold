@@ -30,11 +30,14 @@
             <div class="card-box">
                 <div class="col-md-5">
                     <h4 class="header-title m-t-0 m-b-30">Choose payment currency:</h4>
-                    <div class="row box-list-coin">
+                    <div class="row box-list-coin" ng-if="coins.length > 0">
                         <div ng-cloak ng-repeat="coin in coins" ng-click="changeCurrency(coin)" class="col-md-6 col-xs-6 box-tk-item">
                             <img style="width:70px;cursor:pointer;" src="<?php echo base_url(); ?>assets/v2/images/icon-{{ coin.coin_type }}.png" class="img-responsive">
                             <p class="m-t-10">{{ coin.coin_name }}</p>
                         </div>
+                    </div>
+                    <div ng-if="coins.length == 0" class="row box-list-coin">
+                        <span style="color:#f96a74;padding-left:10px;">You don't have any currency</span>
                     </div>
                 </div>
                 <div class="col-md-7">

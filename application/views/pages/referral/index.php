@@ -52,16 +52,8 @@
             <div class="card-box">
                 <h4 class="m-t-0 dis_inline header-title m-b-20"><b>Your referral member:</b></h4>
                 <div id="w0" class="grid-view">
-                    <div class="form-inline m-b-20 pull-right">
-                        <div class="row">
-                            <div class="col-sm-12 text-xs-center text-right">
-                                <div class="form-group">
-                                    <label class="control-label m-r-5"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 table-responsive">
+
+                    <div class="table-responsive">
                         <table ng-cloak class="table table-striped table-bordered toggle-circle m-b-0">
                             <thead>
                                 <tr>
@@ -87,36 +79,15 @@
                                 </tr>
                             </tbody>
                         </table>
+
                         <div ng-if="loading">
                             <i style="font-size:40px;position:fixed;left:50%;top:50%;z-index:99;" class="fa fa-spinner fa-spin"></i>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- <div class="col-sm-12 hidden-xs">
-            <div class="card-box">
-                <h4 class="m-t-0 dis_inline header-title m-b-20"><b>Referral transaction:</b></h4>
-                <div id="w1" class="grid-view">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Buy detail 
-                                    <div class="pull-right"><b>TKC delivery detail</b></div>
-                                </th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            <tr>
-                                <td colspan="1"><div class="empty">No results found.</div></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
 

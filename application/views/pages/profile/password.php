@@ -120,7 +120,7 @@
 							<div class="form-group m-t-30">
 	                            <div class="col-md-12" style="margin-top:30px;">
 	                                <button type="submit" class="btn btn-custom waves-effect waves-light change-pass-btn"><i class="fa fa-edit" ></i> Change password</button>
-	                                <button style="margin-left:0px" type="reset" class="btn btn-default btn-reset waves-effect waves-light"><i class="glyphicon glyphicon-refresh" ></i> Reset</button>
+	                                <button style="margin-left:0px;width:40%;" type="reset" class="btn btn-default btn-reset waves-effect waves-light"><i style="margin-left:-20px;" class="glyphicon glyphicon-refresh" ></i> Reset</button>
 	                            </div>
                         	</div>
 

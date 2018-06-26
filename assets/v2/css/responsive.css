@@ -157,6 +157,7 @@ File: Responsive
   }
   .navbar-default .navbar-left li {
     padding: 0 5px;
+    margin-left: -20px;
   }
   .topbar-left {
     display: none;

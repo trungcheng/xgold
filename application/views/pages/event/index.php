@@ -27,7 +27,7 @@
     </div>        
 
     <div class="row">
-        <div class="col-md-12 table-responsive">
+        <div class="table-responsive" style="margin-left:10px;margin-right:10px;">
             <table ng-cloak class="table table-hover table-striped">
                 <thead>
                     <th>STT</th>

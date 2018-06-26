@@ -99,7 +99,7 @@
                                 }
                             } else {
                                 ?>
-                                <p class="text-center">You don't have any wallet</p>
+                                <p class="text-center" style="color:#f96a74;">You don't have any wallet</p>
                                 <?php
                             }
                         ?>
@@ -151,7 +151,7 @@
                                         }
                                     } else {
                                         ?>
-                                        <td colspan="7">You don't have any pending transactions</td>
+                                        <td colspan="7" style="color:#f96a74;">You don't have any pending transactions</td>
                                         <?php
                                     }
                                 ?>
