@@ -86,14 +86,20 @@
                 <div class="text-center m-b-30">
                     <div class="row">
                         <?php
-                            foreach ($wallets as $wallet) {
-                                ?>
-                                <div class="col-xs-6 col-sm-3 card">
-                                    <div class="m-t-20 m-b-20">
-                                        <h3 class="m-b-10"><?= $wallet['balance'] ?></h3>
-                                        <p class="text-uppercase m-b-5 font-13 font-600"><?= strtoupper($wallet['coin_type']) ?></p>
+                            if (!empty($wallets)) {
+                                foreach ($wallets as $wallet) {
+                                    ?>
+                                    <div class="col-xs-6 col-sm-3 card">
+                                        <div class="m-t-20 m-b-20">
+                                            <h3 class="m-b-10"><?= $wallet['balance'] ?></h3>
+                                            <p class="text-uppercase m-b-5 font-13 font-600"><?= strtoupper($wallet['coin_type']) ?></p>
+                                        </div>
                                     </div>
-                                </div>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <p class="text-center">You don't have any wallet</p>
                                 <?php
                             }
                         ?>

@@ -34,7 +34,7 @@ class User extends MY_Controller {
 		try {
 			$postdata = file_get_contents("php://input");
 	    	$request = json_decode($postdata);
-	    	$this->user_model->setUserID('XGOLD'.md5($request->email.time()));
+	    	$this->user_model->setUserID('XGOLD'.substr(md5($request->email.time()), 0, 9));
             $this->user_model->setEmail($request->email);
             $this->user_model->setAddress($request->address);
             $this->user_model->setPassword('12345678');

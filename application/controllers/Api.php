@@ -140,7 +140,7 @@ class Api extends REST_Controller
 
         $this->set_response([
             'status' => true,
-            'data' => $userCoin[0]
+            'data' => (!empty($userCoin)) ? $userCoin[0] : []
         ], REST_Controller::HTTP_OK);
     }
 

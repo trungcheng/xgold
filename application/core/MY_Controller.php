@@ -24,7 +24,7 @@ class MY_Controller extends CI_Controller
         $userToken = $this->usercoin_model->getCoinAddrUserToken($ci_seesion_key['user_id']);
         $global_data = [
             'message' => $setting[0]['notification'],
-            'tokenCount' => $userToken[0]['balance']
+            'tokenCount' => (!empty($userToken)) ? ($userToken[0]['balance']) : 0
         ];
         $this->load->vars($global_data);
     }
