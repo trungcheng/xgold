@@ -14,7 +14,7 @@ class MY_Controller extends CI_Controller
             // Prevent infinite loop by checking that this isn't the login controller
             redirect(base_url('auth/login'));
         }
-        if ($this->uri->segment(1) == 'setting' || $this->uri->segment(1) == 'user' || $this->uri->segment(1) == 'event' || $this->uri->segment(1) == 'statistical') {
+        if ($this->uri->segment(1) == 'setting' || $this->uri->segment(1) == 'user' || $this->uri->segment(1) == 'event' || $this->uri->segment(1) == 'statistical' || $this->uri->segment(1) == 'mail') {
             if (!$ci_seesion_key['is_admin']) {
                 redirect(base_url('dashboard/index'));
             }
