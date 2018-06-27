@@ -41,37 +41,34 @@ class Mail_model extends CI_Model {
     }
 
     // smtpMail
-    public function sendMail($setting) {
+    public function sendMail($setting, $temp) {
         $this->load->library('email');
 
         $config = [];
         $config['protocol']     = 'smtp';
         $config['smtp_host']    = 'smtp.mandrillapp.com';
         $config['smtp_port']    = '587';
-        $config['smtp_timeout'] = '30';
         $config['smtp_user']    = $setting[0]['mail_sender'];
         $config['smtp_pass']    = $setting[0]['pass_mail_sender'];
-        $config['smtp_crypto']  = 'tls';
         $config['charset']      = 'utf-8';
-        $config['newline']      = '\r\n';
         $config['mailtype']     = 'html';
 
         $this->email->initialize($config);
         $this->email->set_mailtype('html');
         $this->email->set_newline("\r\n");
         //Email content
-        $fullPath = $this->_templatePath . $this->_templateName;
-        $mailMessage = $this->load->view($fullPath, $this->_mailContent, TRUE);
+        // $fullPath = $this->_templatePath . $this->_templateName;
+        // $mailMessage = $this->load->view($fullPath, $this->_mailContent, TRUE);
         $this->email->to($this->_mailTo);
-        $this->email->from($this->_mailFrom);
+        $this->email->from('cio@bitgamecoins.com', 'Admin');
         $this->email->subject($this->_mailSubject);
-        $this->email->message($mailMessage);
+        $this->email->message($temp);
         //Send email
         if ($this->email->send()) {
             return true;
         }
+        // var_dump($this->email->print_debugger());die;
 
-        // echo $this->email->print_debugger();
         return false;
     }
 

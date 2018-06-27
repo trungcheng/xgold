@@ -12,8 +12,11 @@ class Auth extends CI_Controller {
         $this->load->model('usercoin_model');
         $this->load->model('affiliate_model');
         $this->load->model('mail_model');
+        $this->load->model('setting_model');
         $this->load->helper('setting_helper');
         $this->load->library('Curl');
+        $this->load->library('Mandrill');
+        $this->load->config('mandrill');
     }
 
     // private function _create_captcha()
@@ -183,19 +186,24 @@ class Auth extends CI_Controller {
                 $verificationLink = site_url() . 'auth/login?usid=' . urlencode(base64_encode($verificationCode));
 
                 $this->load->library('encrypt');
-                $mailData = array(
-                    'topMsg' => $data['email'],
-                    'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
-                    'thanksMsg' => 'Thanks for your cooperation!', 
-                    'verificationLink' => $verificationLink
-                );
+                // $mailData = array(
+                //     'topMsg' => $data['email'],
+                //     'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
+                //     'thanksMsg' => 'Thanks for your cooperation!', 
+                //     'verificationLink' => $verificationLink
+                // );
+                $setting = $this->setting_model->getAll();
+                $registerTemp = json_decode($setting[0]['register_temp']);
+                $temp = str_replace('xxx@gmail.com', $data['email'], $registerTemp->content);
+                $temp = str_replace('http://link', $verificationLink, $temp);
+
                 $this->mail_model->setMailTo($data['email']);
-                $this->mail_model->setMailFrom('Xgold');
-                $this->mail_model->setMailSubject('[Xgold] - Verify the registration');
-                $this->mail_model->setMailContent($mailData);
-                $this->mail_model->setTemplateName('register_temp');
-                $this->mail_model->setTemplatePath('mail/');
-                $chkStatus = $this->mail_model->sendMail(get_setting());
+                $this->mail_model->setMailFrom($registerTemp->from);
+                $this->mail_model->setMailSubject($registerTemp->subject);
+                // $this->mail_model->setMailContent($mailData);
+                // $this->mail_model->setTemplateName('register_temp');
+                // $this->mail_model->setTemplatePath('mail/');
+                $chkStatus = $this->mail_model->sendMail(get_setting(), $temp);
                 if ($chkStatus) {
                     $this->user_model->setUserID('XGOLD'.substr(md5($data['email'].time()), 0, 9));
                     $this->user_model->setEmail($data['email']);
@@ -266,20 +274,55 @@ class Auth extends CI_Controller {
             $status = $this->user_model->updateForgotPassword();
             if ($status) {
                 $this->load->library('encrypt');
-                $mailData = array(
-                    'topMsg' => $email,
-                    'bodyMsg' => 'We heard that you lost your Xgold password. Sorry about that !<br>But don’t worry! We are already reset a new password for you.', 
-                    'thanksMsg' => 'Thanks for your cooperation!', 
-                    'newPassword' => $pass,
-                    'loginLink' => $loginLink
-                );
+                // $mailData = array(
+                //     'topMsg' => $email,
+                //     'bodyMsg' => 'We heard that you lost your Xgold password. Sorry about that !<br>But don’t worry! We are already reset a new password for you.', 
+                //     'thanksMsg' => 'Thanks for your cooperation!', 
+                //     'newPassword' => $pass,
+                //     'loginLink' => $loginLink
+                // );
+
+                // $mandrill_ready = NULL;
+                // try {
+                //     $obj =& get_instance();
+                //     $this->mandrill->init($obj->config->item('mandrill_api_key'));
+                //     $mandrill_ready = TRUE;
+                // } catch (Mandrill_Exception $e) {
+                //     $mandrill_ready = FALSE;
+                // }
+                // if ($mandrill_ready) {
+                //     //Send us some email!
+                //     $email = array(
+                //         'html' => '<p>This is my message<p>', //Consider using a view file
+                //         'text' => 'This is my plaintext message',
+                //         'subject' => 'This is my subject',
+                //         'from_email' => 'cio@bitgamecoins.com',
+                //         'from_name' => 'Bitgamecoins',
+                //         'to' => array(array('email' => 'huydth65@gmail.com' ))
+                //     );
+
+                //     $result = $this->mandrill->messages_send($email);
+                //     if ($result) {
+                //         redirect('auth/forgotpwd?msg=2');
+                //     } else {
+                //         redirect('auth/forgotpwd?msg=1');
+                //     }
+                // }
+
+                $setting = $this->setting_model->getAll();
+                $resetTemp = json_decode($setting[0]['reset_password_temp']);
+                $temp = str_replace('xxx@gmail.com', $email, $resetTemp->content);
+                $temp = str_replace('ABCDEFGH', $pass, $temp);
+                $temp = str_replace('http://link', $loginLink, $temp);
+
                 $this->mail_model->setMailTo($email);
-                $this->mail_model->setMailFrom('Xgold');
-                $this->mail_model->setMailSubject('[Xgold] - Reset your password');
-                $this->mail_model->setMailContent($mailData);
-                $this->mail_model->setTemplateName('resetpwd_temp');
-                $this->mail_model->setTemplatePath('mail/');
-                $chkStatus = $this->mail_model->sendMail(get_setting());
+                $this->mail_model->setMailFrom($resetTemp->from);
+                $this->mail_model->setMailSubject($resetTemp->subject);
+                // var_dump($temp);die;
+                // $this->mail_model->setMailContent($mailData);
+                // $this->mail_model->setTemplateName('resetpwd_temp');
+                // $this->mail_model->setTemplatePath('mail/');
+                $chkStatus = $this->mail_model->sendMail(get_setting(), $temp);
                 if ($chkStatus) {
                     redirect('auth/forgotpwd?msg=2');
                 } else {

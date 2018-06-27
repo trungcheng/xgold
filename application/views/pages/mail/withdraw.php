@@ -32,27 +32,27 @@
 
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-			
-        	<form id="form_profile" action="<?= base_url('mail/updateWithdraw') ?>" method="post">
+            
+            <form id="form_profile" action="<?= base_url('mail/updateWithdraw') ?>" method="post">
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">From</label>
-                    <input type="text" class="form-control" name="from" value=""><div class="help-block"></div>
+                    <label class="control-label" for="member-address">From Name</label>
+                    <input placeholder="From name..." type="text" class="form-control" name="from" value="<?= $temp->from ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="member-address">Subject</label>
-                    <input type="text" class="form-control" name="subject" value=""><div class="help-block"></div>
+                    <input placeholder="Subject..." type="text" class="form-control" name="subject" value="<?= $temp->subject ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="member-address">Content</label>
-                    <textarea name="content"></textarea>
+                    <textarea placeholder="Content to send..." name="content"><?= $temp->content ?></textarea>
                 </div>
 
                 <div class="form-group pull-right">
-                	<button type="submit" class="btn btn-primary">Update</button>
-                	<button type="reset" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="reset" class="btn btn-default">Cancel</button>
                 </div>
 
             </form>

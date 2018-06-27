@@ -155,19 +155,25 @@ class Finance extends MY_Controller {
         $wLink = site_url().'finance/withdraw/confirm?wCode='.urlencode(base64_encode($wCode)).'&wid='.$this->userInfo['user_id'].'&currency='.$request->coinType.'&from='.$request->fromAddr.'&to='.$request->toAddr.'&amount='.$request->amount.'&note=withdraw';
 
         $this->load->library('encrypt');
-        $mailData = array(
-            'topMsg' => $this->userInfo['email'],
-            'bodyMsg' => 'We just have received your withdraw '.$request->coinType.' request. Please click to link in the below to confirm withdraw process.', 
-            'thanksMsg' => 'Thanks for your cooperation!', 
-            'wLink' => $wLink
-        );
+        // $mailData = array(
+        //     'topMsg' => $this->userInfo['email'],
+        //     'bodyMsg' => 'We just have received your withdraw '.$request->coinType.' request. Please click to link in the below to confirm withdraw process.', 
+        //     'thanksMsg' => 'Thanks for your cooperation!', 
+        //     'wLink' => $wLink
+        // );
+        $setting = $this->setting_model->getAll();
+        $withdrawTemp = json_decode($setting[0]['withdraw_confirm_temp']);
+        $temp = str_replace('xxx@gmail.com', $this->userInfo['email'], $withdrawTemp->content);
+        $temp = str_replace('xxx', $request->coinType, $temp);
+        $temp = str_replace('http://link', $wLink, $temp);
+
         $this->mail_model->setMailTo($this->userInfo['email']);
-        $this->mail_model->setMailFrom('Xgold');
-        $this->mail_model->setMailSubject('[Xgold] - Confirm the withdraw process');
-        $this->mail_model->setMailContent($mailData);
-        $this->mail_model->setTemplateName('withdraw_confirm_temp');
-        $this->mail_model->setTemplatePath('mail/');
-        $chkStatus = $this->mail_model->sendMail(get_setting());
+        $this->mail_model->setMailFrom($withdrawTemp->from);
+        $this->mail_model->setMailSubject($withdrawTemp->subject);
+        // $this->mail_model->setMailContent($mailData);
+        // $this->mail_model->setTemplateName('withdraw_confirm_temp');
+        // $this->mail_model->setTemplatePath('mail/');
+        $chkStatus = $this->mail_model->sendMail(get_setting(), $temp);
         if ($chkStatus) {
             $this->user_model->updateVerificationCode($wCode, $this->userInfo['user_id']);
             $json = [
