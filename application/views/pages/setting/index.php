@@ -61,12 +61,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">Email address sender</label>
+                    <label class="control-label" for="member-address">SMTP Username</label>
                     <input type="text" class="form-control" name="Setting[mail_sender]" value="<?= $setting[0]['mail_sender'] ?>"><div class="help-block"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="member-address">Password email address sender</label>
+                    <label class="control-label" for="member-address">SMTP Password</label>
                     <input id="passwordSender" style="position:relative;" type="password" class="form-control" name="Setting[pass_mail_sender]" value="<?= $setting[0]['pass_mail_sender'] ?>">
                     <i onclick="enablePass()" style="position:absolute;right:25px;margin-top:-25px;cursor:pointer" class="fa fa-eye"></i>
                     <div class="help-block"></div>

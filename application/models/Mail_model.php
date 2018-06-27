@@ -60,7 +60,7 @@ class Mail_model extends CI_Model {
         // $fullPath = $this->_templatePath . $this->_templateName;
         // $mailMessage = $this->load->view($fullPath, $this->_mailContent, TRUE);
         $this->email->to($this->_mailTo);
-        $this->email->from('cio@bitgamecoins.com', 'Admin');
+        $this->email->from($this->_mailFrom);
         $this->email->subject($this->_mailSubject);
         $this->email->message($temp);
         //Send email
