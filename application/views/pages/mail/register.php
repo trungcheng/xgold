@@ -32,6 +32,8 @@
 
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
+
+            <p style="color:red;margin-bottom:20px;">Note: Các giá trị "xxx@gmail.com!", "xxx", "http://link" và "ABCDEFGH" ko được thay đổi.</p>
 			
         	<form id="form_profile" action="<?= base_url('mail/updateRegister') ?>" method="post">
 
