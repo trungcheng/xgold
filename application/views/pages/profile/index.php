@@ -88,7 +88,7 @@
 
                             <div class="form-group field-member-phone" style="line-height:35px;">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Xgold ID</label></label>
+                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Bitgame ID</label></label>
                                     <div class="col-md-8">
                                         <input readonly type="text" id="member-phone" class="form-control" value="<?= $user_id ?>"><div class="help-block"></div>
                                     </div>
