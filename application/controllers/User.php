@@ -33,17 +33,17 @@ class User extends MY_Controller {
 	public function create()
 	{
 		try {
+			$postdata = file_get_contents("php://input");
+		    $request = json_decode($postdata);
 			if (!isset($request->email)) {
-	    		echo json_encode(['status' => false, 'message' => 'Please input the email address']);
+	    		echo json_encode(['status' => false, 'message' => 'Please input the email address', 'type' => 'error']);
 	    	} else {
-				$postdata = file_get_contents("php://input");
-		    	$request = json_decode($postdata);
 		    	$userId = 'BGC'.substr(md5($request->email.time()), 0, 9);
 		    	$this->user_model->setUserID($userId);
 	            $this->user_model->setEmail($request->email);
-	            $this->user_model->setAddress($request->address);
+	            $this->user_model->setAddress(isset($request->address) ? $request->address : '');
 	            $this->user_model->setPassword('12345678');
-	            $this->user_model->setMobile($request->mobile);
+	            $this->user_model->setMobile(isset($request->mobile) ? $request->mobile : '');
 	            $this->user_model->setActive(true);
 	            $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
 	            $this->user_model->setVerificationCode('1');
@@ -53,13 +53,13 @@ class User extends MY_Controller {
 		    		if ($request->selectedOption !== 'Admin') {
 		    			$this->createUserCoin($userId);
 		    		}
-					echo json_encode(['status' => true, 'message' => 'Add user success']);
+					echo json_encode(['status' => true, 'message' => 'Add user success', 'type' => 'success']);
 				} else {
-					echo json_encode(['status' => false, 'message' => 'This user already existed']);
+					echo json_encode(['status' => false, 'message' => 'This user already existed', 'type' => 'error']);
 				}
 			}
 		} catch (Exception $e) {
-			echo json_encode(['status' => false, 'message' => $e->getMessage()]);
+			echo json_encode(['status' => false, 'message' => $e->getMessage(), 'type' => 'error']);
 		}
 	}
 

@@ -40,19 +40,34 @@
             };
 
             $scope.add = function () {
-                $http({
-                    method: 'POST',
-                    url: '/user/create',
-                    headers: {'Content-Type': 'application/json'},
-                    data: JSON.stringify($scope.userModalAdd)
-                }).success(function (response) {
-                    if (response.status) {
-                        $scope.close();
-                        toastr.success(response.message, 'SUCCESS');
-                        $scope.loadInit();
-                    } else {
-                        toastr.error(response.message, 'ERROR');
-                    }
+                swal({
+                    title: "Bạn chắc chắn muốn thêm user này ?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-info",
+                    confirmButtonText: 'Thêm ngay',
+                    cancelButtonText: "Quay lại",
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function () {
+                    $http({
+                        method: 'POST',
+                        url: '/user/create',
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify($scope.userModalAdd)
+                    }).success(function (response) {
+                        swal({ title: '', text: response.message, type: response.type }, function (isConfirm) {
+                            if (isConfirm) {
+                                if (response.status) {
+                                    $scope.close();
+                                    toastr.success(response.message, 'SUCCESS');
+                                    $scope.loadInit();
+                                } else {
+                                    toastr.error(response.message, 'ERROR');
+                                }
+                            }
+                        })
+                    });
                 });
             }
         }
