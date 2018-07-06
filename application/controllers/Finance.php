@@ -53,6 +53,14 @@ class Finance extends MY_Controller {
 		$this->layout->view('finance/bch', $data);
 	}
 
+	public function bgmc()
+	{
+		$data = [];
+		$data['pageName'] = 'Bitgame Wallet';
+
+		$this->layout->view('finance/bgmc', $data);
+	}
+
 	public function submitDeposit()
 	{
 		$postdata = file_get_contents("php://input");

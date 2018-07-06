@@ -4,15 +4,15 @@
         <div class="col-xs-12">
             <div class="page-title-box" style="min-height:65px;">
                 <div class="pull-left">
-                    <h4 class="page-title">ETHEREUM WALLET</h4>                                    
+                    <h4 class="page-title">BITGAME WALLET</h4>                                    
                     <div class="clearfix"></div>
                 </div>
                 <div ng-cloak class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your ETH Balance: <span><b>{{ balance }}</b> ETH</span>
+                        <i class="mdi mdi-gift"></i> Your BGMC Balance: <span><b>{{ balance }}</b> BGMC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> TKC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -21,8 +21,8 @@
 
     <div class="row">
         <div class="col-xs-12"></div>
-        <input type="hidden" id="coinName" value="Ethereum">
-        <input type="hidden" id="typeCoin" value="eth">
+        <input type="hidden" id="coinName" value="Bitgame">
+        <input type="hidden" id="typeCoin" value="bgmc">
     </div>
 
     <!-- end row -->
@@ -53,19 +53,19 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="deposit" ng-if="type == 'deposit'">
                             <form id="depositForm" ng-submit="confirmDeposit()">
-                                <input type="hidden" id="coinType" value="eth">
-                                <p style="font-weight:bold;color:#f00;font-size:14px;">- Step 1: Copy ethereum address or scan QR code to send eth from other app to this address</p>
+                                <input type="hidden" id="coinType" value="bgmc">
+                                <p style="font-weight:bold;color:#f00;font-size:14px;">- Step 1: Copy bitgame address or scan QR code to send bgmc from other app to this address</p>
                                 
                                 <p class="text-center" style="font-size:14px;">Deposit Address</p>
                                 <div class="input-group col-md-8 col-md-offset-2">
                                     <span title="Copy address" ng-click="copyAddress()" style="background:#fff;cursor:pointer;" class="input-group-addon"><i class="glyphicon glyphicon-saved"></i></span>
-                                    <input readonly id="addr" type="text" class="form-control" name="toAddr" placeholder="Ethereum address" ng-model="addr">
+                                    <input readonly id="addr" type="text" class="form-control" name="toAddr" placeholder="Bitgame address" ng-model="addr">
                                 </div>
                                 <div style="display:block;text-align:center;margin-top:20px;margin-bottom:20px;">
                                     <qr type-number="5" size="250" text="addr"></qr>
                                 </div>
 
-                                <p style="margin-bottom:30px;font-weight:bold;color:#f00;font-size:14px;">- Step 2: After send eth success, please get transaction id paste to trans id box in the below and fill amount, finally press CONFIRM button to submit your request to our system. (NOTE: Please input transaction ID correctly to confirm you have already transfer success)</p>
+                                <p style="margin-bottom:30px;font-weight:bold;color:#f00;font-size:14px;">- Step 2: After send bgmc success, please get transaction id paste to trans id box in the below and fill amount, finally press CONFIRM button to submit your request to our system. (NOTE: Please input transaction ID correctly to confirm you have already transfer success)</p>
                             
                                 <div class="col-md-8 col-md-offset-2">
                                     <div class="form-group">
@@ -73,7 +73,7 @@
                                         <input type="text" id="fromAddr" class="form-control" name="fromAddr" placeholder="From address...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="pwd">ETH Amount</label>
+                                        <label for="pwd">BGMC Amount</label>
                                         <input type="number" id="amount" class="form-control" name="amount" placeholder="Amount currency number...">
                                     </div>
                                     <div class="form-group">
@@ -89,7 +89,7 @@
                         <div class="tab-pane" id="withdraw" ng-if="type == 'withdraw'">
                             <div class="col-md-8 col-md-offset-2">
                                 <form id="withdrawForm" ng-submit="withdraw()">
-                                    <input type="hidden" id="coinType" value="eth">
+                                    <input type="hidden" id="coinType" value="bch">
                                     <div class="form-group">
                                         <label for="email">From Address</label>
                                         <input readonly ng-model="addr" type="text" id="fromAddr" class="form-control" name="fromAddr" placeholder="From address...">
@@ -99,7 +99,7 @@
                                         <input type="text" id="toAddr" class="form-control" name="toAddr" placeholder="From address...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="pwd">ETH Amount</label>
+                                        <label for="pwd">BGMC Amount</label>
                                         <input type="number" id="amount" class="form-control" name="amount" placeholder="Amount currency number...">
                                     </div>
                                     <button style="float:right" type="submit" class="btn btn-default">CANCEL</button>

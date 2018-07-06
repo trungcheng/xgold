@@ -229,7 +229,7 @@ File: Menu
   color: #ffffff;
 }
 .nav-second-level > li > a {
-  /*padding-left: 58px;*/
+  padding-left: 17px;
 }
 .nav-second-level li.active > a {
   color: #ffffff;

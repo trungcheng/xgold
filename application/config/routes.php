@@ -63,6 +63,7 @@ $route['finance/wallet/bitcoin'] = 'finance/btc';
 $route['finance/wallet/ethereum'] = 'finance/eth';
 $route['finance/wallet/litecoin'] = 'finance/ltc';
 $route['finance/wallet/bitcoin-cash'] = 'finance/bch';
+$route['finance/wallet/bitgame'] = 'finance/bgmc';
 
 $route['finance/withdraw/confirm'] = 'api/confirm';
 

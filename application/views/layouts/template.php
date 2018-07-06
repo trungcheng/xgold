@@ -9,6 +9,8 @@
         
         <title><?= $pageName ?> | Bitgame</title>
 
+        <link href="<?php echo base_url(); ?>assets/images/64x64-mau.png" rel="shortcut icon" />
+
         <link href="<?php echo base_url(); ?>assets/v2/css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />

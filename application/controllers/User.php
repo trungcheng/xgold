@@ -38,7 +38,7 @@ class User extends MY_Controller {
 			if (!isset($request->email)) {
 	    		echo json_encode(['status' => false, 'message' => 'Please input the email address', 'type' => 'error']);
 	    	} else {
-		    	$userId = 'BGC'.substr(md5($request->email.time()), 0, 9);
+		    	$userId = 'BGMC'.substr(md5($request->email.time()), 0, 9);
 		    	$this->user_model->setUserID($userId);
 	            $this->user_model->setEmail($request->email);
 	            $this->user_model->setAddress(isset($request->address) ? $request->address : '');
@@ -50,9 +50,9 @@ class User extends MY_Controller {
 	            $this->user_model->setIsAdmin(($request->selectedOption == 'Admin') ? true : false);
 		    	$chk = $this->user_model->create();
 		    	if ($chk) {
-		    		if ($request->selectedOption !== 'Admin') {
-		    			$this->createUserCoin($userId);
-		    		}
+		    		// if ($request->selectedOption !== 'Admin') {
+		    		$this->createUserCoin($userId);
+		    		// }
 					echo json_encode(['status' => true, 'message' => 'Add user success', 'type' => 'success']);
 				} else {
 					echo json_encode(['status' => false, 'message' => 'This user already existed', 'type' => 'error']);

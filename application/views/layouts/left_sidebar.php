@@ -28,6 +28,7 @@
                         <li><a href="<?= base_url('finance/wallet/ethereum') ?>">Ethereum Wallet</a></li>
                         <li><a href="<?= base_url('finance/wallet/litecoin') ?>">Litecoin Wallet</a></li>
                         <li><a href="<?= base_url('finance/wallet/bitcoin-cash') ?>">Bitcoin Cash Wallet</a></li>
+                        <li><a href="<?= base_url('finance/wallet/bitgame') ?>">Bitgame Wallet</a></li>
                     </ul>
                 </li>
 

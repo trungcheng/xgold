@@ -22,12 +22,12 @@
                         <i class="dripicons-menu"></i>
                     </button>
                 </li>
-                <li class="dropdown hidden-xs mega-menu icon-nav-left">
+                <!-- <li class="dropdown hidden-xs mega-menu icon-nav-left">
                     <a href="tel:+84938690253" class="waves-effect waves-light"><i class="mdi mdi-phone-settings"></i> (+84) 938 690 253</a>
-                </li>
+                </li> -->
 
                 <li class="dropdown hidden-xs icon-nav-left">
-                    <a href="/cdn-cgi/l/email-protection#56353938223735221622333d2f353924267835393b" class="waves-effect waves-light"><i class="mdi mdi-email-outline"></i> <span class="__cf_email__" data-cfemail="bfdcd0d1cbdedccbffcbdad4c6dcd0cdcf91dcd0d2">admin@bitgamecoins.com</span></a>                                
+                    <a href="/cdn-cgi/l/email-protection#56353938223735221622333d2f353924267835393b" class="waves-effect waves-light"><i class="mdi mdi-email-outline"></i> <span class="__cf_email__" data-cfemail="bfdcd0d1cbdedccbffcbdad4c6dcd0cdcf91dcd0d2">info@bitgamecoins.com</span></a>                                
                 </li>
             </ul>
             <!-- Right(Notification) -->

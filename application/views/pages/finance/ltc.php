@@ -36,7 +36,7 @@
                     <ul class="nav nav-tabs">
                         <li class="nav-item active">
                             <a ng-click="loadDeposit()" href="#deposit" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                Deposit
+                                Address
                             </a>
                         </li>
                         <li class="nav-item">

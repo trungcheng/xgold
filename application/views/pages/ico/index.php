@@ -6,14 +6,14 @@
                 <div class="pull-left">
                     <h4 class="page-title">ICO</h4>                                    
                     <div class="clearfix"></div>
-                    <p class="m-t-10 m-b-0 hidden-xs">A few simple steps to invest in BGC ICO, minimum investment: $50 (~311 BGC)</p>
+                    <p class="m-t-10 m-b-0 hidden-xs">A few simple steps to invest in BGMC ICO, minimum investment: $50 (~311 BGMC)</p>
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your BGC Balance: <span><b><?= $tokenCount ?></b> BGC</span>
+                        <i class="mdi mdi-gift"></i> Your BGMC Balance: <span><b><?= $tokenCount ?></b> BGMC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -26,7 +26,7 @@
 
     <!-- end row -->
     <div class="row">
-        <div class="col-lg-8" ng-cloak>                              
+        <div class="col-lg-12" ng-cloak>                              
             <div class="card-box">
                 <div class="col-md-5">
                     <h4 class="header-title m-t-0 m-b-30">Choose payment currency:</h4>
@@ -52,13 +52,13 @@
                     </form> -->
                     <form id="pay_ment_form" action="" class="m-t-50">
                         <div class="form-group">
-                            <label>Bitgame address:</label>
+                            <label>Your Bitgame address:</label>
                             <input readonly type="text" ng-model="buy.fromAddress" class="form-control" placeholder="Your {{ buy.currency }} address to pay">
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <input id="example-input1-group1" ng-change="changeAmount()" type="number" ng-model="buy.amount" class="form-control" placeholder="BGC amount to buy">
-                                <span class="input-group-addon"><b>BGC</b></span>
+                                <input id="example-input1-group1" ng-change="changeAmount()" type="number" ng-model="buy.amount" class="form-control" placeholder="BGMC amount to buy">
+                                <span class="input-group-addon"><b>BGMC</b></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -71,16 +71,16 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="pull-left text-right">
-                                        <p>BGC amount to buy:</p>
+                                        <p>BGMC amount to buy:</p>
                                         <p>{{ buy.currency }} to pay:</p>
-                                        <p>Bonus BGC:</p>
+                                        <p>Bonus BGMC:</p>
                                         <p>Total:</p>
                                     </div>
                                     <div class="pull-right">
-                                        <p><b>{{ buy.amount | number }}</b> BGC</p>
+                                        <p><b>{{ buy.amount | number }}</b> BGMC</p>
                                         <p><b>{{ buy.value }}</b> {{ buy.currency }}</p>
-                                        <p><b>{{ buy.bonusTotal | number }}</b> BGC ({{ buy.bonus | number }}%)</p>
-                                        <p><b>{{ (buy.amount + ((buy.bonus * buy.amount) / 100)) | number }}</b> BGC</p>
+                                        <p><b>{{ buy.bonusTotal | number }}</b> BGMC ({{ buy.bonus | number }}%)</p>
+                                        <p><b>{{ (buy.amount + ((buy.bonus * buy.amount) / 100)) | number }}</b> BGMC</p>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -122,7 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4" ng-cloak>
+        <!-- <div class="col-lg-4" ng-cloak>
             <div class="card-box have_min">
                 <h4 class="header-title m-t-0 m-b-30">Review your receiving ETH wallet:</h4>
                 <form action="">
@@ -134,7 +134,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
 
         <div ng-if="loading">
             <i style="font-size:40px;position:fixed;left:50%;top:50%;z-index:99;" class="fa fa-spinner fa-spin"></i>
@@ -178,7 +178,7 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ transaction.from_addr }}</td>
                                     <td>{{ transaction.amount_currency_buy }} {{ transaction.buy_by.toUpperCase() }}</td>
-                                    <td>{{ transaction.total }} BGC</td>
+                                    <td>{{ transaction.total }} BGMC</td>
                                     <td>{{ transaction.bonus }}%</td>
                                     <td>{{ transaction.time }}</td>
                                     <td ng-if="transaction.status == 1">

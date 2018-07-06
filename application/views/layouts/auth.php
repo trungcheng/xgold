@@ -9,6 +9,8 @@
         
         <title><?= $pageName ?> | Bitgame</title>
 
+        <link href="<?php echo base_url(); ?>assets/images/64x64-mau.png" rel="shortcut icon" />
+
         <link href="<?php echo base_url(); ?>assets/v2/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Bootstrap SweetAlert Style -->

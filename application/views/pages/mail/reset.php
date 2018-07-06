@@ -16,10 +16,10 @@
                 <?php } ?>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your BGC Balance: <span><b><?= $tokenCount ?></b> BGC</span>
+                        <i class="mdi mdi-gift"></i> Your BGMC Balance: <span><b><?= $tokenCount ?></b> BGMC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
                     </p>-->
                 </div>
             </div>

@@ -16,10 +16,10 @@
                 <?php } ?>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your BGC Balance: <span><b><?= $tokenCount ?></b> BGC</span>
+                        <i class="mdi mdi-gift"></i> Your BGMC Balance: <span><b><?= $tokenCount ?></b> BGMC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -45,7 +45,7 @@
                     <hr>
                     <div class="text-left">
                         <p class="text-muted font-13">
-                            <strong>BGC</strong><span class="m-l-15 pull-right"><?= $tokenCount ?></span>
+                            <strong>BGMC</strong><span class="m-l-15 pull-right"><?= $tokenCount ?></span>
                         </p>
                         <p class="text-muted font-13">
                             <strong>Email</strong><span class="m-l-15 pull-right"><?= $email ?></span>
@@ -88,7 +88,7 @@
 
                             <div class="form-group field-member-phone" style="line-height:35px;">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Bitgame ID</label></label>
+                                    <label class="col-md-4 control-label"><label class="control-label" for="member-phone">ID</label></label>
                                     <div class="col-md-8">
                                         <input readonly type="text" id="member-phone" class="form-control" value="<?= $user_id ?>"><div class="help-block"></div>
                                     </div>
@@ -131,11 +131,11 @@
                                 </div>
                             </div>                      
                             
-                            <!-- <div class="form-group field-member-BGCaddress">
+                            <!-- <div class="form-group field-member-BGMCaddress">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><label class="control-label" for="member-BGCaddress">Your address to receive BGC</label></label>
+                                    <label class="col-md-4 control-label"><label class="control-label" for="member-BGMCaddress">Your address to receive BGMC</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-BGCaddress" class="form-control" name="Coin[xgoldAddr]" value="<?php ($coinAddr['coin_type'] == 'xgold') ? $coinAddr['coin_addr'] : '' ?>"><div class="help-block"></div>
+                                        <input type="text" id="member-BGMCaddress" class="form-control" name="Coin[xgoldAddr]" value="<?php ($coinAddr['coin_type'] == 'xgold') ? $coinAddr['coin_addr'] : '' ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
                             </div> -->

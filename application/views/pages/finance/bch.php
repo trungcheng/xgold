@@ -12,7 +12,7 @@
                         <i class="mdi mdi-gift"></i> Your BCH Balance: <span><b>{{ balance }}</b> BCH</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     <ul class="nav nav-tabs">
                         <li class="nav-item active">
                             <a ng-click="loadDeposit()" href="#deposit" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                Deposit
+                                Address
                             </a>
                         </li>
                         <li class="nav-item">
