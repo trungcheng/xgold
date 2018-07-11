@@ -52,16 +52,23 @@ class Mail_model extends CI_Model {
         $config['smtp_pass']    = $setting[0]['pass_mail_sender'];
         $config['charset']      = 'utf-8';
         $config['mailtype']     = 'html';
+        $config['wordwrap']     = true;
 
         $this->email->initialize($config);
-        $this->email->set_mailtype('html');
+        $this->email->set_mailtype("html");
         $this->email->set_newline("\r\n");
+        //$this->email->set_header('MIME-Version', '1.0; charset=utf-8');
+        //$this->email->set_header('Content-type', 'text/html');
         //Email content
         // $fullPath = $this->_templatePath . $this->_templateName;
         // $mailMessage = $this->load->view($fullPath, $this->_mailContent, TRUE);
         $this->email->to($this->_mailTo);
         $this->email->from($this->_mailFrom);
         $this->email->subject($this->_mailSubject);
+
+        $temp = html_entity_decode($temp);
+        $temp = preg_replace('/\s+/', ' ', $temp);
+
         $this->email->message($temp);
         //Send email
         if ($this->email->send()) {
