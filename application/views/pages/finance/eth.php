@@ -65,7 +65,7 @@
                                     <qr type-number="5" size="250" text="addr"></qr>
                                 </div>
 
-                                <p style="margin-bottom:30px;font-weight:bold;color:#f00;font-size:14px;">- Step 2: After send eth success, please get transaction id paste to trans id box in the below and fill amount, finally press CONFIRM button to submit your request to our system. (NOTE: Please input transaction ID correctly to confirm you have already transfer success)</p>
+                                <!-- <p style="margin-bottom:30px;font-weight:bold;color:#f00;font-size:14px;">- Step 2: After send eth success, please get transaction id paste to trans id box in the below and fill amount, finally press CONFIRM button to submit your request to our system. (NOTE: Please input transaction ID correctly to confirm you have already transfer success)</p>
                             
                                 <div class="col-md-8 col-md-offset-2">
                                     <div class="form-group">
@@ -82,7 +82,7 @@
                                     </div>
                                     <button style="float:right" type="submit" class="btn btn-default">CANCEL</button>
                                     <button style="float:right;margin-right:10px;" type="submit" class="btn btn-primary">CONFIRM</button>
-                                </div>
+                                </div> -->
                             </form>
 
                         </div>
