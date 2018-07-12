@@ -71,10 +71,11 @@ class Mail_model extends CI_Model {
 
         $this->email->message($temp);
         //Send email
-        if ($this->email->send()) {
-            return true;
-        }
-        // var_dump($this->email->print_debugger());die;
+        // if ($this->email->send()) {
+            // return true;
+        // }
+        $this->email->send();
+        var_dump($this->email->print_debugger());die;
 
         return false;
     }
