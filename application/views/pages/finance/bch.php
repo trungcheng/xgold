@@ -54,7 +54,7 @@
                         <div class="tab-pane active" id="deposit" ng-if="type == 'deposit'">
                             <form id="depositForm" ng-submit="confirmDeposit()">
                                 <input type="hidden" id="coinType" value="bch">
-                                <p style="font-weight:bold;color:#f00;font-size:14px;">- Step 1: Copy bitcoin cash address or scan QR code to send bch from other app to this address</p>
+                                <!-- <p style="font-weight:bold;color:#f00;font-size:14px;">- Step 1: Copy bitcoin cash address or scan QR code to send bch from other app to this address</p> -->
                                 
                                 <p class="text-center" style="font-size:14px;">Deposit Address</p>
                                 <div class="input-group col-md-8 col-md-offset-2">
