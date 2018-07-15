@@ -83,6 +83,7 @@ class Mandrill {
 
 		$response_code  = $response['header']['http_code'];
 		$body           = $response['body'];
+		var_dump($body);die;
 
 		switch ($output) {
 			

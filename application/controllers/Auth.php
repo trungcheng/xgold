@@ -15,8 +15,6 @@ class Auth extends CI_Controller {
         $this->load->model('setting_model');
         $this->load->helper('setting_helper');
         $this->load->library('Curl');
-        $this->load->library('Mandrill');
-        $this->load->config('mandrill');
     }
 
     // private function _create_captcha()
@@ -281,33 +279,6 @@ class Auth extends CI_Controller {
                 //     'newPassword' => $pass,
                 //     'loginLink' => $loginLink
                 // );
-
-                // $mandrill_ready = NULL;
-                // try {
-                //     $obj =& get_instance();
-                //     $this->mandrill->init($obj->config->item('mandrill_api_key'));
-                //     $mandrill_ready = TRUE;
-                // } catch (Mandrill_Exception $e) {
-                //     $mandrill_ready = FALSE;
-                // }
-                // if ($mandrill_ready) {
-                //     //Send us some email!
-                //     $email = array(
-                //         'html' => '<p>This is my message<p>', //Consider using a view file
-                //         'text' => 'This is my plaintext message',
-                //         'subject' => 'This is my subject',
-                //         'from_email' => 'cio@bitgamecoins.com',
-                //         'from_name' => 'Bitgamecoins',
-                //         'to' => array(array('email' => 'huydth65@gmail.com' ))
-                //     );
-
-                //     $result = $this->mandrill->messages_send($email);
-                //     if ($result) {
-                //         redirect('auth/forgotpwd?msg=2');
-                //     } else {
-                //         redirect('auth/forgotpwd?msg=1');
-                //     }
-                // }
 
                 $setting = $this->setting_model->getAll();
                 $resetTemp = json_decode($setting[0]['reset_password_temp']);

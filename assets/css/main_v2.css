@@ -55,6 +55,10 @@
     .reset-btn i {
         margin-left: -10px;
     }
+    .notification {
+        width: 200px !important;
+        float: left;
+    }
 }
 
 
