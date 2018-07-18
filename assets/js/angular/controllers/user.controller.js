@@ -41,7 +41,7 @@
 
             $scope.add = function () {
                 swal({
-                    title: "Bạn chắc chắn muốn thêm user này ?",
+                    title: "Are you sure you want to add this user ?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-info",
@@ -114,7 +114,7 @@
 
         $scope.deleteUser = function (user) {
             swal({
-                title: "Bạn chắc chắn muốn xóa user này ?",
+                title: "Are you sure to delete this user ?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",

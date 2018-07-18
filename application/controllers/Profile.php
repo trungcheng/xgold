@@ -84,4 +84,39 @@ class Profile extends MY_Controller {
 			$this->session->set_flashdata('error', $e->getMessage());
 		}
 	}
+
+	public function uploadAvatar()
+	{
+		$response = [
+			'image' => '',
+			'status' => false,
+			'message' => 'Upload failed'
+		];
+
+		if (!empty($_FILES['image'])) {
+            if ($_FILES['image']['name'] !== '') {
+                $config['upload_path'] = 'assets/images/uploads';
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $config['max_size'] = '2048';
+                $config['file_name'] = time().'-'.$_FILES['image']['name'];
+                
+                //Load upload library and initialize configuration
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+
+                if (!$this->upload->do_upload('image')) {
+                    $response['message'] =  $this->upload->display_errors();
+                } else {
+                    $uploadData = $this->upload->data();
+                    $imageUrl = base_url('/assets/images/uploads/'.$uploadData['file_name']);
+                    $this->user_model->update(['avatar' => $imageUrl], $this->userInfo['user_id']);
+                    $response['image'] = $imageUrl;
+                	$response['status'] = true;
+                	$response['message'] = 'Upload success';
+                }
+            }
+        }
+
+        echo json_encode($response);
+	}
 }

@@ -43,9 +43,11 @@
                 <div class="panel-body">
                     <div class="img-center text-center">
                         <p class="text-muted font-13">
-                            <img src="<?= $avatar ?>" alt="" class="thumb-lg img-circle">
+                            <img src="<?= $avatar ?>" alt="" class="thumb-lg img-circle" style="cursor:pointer;">
+                            <input type="file" id="avatar" class="hide" accept="image/*" />
                         </p>
-                        <h3 class="panel-title m-t-20">Personal Information</h3>
+                        <h3 class="panel-title m-t-20"><?= $user_id ?></h3>
+                        <span><?= ($is_admin) ? '(Admin)' : '(Member)' ?></span>
                     </div>
                     <hr>
                     <div class="text-left">
@@ -133,3 +135,40 @@
     </div>
 
 </div> <!-- container -->
+
+<script type="text/javascript">
+    $(function() {
+        $('.img-circle').click(function() {
+            $(this).next().trigger("click");      
+        });
+    });
+    $(document).on("change", "#avatar", function(evt) {
+        var file = evt.currentTarget.files;
+        if (file.length > 0) {
+            if (file[0].type.match(/image.*/)) {
+                var fd = new FormData();
+                fd.append("image", file[0]);
+                $.ajax({
+                    url: "<?php echo base_url('profile/uploadAvatar') ?>",
+                    method: "POST",
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    async: false,
+                    success: function(res) {
+                        var res = JSON.parse(res);
+                        if (res.status) {
+                            $('.img-circle').attr('src', res.image);
+                            toastr.success(res.message, 'SUCCESS');
+                        } else {
+                            toastr.error(res.message, 'ERROR');
+                        }
+                    }
+                });
+            } else {
+                toastr.error('File chưa đúng định dạng ảnh!', 'ERROR');
+            }
+        }
+    });
+</script>

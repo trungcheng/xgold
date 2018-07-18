@@ -1,0 +1,22 @@
+db.affiliates.insert([
+{
+        "user_id" : "XGOLD087639012",
+        "ref_id" : "XGOLD928739012",
+        "created_at" : "2018-06-13 00:00:00"
+},
+{
+        "user_id" : "XGOLD928739012",
+        "ref_id" : "XGOLD000039012",
+        "created_at" : "2018-06-14 00:00:00"
+},
+{
+        "user_id" : "XGOLD928739012",
+        "ref_id" : "XGOLD989939012",
+        "created_at" : "2018-06-14 00:00:00"
+},
+{
+        "user_id" : "XGOLD928739012",
+        "ref_id" : "XGOLD123439012",
+        "created_at" : "2018-06-14 00:00:00"
+}
+]);

@@ -43,7 +43,7 @@
                 ?>
                 <li class="dropdown user-box">
                     <a href="" class="dropdown-toggle waves-effect user-link" data-toggle="dropdown" aria-expanded="true">
-                        <span class="color-white m-r-10"></span> <img src="<?php echo base_url(); ?>assets/v2/images/users/no-avatar.jpg" alt="user-img" class="img-circle user-img">
+                        <span class="color-white m-r-10"></span> <img src="<?= $avatarUser ?>" alt="user-img" class="img-circle user-img">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
                         <li><a href="<?= base_url('dashboard') ?>">Dashboard</a></li>

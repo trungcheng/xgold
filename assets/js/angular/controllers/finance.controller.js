@@ -47,7 +47,7 @@
         $scope.confirmDeposit = function () {
 
             swal({
-                title: "Bạn chắc chắn đã hoàn tất và sẽ xác nhận ?",
+                title: "Are you sure you have completed ?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-primary",
@@ -80,11 +80,11 @@
         $scope.withdraw = function () {
 
             swal({
-                title: "Bạn chắc chắn đã hoàn tất và sẽ thực hiện rút ?",
+                title: "Are you sure you have completed ?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-primary",
-                confirmButtonText: 'Withdraw',
+                confirmButtonText: 'Withdraw now',
                 cancelButtonText: "Back",
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true

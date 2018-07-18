@@ -109,7 +109,7 @@
 
         $scope.deleteEvent = function (event) {
             swal({
-                title: "Bạn chắc chắn muốn xóa event này ?",
+                title: "Are you sure to delete this event ?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",

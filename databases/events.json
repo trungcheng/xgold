@@ -1,0 +1,42 @@
+db.events.insert([
+{
+        "event_id" : "3123123123123789fhiu234",
+        "name" : "Event 1",
+        "from_date" : "2018-06-13 00:00:00",
+        "to_date" : "2018-07-16 00:00:00",
+        "bonus" : "20",
+        "is_selected" : true
+},
+{
+        "event_id" : "3dfasho90123jofsdjkfsjdl",
+        "name" : "Event 2",
+        "from_date" : "2018-06-17 00:00:00",
+        "to_date" : "2018-07-17 00:00:00",
+        "bonus" : "20",
+        "is_selected" : true
+},
+{
+        "event_id" : "dfsvqwvfbdfh22342gaaaaaqer",
+        "name" : "Event 3",
+        "from_date" : "2018-06-18 00:00:00",
+        "to_date" : "2018-06-20 00:00:00",
+        "bonus" : "20",
+        "is_selected" : false
+},
+{
+        "event_id" : "127897fsdfjkh2jk38fsd",
+        "name" : "Event 4",
+        "from_date" : "2018-06-19 00:00:00",
+        "to_date" : "2018-07-19 00:00:00",
+        "bonus" : "20",
+        "is_selected" : false
+},
+{
+        "event_id" : "787953asd123fsd3231232",
+        "name" : "Event 5",
+        "from_date" : "2018-06-20 00:00:00",
+        "to_date" : "2018-07-20 00:00:00",
+        "bonus" : "20",
+        "is_selected" : false
+}
+]);

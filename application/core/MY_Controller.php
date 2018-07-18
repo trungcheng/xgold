@@ -8,6 +8,7 @@ class MY_Controller extends CI_Controller
         parent::__construct();
         $this->load->model('setting_model');
         $this->load->model('usercoin_model');
+        $this->load->model('user_model');
         $ci_session_key_generate = $this->session->userdata('ci_session_key_generate');
         $ci_seesion_key = $this->session->userdata('ci_seesion_key');
         if (!$ci_session_key_generate || !isset($ci_seesion_key['user_id'])) {
@@ -22,9 +23,11 @@ class MY_Controller extends CI_Controller
 
         $setting = $this->setting_model->getAll();
         $userToken = $this->usercoin_model->getCoinAddrUserToken($ci_seesion_key['user_id']);
+        $user = $this->user_model->getUserDetailByUserId($ci_seesion_key['user_id']);
         $global_data = [
             'message' => $setting[0]['notification'],
-            'tokenCount' => (!empty($userToken)) ? ($userToken[0]['balance']) : 0
+            'tokenCount' => (!empty($userToken)) ? ($userToken[0]['balance']) : 0,
+            'avatarUser' => $user[0]['avatar']
         ];
         $this->load->vars($global_data);
     }
