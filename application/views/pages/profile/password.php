@@ -8,17 +8,17 @@
 	                <div class="clearfix"></div>
 	            </div>
                 <?php if (validation_errors()) { ?>
-                    <div style="width:35%;position:absolute;left:25%;text-align:center" class="alert alert-danger alert-result">
+                    <div style="width:35%;position:absolute;left:25%;text-align:center;z-index:99999" class="alert alert-danger alert-result">
                         <?php echo validation_errors(); ?>
                     </div>
                 <?php } ?>
                 <?php if ($this->session->flashdata('error')) { ?>
-                    <div style="width:35%;position:absolute;left:25%;text-align:center" class="alert alert-danger alert-result">
+                    <div style="width:35%;position:absolute;left:25%;text-align:center;z-index:99999" class="alert alert-danger alert-result">
                         <?= $this->session->flashdata('error') ?>
                     </div>
                 <?php } ?>
                 <?php if ($this->session->flashdata('success')) { ?>
-                    <div style="width:35%;position:absolute;left:25%;text-align:center" class="alert alert-success alert-result"><?= $this->session->flashdata('success') ?></div>
+                    <div style="width:35%;position:absolute;left:25%;text-align:center;z-index:99999" class="alert alert-success alert-result"><?= $this->session->flashdata('success') ?></div>
                 <?php } ?>
 	            <div class="pull-right price_box">
 	                <p>

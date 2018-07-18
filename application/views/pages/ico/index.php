@@ -2,15 +2,15 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="page-title-box">
+            <div class="page-title-box" style="min-height:65px;">
                 <div class="pull-left">
                     <h4 class="page-title">ICO</h4>                                    
                     <div class="clearfix"></div>
-                    <p class="m-t-10 m-b-0 hidden-xs">A few simple steps to invest in BGMC ICO, minimum investment: $50 (~311 BGMC)</p>
+                    <!-- <p class="m-t-10 m-b-0 hidden-xs">A few simple steps to invest in BGMC ICO, minimum investment: $50 (~311 BGMC)</p> -->
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your BGMC Balance: <span><b><?= $tokenCount ?></b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Your BGMC Balance: <span><b id="tokenNum"><?= $tokenCount ?></b> BGMC</span>
                     </p>
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
@@ -52,7 +52,7 @@
                     </form> -->
                     <form id="pay_ment_form" action="" class="m-t-50">
                         <div class="form-group">
-                            <label>Your Bitgame address:</label>
+                            <label>Your {{ buy.coinName }} address:</label>
                             <input readonly type="text" ng-model="buy.fromAddress" class="form-control" placeholder="Your {{ buy.currency }} address to pay">
                         </div>
                         <div class="form-group">

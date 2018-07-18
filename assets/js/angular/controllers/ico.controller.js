@@ -33,6 +33,7 @@
                 angular.forEach($scope.coins, function (v, k) {
                 	if (v.coin_type == 'btc') {
                 		$scope.buy.fromAddress = v.coin_addr;
+                        $scope.buy.coinName = v.coin_name;
                 	}
                 });
                 $scope.loading = false;
@@ -40,7 +41,8 @@
         }
 
         $scope.changeCurrency = function (coin) {
-        	$scope.buy.fromAddress = coin.coin_addr;
+            $scope.buy.fromAddress = coin.coin_addr;
+        	$scope.buy.coinName = coin.coin_name;
         	$scope.buy.currency = coin.coin_type.toUpperCase();
         	$scope.changeAmount();
         }
@@ -61,6 +63,7 @@
                 $timeout(function() {
 	    			$scope.buyLoading = false;
                     if (response.status) {
+                        $('#tokenNum').text(response.data);
                         $scope.loadInit();
                         toastr.success(response.message, 'SUCCESS');
                     } else {

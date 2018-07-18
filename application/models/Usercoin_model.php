@@ -86,7 +86,8 @@ class Usercoin_model extends CI_Model
         return $this->mongo_db->insert('user_coin', $data);
     }
 
-    public function update($userId, $type, $addr) {
+    public function update($userId, $type, $addr)
+    {
         $this->mongo_db->set(['coin_addr' => $addr])
             ->where('user_id', $userId)
             ->where('coin_type', $type)
@@ -94,12 +95,18 @@ class Usercoin_model extends CI_Model
         return true;
     }
 
-    public function updateBalance($userId, $type, $balance) {
+    public function updateBalance($userId, $type, $balance) 
+    {
         $this->mongo_db->set(['balance' => $balance])
             ->where('user_id', $userId)
             ->where('coin_type', $type)
             ->update('user_coin');
         return true;
+    }
+
+    public function delete($userId) 
+    {
+        return $this->mongo_db->where('user_id', $userId)->deleteAll('user_coin');
     }
 
 }

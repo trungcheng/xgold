@@ -102,7 +102,7 @@
                                         <label for="pwd">LTC Amount</label>
                                         <input type="number" id="amount" class="form-control" name="amount" placeholder="Amount currency number...">
                                     </div>
-                                    <button style="float:right" type="submit" class="btn btn-default">CANCEL</button>
+                                    <button style="float:right" type="button" class="btn btn-default">CANCEL</button>
                                     <button style="float:right;margin-right:10px;" type="submit" class="btn btn-primary">WITHDRAW</button>
                                 </form>
                             </div>

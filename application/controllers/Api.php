@@ -217,4 +217,52 @@ class Api extends REST_Controller
         }
     }
 
+    public function updateCoinAddr_get() 
+    {
+        try {
+            $userId = $this->input->get('uid');
+            $token = $this->curl->getToken();
+            $cbs = $this->curl->createAddress($token);
+            $this->usercoin_model->delete($userId);
+            foreach ($cbs as $cb) {
+                $coinName = '';
+                switch ($cb->currency) {
+                    case 'btc':
+                        $coinName = 'Bitcoin';
+                        break;
+                    case 'eth':
+                        $coinName = 'Ethereum';
+                        break;
+                    case 'ltc':
+                        $coinName = 'Litecoin';
+                        break;
+                    case 'token':
+                        $coinName = 'Bitgame';
+                        break;
+                    default:
+                        $coinName = 'Bitcoin Cash';
+                        break;
+                }
+                $data = [
+                    'user_id' => $userId,
+                    'coin_addr' => $cb->address,
+                    'coin_type' => $cb->currency,
+                    'coin_name' => $coinName,
+                    'balance' => 10.0
+                ];
+                $this->usercoin_model->create($data);
+            }
+
+            $this->set_response([
+                'status' => true,
+                'message' => 'Update success'
+            ], REST_Controller::HTTP_OK);
+        } catch (Exception $e) {
+            $this->set_response([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], REST_Controller::HTTP_OK);
+        }
+    }
+
 }

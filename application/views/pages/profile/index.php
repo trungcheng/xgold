@@ -118,7 +118,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"><label class="control-label" for="member-phone">Phone</label></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="member-phone" class="form-control" name="Profile[phone]" value="<?= $mobile ?>"><div class="help-block"></div>
+                                        <input type="text" id="member-phone" class="form-control" name="Profile[mobile]" value="<?= $mobile ?>"><div class="help-block"></div>
                                     </div>
                                 </div>
                             </div>
