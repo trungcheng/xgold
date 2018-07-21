@@ -101,6 +101,7 @@
 
         <script type="text/javascript">
             $(function () {
+                $('.alert').delay(5000).fadeOut();
                 var baseUrl = window.location.origin + window.location.pathname;
                 $('.login_right_in ul li').removeClass('active');
                 if (baseUrl.indexOf('login') !== -1) {
@@ -120,6 +121,20 @@
                     $('#captImg').append('<i style="font-size:18px;margin-left:10px;cursor:pointer;" class="fa fa-refresh refreshCaptcha"></i>');
                 });
             });
+            function getParameterByName(param) {
+                var vars = {};
+                window.location.href.replace( location.hash, '' ).replace( 
+                    /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+                    function( m, key, value ) { // callback
+                        vars[key] = value !== undefined ? value : '';
+                    }
+                );
+
+                if ( param ) {
+                    return vars[param] ? vars[param] : null;    
+                }
+                return vars;
+            }
         </script>
         
     </body>

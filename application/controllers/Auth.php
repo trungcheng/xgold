@@ -68,9 +68,8 @@ class Auth extends CI_Controller {
 
     public function login()
     {
-        // var_dump($this->user_model->hash('12345678'));die;
         if (!empty($this->input->get('usid'))) {
-            $verificationCode = urldecode(base64_decode($this->input->get('usid')));
+            $verificationCode = utf8_decode(base64_decode($this->input->get('usid')));
             $this->user_model->setVerificationCode($verificationCode);
             $result = $this->user_model->activate();
             if ($result['status']) {
@@ -109,6 +108,13 @@ class Auth extends CI_Controller {
         $data = [];
         $data['pageName'] = 'Forgot password';
         $this->layout->auth('forgot_password', $data);
+    }
+
+    public function resetpwd()
+    {
+        $data = [];
+        $data['pageName'] = 'Reset password';
+        $this->layout->auth('reset_password', $data);
     }
 
     // action login method
@@ -181,7 +187,7 @@ class Auth extends CI_Controller {
             if ($response['success']) {
                 $data = $this->input->post();
                 $verificationCode = uniqid();
-                $verificationLink = site_url() . 'auth/login?usid=' . urlencode(base64_encode($verificationCode));
+                $verificationLink = site_url() . 'auth/login?usid=' . utf8_encode(base64_encode($verificationCode));
 
                 $this->load->library('encrypt');
                 // $mailData = array(
@@ -240,36 +246,57 @@ class Auth extends CI_Controller {
         }
     }
  
-    // public function actionChangePwd() {
-    //     $this->form_validation->set_rules('change_pwd_password', 'Password', 'trim|required|min_length[8]');
-    //     $this->form_validation->set_rules('change_pwd_confirm_password', 'Password Confirmation', 'trim|required|matches[change_pwd_password]');
-    //     if ($this->form_validation->run() == FALSE) {
-    //         $this->changepwd();
-    //     } else {
-    //         $change_pwd_password = $this->input->post('change_pwd_password');
-    //         $sessionArray = $this->session->userdata('ci_seesion_key');
-    //         $this->user_model->setUserID($sessionArray['user_id']);
-    //         $this->user_model->setPassword($change_pwd_password);
-    //         $status = $this->user_model->changePassword();
-    //         if ($status == TRUE) {
-    //             redirect('profile');
-    //         }
-    //     }
-    // }
+    public function actionChangePwd() {
+        $data = $this->input->post();
+        if ($data['email'] && $data['usid']) {
+            $this->session->set_userdata('reset_session', [
+                'email' => $data['email'],
+                'usid' => $data['usid']
+            ]);
+        }
+        $this->form_validation->set_rules('newpassword', 'New Password', 'trim|required|min_length[8]');
+        $this->form_validation->set_rules('cfnewpassword', 'New Password Confirmation', 'trim|required|matches[newpassword]');
+        if ($this->form_validation->run() == FALSE) {
+            $this->resetpwd();
+        } else {
+            $ss = $this->session->userdata('reset_session');
+            if ($ss['email'] && $ss['usid']) {
+                $verificationCode = utf8_decode(base64_decode($ss['usid']));
+                $this->user_model->setVerificationCode($verificationCode);
+                $user = $this->user_model->getUserDetailByEmailAndUsid($ss['email']);
+                if ($user) {
+                    $data = [
+                        'verification_code' => "1",
+                        'password' => $this->user_model->hash($data['newpassword'])
+                    ];
+                    $this->user_model->update($data, $user[0]['user_id']);
+                    
+                    redirect('auth/resetpwd?msg=2');
+                } else {
+                    redirect('auth/resetpwd?msg=1');
+                }
+            } else {
+                redirect('auth/resetpwd?msg=1');
+            }
+        }
+    }
  
     //action forgot password method
     public function actionForgotPassword() {
         $this->form_validation->set_rules('forgot_email', 'Your Email', 'trim|required|valid_email');
         if ($this->form_validation->run() == FALSE) {
             //Field validation failed.  User redirected to Forgot Password page
-            $this->forgotpassword();
+            $this->forgotpwd();
         } else {
-            $loginLink = site_url() . 'auth/login';
             $email = $this->input->post('forgot_email');
-            $this->user_model->setEmail($email);
-            $pass = $this->generateRandomPassword(8);
-            $this->user_model->setPassword($pass);
-            $status = $this->user_model->updateForgotPassword();
+            $resetCode = uniqid();
+            $hash = utf8_encode(base64_encode($resetCode));
+            $resetLink = site_url() . 'auth/resetpwd?m='.$email.'&usid='.$hash;
+            // $this->user_model->setEmail($email);
+            // $pass = $this->generateRandomPassword(8);
+            // $this->user_model->setPassword($pass);
+            // $status = $this->user_model->updateForgotPassword();
+            $status = $this->user_model->getUserDetailByEmail($email);
             if ($status) {
                 $this->load->library('encrypt');
                 // $mailData = array(
@@ -283,8 +310,8 @@ class Auth extends CI_Controller {
                 $setting = $this->setting_model->getAll();
                 $resetTemp = json_decode($setting[0]['reset_password_temp']);
                 $temp = str_replace('xxx@gmail.com', $email, $resetTemp->content);
-                $temp = str_replace('ABCDEFGH', $pass, $temp);
-                $temp = str_replace('http://link', $loginLink, $temp);
+                // $temp = str_replace('ABCDEFGH', $pass, $temp);
+                $temp = str_replace('http://link', $resetLink, $temp);
 
                 $this->mail_model->setMailTo($email);
                 $this->mail_model->setMailFrom($resetTemp->from);
@@ -295,6 +322,7 @@ class Auth extends CI_Controller {
                 // $this->mail_model->setTemplatePath('mail/');
                 $chkStatus = $this->mail_model->sendMail(get_setting(), $temp);
                 if ($chkStatus) {
+                    $this->user_model->updateVerificationCode($resetCode, $status[0]['user_id']);
                     redirect('auth/forgotpwd?msg=2');
                 } else {
                     redirect('auth/forgotpwd?msg=1');

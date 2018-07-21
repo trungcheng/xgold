@@ -142,6 +142,13 @@ class User_model extends CI_Model
         $query = $this->mongo_db->where('email', $email)->select(['user_id', 'email', 'address', 'mobile', 'avatar', 'is_admin'])->get('users');
         return $query;
     }
+
+    public function getUserDetailByEmailAndUsid($email) {
+        $query = $this->mongo_db->where('email', $email)
+            ->where('verification_code', $this->_verificationCode)
+            ->get('users');
+        return $query;
+    }
  
     // update Forgot Password
     public function updateForgotPassword() {
@@ -172,7 +179,7 @@ class User_model extends CI_Model
         if (!empty($query)) {
             $data = array(
                 'active' => true,
-                'verification_code' => 1
+                'verification_code' => "1"
             );
             $this->update($data, $query[0]['user_id']);
             return ['status' => true, 'userId' => $query[0]['user_id']];
@@ -187,7 +194,7 @@ class User_model extends CI_Model
             ->get('users');
         if (!empty($query)) {
             $data = array(
-                'verification_code' => 1
+                'verification_code' => "1"
             );
             $this->update($data, $query[0]['user_id']);
             return ['status' => true];

@@ -1,6 +1,5 @@
 db.setting.insert([
 {
-        "_id" : ObjectId("5b331425f95b4ed198da4bb9"),
         "aff_bonus" : "20",
         "btc_rate" : "10",
         "eth_rate" : "10",
