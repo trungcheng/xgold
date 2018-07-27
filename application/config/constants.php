@@ -2,8 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 define('API_URL', 'https://gw.egate.global');
-define('API_KEY', 'key-gxssyyxomdzvtnbkrbo3l');
-define('API_SECRET', 'pnEKsVMLWYca5g3kj-V42OBBRTCDRflKeNXTKUE7');
+define('API_KEY', 'key-oy5dfhkaqg9qigurbqaf3');
+define('API_SECRET', 'luhstwOUG7492Dw1y-2WNshBbr7gb9WoXMRSUvzx');
 
 /*
 |--------------------------------------------------------------------------

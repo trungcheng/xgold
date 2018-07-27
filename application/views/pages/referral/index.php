@@ -1,11 +1,11 @@
 <div class="container" ng-controller="RefController" ng-init="loadInit()">
     <div class="row">
         <div class="col-xs-12">
-            <div class="page-title-box">
+            <div class="page-title-box" style="min-height:65px;">
                 <div class="pull-left">
                     <h4 class="page-title">REFERRAL</h4>                                    
                     <div class="clearfix"></div>
-                    <p class="m-t-10 m-b-0 hidden-xs">Your reward amounts to 5.0% of all BGMC tokens purchased by your referrals.</p>
+                    <!-- <p class="m-t-10 m-b-0 hidden-xs">Your reward amounts to 5.0% of all BGMC tokens purchased by your referrals.</p> -->
                 </div>
                 <div class="pull-right price_box">
                     <p>

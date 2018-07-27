@@ -80,6 +80,13 @@ class Transaction_model extends CI_Model
             ->get('transactions');
     }
 
+    public function getPendingTransactionByTranId($tranId)
+    {
+        return $this->mongo_db->where('trans_id', $tranId)
+            ->where('status', 1)
+            ->get('transactions');
+    }
+
     public function countToken($dates)
     {
         $fromDate = new DateTime($dates[0]);

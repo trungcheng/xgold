@@ -74,6 +74,13 @@ class Usercoin_model extends CI_Model
             ->get('user_coin');
     }
 
+    public function getCoinAddrByAddressAndType($address, $type)
+    {
+        return $this->mongo_db->where('coin_addr', $address)
+            ->where('coin_type', $type)
+            ->get('user_coin');
+    }
+
     public function getCoinAddrByUserAndType($userId, $type)
     {
         return $this->mongo_db->where('user_id', $userId)

@@ -1,7 +1,7 @@
 <?php
 class Curl {
     
-    const USER_AGENT = 'Xgold';
+    const USER_AGENT = 'Bitgame';
 
     function __construct() {
         if (!extension_loaded('curl')) {
@@ -79,29 +79,6 @@ class Curl {
         return $response;
     }
 
-    function getV2($url, $data=array()) {
-        $this->setopt(CURLOPT_URL, $url . '?' . http_build_query($data));
-        $this->setopt(CURLOPT_HTTPGET, TRUE);
-        
-        return json_decode(curl_exec($this->curl));
-    }
-
-    function post($url, $data=array()) {       
-        $this->setopt(CURLOPT_URL, $url);
-        $this->setopt(CURLOPT_POST, TRUE);
-        $this->setopt(CURLOPT_POSTFIELDS, $this->_postfields($data));
-        $this->_exec();
-    }
-
-    function postUrl($url, $data=array()) {
-        $this->setopt(CURLOPT_URL, $url);
-        $this->setopt(CURLOPT_VERBOSE, true);
-        $this->setopt(CURLOPT_POST, true);
-        $this->setopt(CURLOPT_FOLLOWLOCATION, true);
-        $this->setopt(CURLOPT_POSTFIELDS, $data);
-        $this->_exec();
-    }
-
     function getToken() { 
         $headers = ['api-key: '.API_KEY, 'secret: '.API_SECRET, 'Content-Type: application/x-www-form-urlencoded']; 
         $ch = curl_init();
@@ -134,6 +111,29 @@ class Curl {
         $response = curl_exec($ch);
         
         return json_decode($response);
+    }
+
+    function getV2($url, $data=array()) {
+        $this->setopt(CURLOPT_URL, $url . '?' . http_build_query($data));
+        $this->setopt(CURLOPT_HTTPGET, TRUE);
+        
+        return json_decode(curl_exec($this->curl));
+    }
+
+    function post($url, $data=array()) {       
+        $this->setopt(CURLOPT_URL, $url);
+        $this->setopt(CURLOPT_POST, TRUE);
+        $this->setopt(CURLOPT_POSTFIELDS, $this->_postfields($data));
+        $this->_exec();
+    }
+
+    function postUrl($url, $data=array()) {
+        $this->setopt(CURLOPT_URL, $url);
+        $this->setopt(CURLOPT_VERBOSE, true);
+        $this->setopt(CURLOPT_POST, true);
+        $this->setopt(CURLOPT_FOLLOWLOCATION, true);
+        $this->setopt(CURLOPT_POSTFIELDS, $data);
+        $this->_exec();
     }
 
     function postV2($url, $data=array()){
