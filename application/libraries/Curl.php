@@ -96,7 +96,7 @@ class Curl {
         return json_decode($response)->access_token;
     }
 
-    function send($token, $data) { 
+    function sendV1($token, $data) { 
         $headers = ['access-token: '.$token];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -108,6 +108,23 @@ class Curl {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($ch);
+        
+        return json_decode($response);
+    }
+
+    function sendV2($data) { 
+        // $headers = ['access-token: '.$token];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
+        curl_setopt($ch, CURLOPT_URL, TOKEN_URL.'/token/send');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($ch);
         
         return json_decode($response);

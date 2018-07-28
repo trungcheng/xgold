@@ -206,70 +206,70 @@ class Finance extends MY_Controller {
     {
         echo "Cronjob started...";
 
-        // $transactions = $this->transaction_model->getPendingTransactions();
-        // if (!empty($transactions)) {
-        //     foreach ($transactions as $tran) {
-        //         if ($tran['trans_id'] !== '') {
-        //             $token = $this->curl->getToken();
-        //             $check = $this->curl->checkTransaction($tran['trans_id'], $token);
-        //             if ($check && $check->code == 200) {
-        //                 $data = [
-        //                     'status' => $check->status,
-        //                     'from_addr' => $check->from,
-        //                     'to_addr' => $check->to,
-        //                     'trans_fee' => $check->fee
-        //                 ];
-        //                 $this->transaction_model->update($tran['trans_id'], $data);
-        //                 if ($check->status == 'success') {
-        //                     if ($tran['trans_type'] == 2 && $check->type == 2) {
-        //                         // deposit
-        //                         $userCoin = $this->usercoin_model->getCoinAddrUser($tran['user_id']);
-        //                         foreach ($userCoin as $item) {
-        //                             if ($item['coin_type'] === $tran['coin_type'] && $item['coin_type'] === $check->symbol) {
+        $transactions = $this->transaction_model->getPendingTokenTransactions();
+        if (!empty($transactions)) {
+            foreach ($transactions as $tran) {
+                if ($tran['trans_id'] !== '') {
+                    $token = $this->curl->getToken();
+                    $check = $this->curl->checkTransaction($tran['trans_id'], $token);
+                    if ($check && $check->code == 200) {
+                        $data = [
+                            'status' => $check->status,
+                            'from_addr' => $check->from,
+                            'to_addr' => $check->to,
+                            'trans_fee' => $check->fee
+                        ];
+                        $this->transaction_model->update($tran['trans_id'], $data);
+                        if ($check->status == 'success') {
+                            if ($tran['trans_type'] == 2 && $check->type == 2) {
+                                // deposit
+                                // $userCoin = $this->usercoin_model->getCoinAddrUser($tran['user_id']);
+                                // foreach ($userCoin as $item) {
+                                //     if ($item['coin_type'] === $tran['coin_type'] && $item['coin_type'] === $check->symbol) {
 
-        //                                 if ($tran['bonus'] == 0) {
-        //                                     $balance = $item['balance'] + $check->amount;
-        //                                 } else {
-        //                                     $balance = $item['balance'] + $check->amount + ($check->amount * $tran['bonus'] / 100);
-        //                                 }
-        //                                 // +coin
-        //                                 $this->usercoin_model->updateBalance($tran['user_id'], $item['coin_type'], $balance);
-        //                                 // +affiliate bonus
-        //                                 $affs = $this->affiliate_model->getAll($tran['user_id']);
-        //                                 if (!empty($affs)) {
-        //                                     foreach ($affs as $aff) {
-        //                                         $bonus = $this->setting_model->getAll();
-        //                                         $userCoin = $this->usercoin_model->getCoinAddrUserToken($aff['ref_id']);
-        //                                         $balanceUpdate = $userCoin[0]['balance'] + (($check->amount) * ($bonus[0]['aff_bonus']) / 100);
-        //                                         $this->usercoin_model->updateBalance($aff['ref_id'], $item['coin_type'], $balanceUpdate);
-        //                                     }
-        //                                 }
+                                //         if ($tran['bonus'] == 0) {
+                                //             $balance = $item['balance'] + $check->amount;
+                                //         } else {
+                                //             $balance = $item['balance'] + $check->amount + ($check->amount * $tran['bonus'] / 100);
+                                //         }
+                                //         // +coin
+                                //         $this->usercoin_model->updateBalance($tran['user_id'], $item['coin_type'], $balance);
+                                //         // +affiliate bonus
+                                //         $affs = $this->affiliate_model->getAll($tran['user_id']);
+                                //         if (!empty($affs)) {
+                                //             foreach ($affs as $aff) {
+                                //                 $bonus = $this->setting_model->getAll();
+                                //                 $userCoin = $this->usercoin_model->getCoinAddrUserToken($aff['ref_id']);
+                                //                 $balanceUpdate = $userCoin[0]['balance'] + (($check->amount) * ($bonus[0]['aff_bonus']) / 100);
+                                //                 $this->usercoin_model->updateBalance($aff['ref_id'], $item['coin_type'], $balanceUpdate);
+                                //             }
+                                //         }
 
-        //                             }
-        //                         }
-        //                     }
-        //                     if ($tran['trans_type'] == 3 && $check->type == 4) {
-        //                         // withdraw
-        //                         $setting = $this->setting->getWithdrawFee();
-        //                         if (intval($setting[0]['withdraw_fee']) !== 0) {
-        //                         	$withDrawFee = $check->amount * ($setting[0]['withdraw_fee']);
-        //                     	} else {
-        //                     		$withDrawFee = 0;
-        //                     	}
-        //                         $userCoin = $this->usercoin_model->getCoinAddrUser($tran['user_id']);
-        //                         foreach ($userCoin as $item) {
-        //                             if ($item['coin_type'] === $tran['coin_type'] && $item['coin_type'] === $check->symbol) {
-        //                                 $balance = ($item['balance']) - ($check->amount) - $withDrawFee;
-        //                                 // +coin
-        //                                 $this->usercoin_model->updateBalance($tran['user_id'], $item['coin_type'], $balance);
-        //                             }
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+                                //     }
+                                // }
+                            }
+                            if ($tran['trans_type'] == 3 && $check->type == 4) {
+                                // withdraw
+                                $setting = $this->setting->getWithdrawFee();
+                                if (intval($setting[0]['withdraw_fee']) !== 0) {
+                                	$withDrawFee = $check->amount * ($setting[0]['withdraw_fee']);
+                            	} else {
+                            		$withDrawFee = 0;
+                            	}
+                                $userCoin = $this->usercoin_model->getCoinAddrUser($tran['user_id']);
+                                foreach ($userCoin as $item) {
+                                    if ($item['coin_type'] === $tran['coin_type'] && $item['coin_type'] === $check->symbol) {
+                                        $balance = ($item['balance']) - ($check->amount) - $withDrawFee;
+                                        // +coin
+                                        $this->usercoin_model->updateBalance($tran['user_id'], $item['coin_type'], $balance);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         echo "Cronjob finished...";
     }

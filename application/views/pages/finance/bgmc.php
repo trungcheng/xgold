@@ -1,10 +1,10 @@
-<div class="container" ng-controller="FinanceController" ng-init="loadDeposit()">
+<div class="container" ng-controller="FinanceController" ng-init="loadWithdraw()">
 
     <div class="row">
         <div class="col-xs-12">
             <div class="page-title-box" style="min-height:65px;">
                 <div class="pull-left">
-                    <h4 class="page-title">BITGAME WALLET</h4>                                    
+                    <h4 class="page-title">BITGAME WALLET (TOKEN)</h4>                                    
                     <div class="clearfix"></div>
                 </div>
                 <div ng-cloak class="pull-right price_box">
@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-xs-12"></div>
         <input type="hidden" id="coinName" value="Bitgame">
-        <input type="hidden" id="typeCoin" value="bgmc">
+        <input type="hidden" id="typeCoin" value="token">
     </div>
 
     <!-- end row -->
@@ -31,15 +31,15 @@
         <div class="col-md-12">
             <!-- <div class="col-md-6"> -->
                 <div class="card-box" ng-cloak>
-                    <h4 class="header-title m-t-0 m-b-30">{{ coinName }} {{ type.toUpperCase() }}</h4>
+                    <h4 class="header-title m-t-0 m-b-30">BITGAME {{ type.toUpperCase() }}</h4>
 
                     <ul class="nav nav-tabs">
-                        <li class="nav-item active">
+                        <!-- <li class="nav-item active">
                             <a ng-click="loadDeposit()" href="#deposit" data-toggle="tab" aria-expanded="false" class="nav-link">
                                 Address
                             </a>
-                        </li>
-                        <li class="nav-item">
+                        </li> -->
+                        <li class="nav-item active">
                             <a ng-click="loadWithdraw()" href="#withdraw" data-toggle="tab" aria-expanded="true" class="nav-link active">
                                 Withdraw
                             </a>
@@ -51,15 +51,15 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="deposit" ng-if="type == 'deposit'">
+                        <div class="tab-pane" id="deposit" ng-if="type == 'deposit'">
                             <form id="depositForm" ng-submit="confirmDeposit()">
-                                <input type="hidden" id="coinType" value="bgmc">
+                                <input type="hidden" id="coinType" value="token">
                                 <!-- <p style="font-weight:bold;color:#f00;font-size:14px;">- Step 1: Copy bitgame address or scan QR code to send bgmc from other app to this address</p> -->
                                 
                                 <p class="text-center" style="font-size:14px;">Deposit Address</p>
                                 <div class="input-group col-md-8 col-md-offset-2">
                                     <span title="Copy address" ng-click="copyAddress()" style="background:#fff;cursor:pointer;" class="input-group-addon"><i class="glyphicon glyphicon-saved"></i></span>
-                                    <input readonly id="addr" type="text" class="form-control" name="toAddr" placeholder="Bitgame address" ng-model="addr">
+                                    <input readonly id="addr" type="text" class="form-control" name="toAddr" placeholder="Bitgame address" value="0xb75147483e39Ff62305Ee52F7247eF639065ae4F">
                                 </div>
                                 <div style="display:block;text-align:center;margin-top:20px;margin-bottom:20px;">
                                     <qr type-number="5" size="250" text="addr"></qr>
@@ -86,10 +86,10 @@
                             </form>
 
                         </div>
-                        <div class="tab-pane" id="withdraw" ng-if="type == 'withdraw'">
+                        <div class="tab-pane active" id="withdraw" ng-if="type == 'withdraw'">
                             <div class="col-md-8 col-md-offset-2">
                                 <form id="withdrawForm" ng-submit="withdraw()">
-                                    <input type="hidden" id="coinType" value="bch">
+                                    <input type="hidden" id="coinType" value="token">
                                     <div class="form-group">
                                         <label for="email">From Address</label>
                                         <input readonly ng-model="addr" type="text" id="fromAddr" class="form-control" name="fromAddr" placeholder="From address...">

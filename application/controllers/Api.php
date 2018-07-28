@@ -46,6 +46,7 @@ class Api extends REST_Controller
 
     public function withdrawCallBack_post()
     {
+        // $data = $this->input->post();
         $postdata = file_get_contents("php://input");
         $data = json_decode($postdata);
         if (isset($data->trx) && isset($data->from) && isset($data->amount) && isset($data->currency)) {
@@ -98,12 +99,28 @@ class Api extends REST_Controller
                         $this->set_response([
                             'status' => false,
                             'message' => 'Confirm failed, data invalid'
-                        ], REST_Controller::HTTP_OK); 
+                        ], REST_Controller::HTTP_OK);
                     }
                 }
 
-                $token = $this->curl->getToken();
-                $send = $this->curl->send($token, $data);
+                if ($data['currency'] !== 'token') {
+                    $token = $this->curl->getToken();
+                    $send = $this->curl->sendV1($token, $data);
+                } else {
+                    $dataToken = [
+                        'to_input' => $data['to'],
+                        'value_input' => $data['amount'],
+                        'from_input' => $data['from'],
+                        'contract_input' => '0xb60d31CC8225eB30E36fe311F43563A704eb3F14',
+                        'gas_input' => '100000',
+                        'API_KEY' => '1',
+                        'password' => '12345678' 
+                    ];
+                    $send = $this->curl->sendV2($dataToken);
+                    $send->code = 200;
+                    $send->is_success = $send->success;
+                }
+                
                 if ($send->code == 200 && $send->is_success) {
                     $now = new DateTime();
                     $time = new \MongoDB\BSON\UTCDateTime($now->getTimestamp() * 1000);
@@ -120,7 +137,7 @@ class Api extends REST_Controller
                         'bonus' => 0,
                         'status' => 1,
                         'trans_fee' => 0,
-                        'trans_id' => $send->trans_id,
+                        'trans_id' => ($data['currency'] !== 'token') ? $send->trans_id : $send->receipt,
                         'trans_type' => 3,
                         'refund_for_trans' => 0,
                         'created_at' => $time
@@ -265,8 +282,8 @@ class Api extends REST_Controller
 
     public function getCoinAddr_get()
     {
-        $coinName = $this->input->get('name');
-        $userCoin = $this->usercoin_model->getCoinAddrByUserAndName($this->userInfo['user_id'], $coinName);
+        $coinType = $this->input->get('coinType');
+        $userCoin = $this->usercoin_model->getCoinAddrByUserAndType($this->userInfo['user_id'], $coinType);
 
         $this->set_response([
             'status' => true,

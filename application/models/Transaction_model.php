@@ -73,6 +73,13 @@ class Transaction_model extends CI_Model
         return $this->mongo_db->where('status', 1)->get('transactions');
     }
 
+    public function getPendingTokenTransactions()
+    {
+        return $this->mongo_db->where('status', 1)
+            ->where('coin_type', 'token')
+            ->get('transactions');
+    }
+
     public function getUserPendingTransactions($userId)
     {
         return $this->mongo_db->where('status', 1)

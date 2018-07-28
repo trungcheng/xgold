@@ -14,7 +14,7 @@
         $scope.loadDeposit = function () {
             $scope.type = 'deposit';
             $scope.loading = true;
-            $http.get('/api/getCoinAddr?name='+$('#coinName').val())
+            $http.get('/api/getCoinAddr?coinType='+$('#typeCoin').val())
                 .success(function (response) {
                     $scope.addr = response.data.coin_addr;
                     $scope.balance = response.data.balance;
@@ -25,6 +25,14 @@
 
         $scope.loadWithdraw = function () {
             $scope.type = 'withdraw';
+            $scope.loading = true;
+            $http.get('/api/getCoinAddr?coinType='+$('#typeCoin').val())
+                .success(function (response) {
+                    $scope.addr = response.data.coin_addr;
+                    $scope.balance = response.data.balance;
+                    $scope.coinName = $('#coinName').val().toUpperCase();
+                    $scope.loading = false;
+                });
         }
 
         $scope.loadHistory = function () {
