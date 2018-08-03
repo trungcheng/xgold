@@ -68,6 +68,40 @@ class Api extends REST_Controller
                 $type = 'Deposit';
                 $user = $this->usercoin_model->getCoinAddrByAddressAndType($data->address, $data->currency);
                 if (!empty($user)) {
+                    $bonusEvents = $this->event_model->getSelectedEvents();
+                    $totalBonus = 0;
+                    if (!empty($bonusEvents)) {
+                        foreach ($bonusEvents as $event) {
+                            $currentDate = new DateTime(date('Y-m-d h:i:s'));
+                            $fromDate = new DateTime($event['from_date']);
+                            $toDate = new DateTime($event['to_date']);
+                            if ($fromDate <= $currentDate && $currentDate <= $toDate) {
+                                $totalBonus += intval($event['bonus']);
+                            }
+                        }
+                    }
+                    $now = new DateTime();
+                    $time = new \MongoDB\BSON\UTCDateTime($now->getTimestamp() * 1000);
+                    $data = [
+                        'user_id' => $user[0]['user_id'],
+                        'from_addr' => '',
+                        'to_addr' => $data->address,
+                        'total' => $data->amount,
+                        'fee' => 0,
+                        'subtotal' => 0,
+                        'coin_type' => $data->currency,
+                        'buy_by' => $data->currency,
+                        'amount_currency_buy' => $data->amount,
+                        'bonus' => $totalBonus,
+                        'status' => 2,
+                        'trans_fee' => 0,
+                        'trans_id' => '',
+                        'trans_type' => 2,
+                        'refund_for_trans' => 0,
+                        'created_at' => $time
+                    ];
+                    $this->transaction_model->create($data);
+
                     $balance = $user[0]['balance'] + $data->amount;
                     $this->usercoin_model->updateBalance($user[0]['user_id'], $data->currency, $balance);
                     $this->set_response([
@@ -297,14 +331,16 @@ class Api extends REST_Controller
     public function getRefs_get()
     {
         $data = [];
-        $refs = $this->affiliate_model->getAll($this->userInfo['user_id']);
+        $refs = $this->affiliate_model->getAllRefOfCurrentUser($this->userInfo['user_id']);
         $affBonus = $this->setting_model->getAll();
-        foreach ($refs as $ref) {
-            $refUser = $this->user_model->getUserDetailByUserId($ref['ref_id']);
-            if (!empty($refUser)) {
-                $refUser[0]['created'] = $ref['created_at'];
-                $refUser[0]['affBonus'] = $affBonus[0]['aff_bonus'];
-                $data[] = $refUser[0];
+        if (!empty($refs)) {
+            foreach ($refs as $ref) {
+                $affPerson = [];
+                $user = $this->user_model->getUserDetailByUserId($ref['user_id']);
+                $affPerson['email'] = $user[0]['email'];
+                $affPerson['created'] = $ref['created_at'];
+                $affPerson['affBonus'] = $affBonus[0]['aff_bonus'];
+                $data[] = $affPerson;
             }
         }
 

@@ -9,7 +9,7 @@
                 </div>
                 <div ng-cloak class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your BGMC Balance: <span><b>{{ balance }}</b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Total BGMC: <span><b>{{ balance }}</b> BGMC</span>
                     </p>
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="email">To Address</label>
-                                        <input type="text" id="toAddr" class="form-control" name="toAddr" placeholder="From address...">
+                                        <input type="text" id="toAddr" class="form-control" name="toAddr" placeholder="To address...">
                                     </div>
                                     <div class="form-group">
                                         <label for="pwd">BGMC Amount</label>

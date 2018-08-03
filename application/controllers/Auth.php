@@ -223,8 +223,8 @@ class Auth extends CI_Controller {
                         // create ref
                         if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
                             $user = $this->user_model->getUserDetailByEmail($data['email']);
-                            $sponsor = $this->user_model->getUserDetailByUserId($data['sponsor']);
-                            if (!empty($sponsor)) {
+                            $checkUserSponsor = $this->affiliate_model->getUserSponsor($user[0]['user_id'], $data['sponsor']);
+                            if (!empty($checkUserSponsor)) {
                                 $this->affiliate_model->create($user[0]['user_id'], $data['sponsor']);
                             }
                         }

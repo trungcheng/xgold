@@ -32,6 +32,11 @@ class Affiliate_model extends CI_Model
         return $this->mongo_db->where('user_id', $userId)->get('affiliates');
     }
 
+    public function getAllRefOfCurrentUser($userId)
+    {
+        return $this->mongo_db->where('ref_id', $userId)->get('affiliates');
+    }
+
     public function create($userId, $refId)
     {
         return $this->mongo_db->insert('affiliates', [
@@ -39,6 +44,13 @@ class Affiliate_model extends CI_Model
             'ref_id' => $refId,
             'created_at' => date('Y-m-d h:i:s')
         ]);
+    }
+
+    public function getUserSponsor($userId, $refId) {
+        $query = $this->mongo_db->where('user_id', $userId)
+            ->where('ref_id', $refId)
+            ->get('affiliates');
+        return $query;
     }
 
 }

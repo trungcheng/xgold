@@ -10,7 +10,7 @@
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Your BGMC Balance: <span><b id="tokenNum"><?= $tokenCount ?></b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Total BGMC: <span><b id="tokenNum"><?= $tokenCount ?></b> BGMC</span>
                     </p>
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
@@ -52,8 +52,9 @@
                     </form> -->
                     <form id="pay_ment_form" action="" class="m-t-50">
                         <div class="form-group">
-                            <label>Your {{ buy.coinName }} address:</label>
-                            <input readonly type="text" ng-model="buy.fromAddress" class="form-control" placeholder="Your {{ buy.currency }} address to pay">
+                            <label>Your {{ buy.coinName }} balance:</label>
+                            <input readonly type="text" ng-model="buy.fromAddress" class="form-control hide" placeholder="Your {{ buy.currency }} address to pay">
+                            <input readonly type="text" ng-model="balance" class="form-control" placeholder="Your {{ buy.currency }} balance">
                         </div>
                         <div class="form-group">
                             <div class="input-group">

@@ -45,8 +45,8 @@
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-info",
-                    confirmButtonText: 'Thêm ngay',
-                    cancelButtonText: "Quay lại",
+                    confirmButtonText: 'Add now',
+                    cancelButtonText: "Back",
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true
                 }, function () {
@@ -118,8 +118,8 @@
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
-                confirmButtonText: 'Xóa ngay',
-                cancelButtonText: "Quay lại",
+                confirmButtonText: 'Delete now',
+                cancelButtonText: "Back",
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function () {

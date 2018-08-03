@@ -19,6 +19,7 @@
 		    $scope.buy.amount = 0;
 		    $scope.buy.value = 0;
 		    $scope.buy.bonusTotal = 0;
+            $scope.buy.balance = 0;
 
             var getSetting = $http.get('/api/getAllSetting');
             var getEventBonus = $http.get('/api/getEventBonus');
@@ -34,6 +35,8 @@
                 	if (v.coin_type == 'btc') {
                 		$scope.buy.fromAddress = v.coin_addr;
                         $scope.buy.coinName = v.coin_name;
+                        $scope.buy.balance = v.balance;
+                        $scope.balance = angular.copy($scope.buy.balance);
                 	}
                 });
                 $scope.loading = false;
@@ -42,19 +45,23 @@
 
         $scope.changeCurrency = function (coin) {
             $scope.buy.fromAddress = coin.coin_addr;
+            $scope.buy.balance = coin.balance;
         	$scope.buy.coinName = coin.coin_name;
         	$scope.buy.currency = coin.coin_type.toUpperCase();
-        	$scope.changeAmount();
+            $scope.balance = angular.copy($scope.buy.balance);
+            $scope.changeAmount();
         }
 
         $scope.changeAmount = function () {
 	        $scope.buy.value = $scope.buy.amount / $scope.buyInfo[$scope.buy.currency.toLowerCase()+'_rate'];
 	        $scope.buy.bonusTotal = $scope.buy.amount * $scope.buy.bonus / 100;
+            $scope.balance = $scope.buy.balance - $scope.buy.value;
 	    };
 
 	    $scope.changeValue = function () {
 	        $scope.buy.amount = $scope.buy.value * $scope.buyInfo[$scope.buy.currency.toLowerCase()+'_rate'];
 	        $scope.buy.bonusTotal = $scope.buy.amount * $scope.buy.bonus / 100;
+            $scope.balance = $scope.buy.balance - $scope.buy.value;
 	    };
 
 	    $scope.buyIco = function () {

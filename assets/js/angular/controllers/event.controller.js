@@ -113,8 +113,8 @@
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
-                confirmButtonText: 'Xóa ngay',
-                cancelButtonText: "Quay lại",
+                confirmButtonText: 'Delete now',
+                cancelButtonText: "Back",
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function () {
