@@ -79,7 +79,7 @@ class Setting_model extends CI_Model
 
     public function getWithdrawFee()
     {
-        return $this->mongo_db->select('withdraw_fee')->get('setting');   
+        return $this->mongo_db->select(['withdraw_fee'])->get('setting');   
     }
 
     public function update($data)

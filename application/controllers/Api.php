@@ -23,11 +23,18 @@ class Api extends REST_Controller
 
     public function depositCallBack_post()
     {
-        // $data = $this->input->post();
         $type = 'Transaction of';
-        $postdata = file_get_contents("php://input");
-        $data = json_decode($postdata);
-        if (isset($data->address) && isset($data->amount) && isset($data->currency)) {
+        $postdata1 = file_get_contents("php://input");
+        $postdata2 = $this->input->post();
+        $data1 = json_decode($postdata1);
+        $data2 = json_decode(json_encode($postdata2), FALSE);
+        if (isset($data1->code) && !isset($data2->code)) {
+            $data = $data1;
+        } else {
+            $data = $data2;
+        }
+
+        if (isset($data->code) && isset($data->amount) && isset($data->currency)) {
             if (isset($data->trx)) {
                 // withdraw
                 $type = 'Withdraw';
@@ -47,7 +54,7 @@ class Api extends REST_Controller
                         $this->transaction_model->update($data->trx, [
                             'status' => 3
                         ]);
-                        $this->set_response([
+                        return $this->set_response([
                             'status' => true,
                             'message' => $type.' '.$data->currency.' success'
                         ], REST_Controller::HTTP_OK);
@@ -57,7 +64,7 @@ class Api extends REST_Controller
                         $this->transaction_model->update($data->trx, [
                             'status' => 2
                         ]);
-                        $this->set_response([
+                        return $this->set_response([
                             'status' => true,
                             'message' => $type.' '.$data->currency.' failed'
                         ], REST_Controller::HTTP_OK);
@@ -80,9 +87,10 @@ class Api extends REST_Controller
                             }
                         }
                     }
+
                     $now = new DateTime();
                     $time = new \MongoDB\BSON\UTCDateTime($now->getTimestamp() * 1000);
-                    $data = [
+                    $dataTran = [
                         'user_id' => $user[0]['user_id'],
                         'from_addr' => '',
                         'to_addr' => $data->address,
@@ -100,11 +108,11 @@ class Api extends REST_Controller
                         'refund_for_trans' => 0,
                         'created_at' => $time
                     ];
-                    $this->transaction_model->create($data);
+                    $this->transaction_model->create($dataTran);
 
-                    $balance = $user[0]['balance'] + $data->amount;
+                    $balance = $user[0]['balance'] + $data->amount + ($totalBonus*$data->amount/100);
                     $this->usercoin_model->updateBalance($user[0]['user_id'], $data->currency, $balance);
-                    $this->set_response([
+                    return $this->set_response([
                         'status' => true,
                         'message' => $type.' '.$data->currency.' success'
                     ], REST_Controller::HTTP_OK);
@@ -112,44 +120,9 @@ class Api extends REST_Controller
             }
         }
 
-        $this->set_response([
+        return $this->set_response([
             'status' => false,
             'message' => $type.' '.$data->currency.' failed'
-        ], REST_Controller::HTTP_OK);
-    }
-
-    public function withdrawCallBack_post()
-    {
-        // $data = $this->input->post();
-        $postdata = file_get_contents("php://input");
-        $data = json_decode($postdata);
-        if (isset($data->trx) && isset($data->from) && isset($data->amount) && isset($data->currency)) {
-            if ($data->status == 'success') {
-                $setting = $this->setting->getWithdrawFee();
-                if (intval($setting[0]['withdraw_fee']) !== 0) {
-                    $withDrawFee = $data->amount * ($setting[0]['withdraw_fee']);
-                } else {
-                    $withDrawFee = 0;
-                }
-                $transaction = $this->transaction_model->getPendingTransactionByTranId($data->trx);
-                if (!empty($transaction)) {
-                    $user = $this->usercoin_model->getCoinAddrByAddressAndType($data->from, $data->currency);
-                    $balance = ($user[0]['balance']) - ($data->amount) - $withDrawFee;
-                    $this->usercoin_model->updateBalance($user[0]['user_id'], $user[0]['coin_type'], $balance);
-                    $this->transaction_model->update($data->trx, [
-                        'status' => 2
-                    ]);
-                    $this->set_response([
-                        'status' => true,
-                        'message' => 'Withdraw '.$data->currency.' success'
-                    ], REST_Controller::HTTP_OK);
-                }
-            }
-        }
-
-        $this->set_response([
-            'status' => false,
-            'message' => 'Withdraw '.$data->currency.' failed'
         ], REST_Controller::HTTP_OK);
     }
 
@@ -198,7 +171,7 @@ class Api extends REST_Controller
                 if ($send->code == 200 && $send->is_success) {
                     $now = new DateTime();
                     $time = new \MongoDB\BSON\UTCDateTime($now->getTimestamp() * 1000);
-                    $data = [
+                    $dataTran = [
                         'user_id' => $userId,
                         'from_addr' => $data['from'],
                         'to_addr' => $data['to'],
@@ -216,7 +189,7 @@ class Api extends REST_Controller
                         'refund_for_trans' => 0,
                         'created_at' => $time
                     ];
-                    $this->transaction_model->create($data);
+                    $this->transaction_model->create($dataTran);
 
                     // tru luon
                     $setting = $this->setting_model->getWithdrawFee();
@@ -229,24 +202,24 @@ class Api extends REST_Controller
                     $balance = ($user[0]['balance']) - ($data['amount']) - $withDrawFee;
                     $this->usercoin_model->updateBalance($user[0]['user_id'], $user[0]['coin_type'], $balance);
 
-                    $this->set_response([
+                    return $this->set_response([
                         'status' => true,
                         'message' => 'Confirm success, back to system to check history'
                     ], REST_Controller::HTTP_OK);
                 } else {
-                    $this->set_response([
+                    return $this->set_response([
                         'status' => false,
                         'message' => $send->msg
                     ], REST_Controller::HTTP_OK);    
                 }
             } else {
-                $this->set_response([
+                return $this->set_response([
                     'status' => false,
                     'message' => 'Confirm failed, user not found, back to system to withdraw again'
                 ], REST_Controller::HTTP_OK);
             }
         } else {
-            $this->set_response([
+            return $this->set_response([
                 'status' => false,
                 'message' => 'Confirm failed, no data provided, back to system to withdraw again'
             ], REST_Controller::HTTP_OK);
@@ -256,7 +229,7 @@ class Api extends REST_Controller
     public function getAllSetting_get()
     {
         $setting = $this->setting_model->getCoinRate();
-        $this->set_response([
+        return $this->set_response([
             'status' => true,
             'data' => $setting
         ], REST_Controller::HTTP_OK);
@@ -277,7 +250,7 @@ class Api extends REST_Controller
             }
         }
 
-        $this->set_response([
+        return $this->set_response([
             'status' => true,
             'bonus' => $totalBonus
         ], REST_Controller::HTTP_OK);
@@ -287,7 +260,7 @@ class Api extends REST_Controller
     {
         $coins = $this->usercoin_model->getCoinAddrUserWithoutToken($this->userInfo['user_id']);
 
-        $this->set_response([
+        return $this->set_response([
             'status' => true,
             'data' => $coins
         ], REST_Controller::HTTP_OK);
@@ -304,7 +277,7 @@ class Api extends REST_Controller
             $data[] = $tran;
         }
 
-        $this->set_response([
+        return $this->set_response([
             'status' => true,
             'data' => $data
         ], REST_Controller::HTTP_OK);
@@ -322,7 +295,7 @@ class Api extends REST_Controller
             $data[] = $tran;
         }
 
-        $this->set_response([
+        return $this->set_response([
             'status' => true,
             'data' => $data
         ], REST_Controller::HTTP_OK);
@@ -344,7 +317,7 @@ class Api extends REST_Controller
             }
         }
 
-        $this->set_response([
+        return $this->set_response([
             'status' => true,
             'data' => $data
         ], REST_Controller::HTTP_OK);
@@ -361,7 +334,7 @@ class Api extends REST_Controller
             $data[] = $tran;
         }
 
-        $this->set_response([
+        return $this->set_response([
             'status' => true,
             'data' => $data
         ], REST_Controller::HTTP_OK);
@@ -372,7 +345,7 @@ class Api extends REST_Controller
         $coinType = $this->input->get('coinType');
         $userCoin = $this->usercoin_model->getCoinAddrByUserAndType($this->userInfo['user_id'], $coinType);
 
-        $this->set_response([
+        return $this->set_response([
             'status' => true,
             'data' => (!empty($userCoin)) ? $userCoin[0] : []
         ], REST_Controller::HTTP_OK);
@@ -414,12 +387,12 @@ class Api extends REST_Controller
                 $this->usercoin_model->create($data);
             }
 
-            $this->set_response([
+            return $this->set_response([
                 'status' => true,
                 'message' => 'Update success'
             ], REST_Controller::HTTP_OK);
         } catch (Exception $e) {
-            $this->set_response([
+            return $this->set_response([
                 'status' => false,
                 'message' => $e->getMessage()
             ], REST_Controller::HTTP_OK);
