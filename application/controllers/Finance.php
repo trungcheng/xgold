@@ -250,21 +250,39 @@ class Finance extends MY_Controller {
                             }
                             if ($tran['trans_type'] == 3 && $check->type == 4) {
                                 // withdraw
-                                $setting = $this->setting->getWithdrawFee();
-                                if (intval($setting[0]['withdraw_fee']) !== 0) {
-                                	$withDrawFee = $check->amount * ($setting[0]['withdraw_fee']);
-                            	} else {
-                            		$withDrawFee = 0;
-                            	}
-                                $userCoin = $this->usercoin_model->getCoinAddrUser($tran['user_id']);
-                                foreach ($userCoin as $item) {
-                                    if ($item['coin_type'] === $tran['coin_type'] && $item['coin_type'] === $check->symbol) {
-                                        $balance = ($item['balance']) - ($check->amount) - $withDrawFee;
-                                        // +coin
-                                        $this->usercoin_model->updateBalance($tran['user_id'], $item['coin_type'], $balance);
-                                    }
-                                }
+                                $this->transaction_model->update($tran['trans_id'], [
+		                            'status' => 2
+		                        ]);
+                             //    $setting = $this->setting->getWithdrawFee();
+                             //    if (intval($setting[0]['withdraw_fee']) !== 0) {
+                             //    	$withDrawFee = $check->amount * ($setting[0]['withdraw_fee']);
+                            	// } else {
+                            	// 	$withDrawFee = 0;
+                            	// }
+                             //    $userCoin = $this->usercoin_model->getCoinAddrUser($tran['user_id']);
+                             //    foreach ($userCoin as $item) {
+                             //        if ($item['coin_type'] === $tran['coin_type'] && $item['coin_type'] === $check->symbol) {
+                             //            $balance = ($item['balance']) - ($check->amount) - $withDrawFee;
+                             //            // +coin
+                             //            $this->usercoin_model->updateBalance($tran['user_id'], $item['coin_type'], $balance);
+                             //        }
+                             //    }
                             }
+                        } else {
+                        	// cong lai tien
+                        	$setting = $this->setting_model->getWithdrawFee();
+			                if (intval($setting[0]['withdraw_fee']) !== 0) {
+			                    $withDrawFee = ($tran['total'] * ($setting[0]['withdraw_fee'])) / 100;
+			                } else {
+			                    $withDrawFee = 0;
+			                }
+			                $user = $this->usercoin_model->getCoinAddrByAddressAndType($tran['from_addr'], $tran['coin_type']);
+                        	$balance = ($user[0]['balance']) + ($tran['total']) + $withDrawFee;
+	                        $this->usercoin_model->updateBalance($user[0]['user_id'], $user[0]['coin_type'], $balance);
+	                        // update transaction to failed
+	                        $this->transaction_model->update($tran['trans_id'], [
+	                            'status' => 3
+	                        ]);
                         }
                     }
                 }

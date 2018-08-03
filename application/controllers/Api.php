@@ -24,23 +24,63 @@ class Api extends REST_Controller
     public function depositCallBack_post()
     {
         // $data = $this->input->post();
+        $type = 'Transaction of';
         $postdata = file_get_contents("php://input");
         $data = json_decode($postdata);
         if (isset($data->address) && isset($data->amount) && isset($data->currency)) {
-            $user = $this->usercoin_model->getCoinAddrByAddressAndType($data->address, $data->currency);
-            if (!empty($user)) {
-                $balance = $user[0]['balance'] + $data->amount;
-                $this->usercoin_model->updateBalance($user[0]['user_id'], $data->currency, $balance);
-                $this->set_response([
-                    'status' => true,
-                    'message' => 'Deposit '.$data->currency.' success'
-                ], REST_Controller::HTTP_OK);
+            if (isset($data->trx)) {
+                // withdraw
+                $type = 'Withdraw';
+                $setting = $this->setting_model->getWithdrawFee();
+                if (intval($setting[0]['withdraw_fee']) !== 0) {
+                    $withDrawFee = ($data->amount * ($setting[0]['withdraw_fee'])) / 100;
+                } else {
+                    $withDrawFee = 0;
+                }
+                $transaction = $this->transaction_model->getPendingTransactionByTranId($data->trx);
+                if (!empty($transaction)) {
+                    $user = $this->usercoin_model->getCoinAddrByAddressAndType($data->from, $data->currency);
+                    if ($data->status !== 'success') {
+                        $balance = ($user[0]['balance']) + ($data->amount) + $withDrawFee;
+                        $this->usercoin_model->updateBalance($user[0]['user_id'], $user[0]['coin_type'], $balance);
+                        // update transaction to failed
+                        $this->transaction_model->update($data->trx, [
+                            'status' => 3
+                        ]);
+                        $this->set_response([
+                            'status' => true,
+                            'message' => $type.' '.$data->currency.' success'
+                        ], REST_Controller::HTTP_OK);
+                    } else {
+                        // $balance = ($user[0]['balance']) - ($data->amount) - $withDrawFee;
+                        // update transaction to success
+                        $this->transaction_model->update($data->trx, [
+                            'status' => 2
+                        ]);
+                        $this->set_response([
+                            'status' => true,
+                            'message' => $type.' '.$data->currency.' failed'
+                        ], REST_Controller::HTTP_OK);
+                    }
+                }
+            } else {
+                // deposit
+                $type = 'Deposit';
+                $user = $this->usercoin_model->getCoinAddrByAddressAndType($data->address, $data->currency);
+                if (!empty($user)) {
+                    $balance = $user[0]['balance'] + $data->amount;
+                    $this->usercoin_model->updateBalance($user[0]['user_id'], $data->currency, $balance);
+                    $this->set_response([
+                        'status' => true,
+                        'message' => $type.' '.$data->currency.' success'
+                    ], REST_Controller::HTTP_OK);
+                }
             }
         }
 
         $this->set_response([
             'status' => false,
-            'message' => 'Deposit '.$data->currency.' failed'
+            'message' => $type.' '.$data->currency.' failed'
         ], REST_Controller::HTTP_OK);
     }
 
@@ -143,6 +183,17 @@ class Api extends REST_Controller
                         'created_at' => $time
                     ];
                     $this->transaction_model->create($data);
+
+                    // tru luon
+                    $setting = $this->setting_model->getWithdrawFee();
+                    if (intval($setting[0]['withdraw_fee']) !== 0) {
+                        $withDrawFee = ($data['amount'] * ($setting[0]['withdraw_fee'])) / 100;
+                    } else {
+                        $withDrawFee = 0;
+                    }
+                    $user = $this->usercoin_model->getCoinAddrByAddressAndType($data['from'], $data['currency']);
+                    $balance = ($user[0]['balance']) - ($data['amount']) - $withDrawFee;
+                    $this->usercoin_model->updateBalance($user[0]['user_id'], $user[0]['coin_type'], $balance);
 
                     $this->set_response([
                         'status' => true,
