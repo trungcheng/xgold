@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
 
-            <p style="color:red;margin-bottom:20px;">Note: Các giá trị "xxx@gmail.com!", "xxx" và "http://link" ko được thay đổi.</p>
+            <p style="color:red;margin-bottom:20px;">Note: These values "xxx@gmail.com!", "xxx" and "http://link" does not change.</p>
             
             <form id="form_profile" action="<?= base_url('mail/updateReset') ?>" method="post">
 
