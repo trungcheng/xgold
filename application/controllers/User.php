@@ -26,7 +26,8 @@ class User extends MY_Controller {
 
 	public function getAll()
 	{
-		$data = $this->user_model->getAll($this->userInfo['user_id']);
+		$postData = $this->input->get();
+		$data = $this->user_model->getAll($postData, $this->userInfo['user_id']);
 		echo json_encode(['data' => $data]);
 	}
 
@@ -38,7 +39,7 @@ class User extends MY_Controller {
 			if (!isset($request->email)) {
 	    		echo json_encode(['status' => false, 'message' => 'Please input the email address', 'type' => 'error']);
 	    	} else {
-		    	$userId = 'BGMC'.substr(md5($request->email.time()), 0, 9);
+		    	$userId = 'BGC'.substr(md5($request->email.time()), 0, 9);
 		    	$this->user_model->setUserID($userId);
 	            $this->user_model->setEmail($request->email);
 	            $this->user_model->setAddress(isset($request->address) ? $request->address : '');

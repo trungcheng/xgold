@@ -8,10 +8,10 @@
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Total BGMC: <span><b><?= $tokenCount ?></b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Total BGC: <span><b><?= $tokenCount ?></b> BGC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="wigdet-two-content">
                     <h5 class="" style="height:40px;">
-                        Go to ICO  then buy BGMC
+                        Go to ICO  then buy BGC
                     </h5>
                     <p class="m-0">Step 3</p>
                 </div>

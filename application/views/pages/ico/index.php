@@ -6,14 +6,14 @@
                 <div class="pull-left">
                     <h4 class="page-title">ICO</h4>                                    
                     <div class="clearfix"></div>
-                    <!-- <p class="m-t-10 m-b-0 hidden-xs">A few simple steps to invest in BGMC ICO, minimum investment: $50 (~311 BGMC)</p> -->
+                    <!-- <p class="m-t-10 m-b-0 hidden-xs">A few simple steps to invest in BGC ICO, minimum investment: $50 (~311 BGC)</p> -->
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Total BGMC: <span><b id="tokenNum"><?= $tokenCount ?></b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Total BGC: <span><b id="tokenNum"><?= $tokenCount ?></b> BGC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -58,8 +58,8 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <input id="example-input1-group1" ng-change="changeAmount()" type="number" ng-model="buy.amount" class="form-control" placeholder="BGMC amount to buy">
-                                <span class="input-group-addon"><b>BGMC</b></span>
+                                <input id="example-input1-group1" ng-change="changeAmount()" type="number" ng-model="buy.amount" class="form-control" placeholder="BGC amount to buy">
+                                <span class="input-group-addon"><b>BGC</b></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -72,16 +72,16 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="pull-left text-right">
-                                        <p>BGMC amount to buy:</p>
+                                        <p>BGC amount to buy:</p>
                                         <p>{{ buy.currency }} to pay:</p>
-                                        <p>Bonus BGMC:</p>
+                                        <p>Bonus BGC:</p>
                                         <p>Total:</p>
                                     </div>
                                     <div class="pull-right">
-                                        <p><b>{{ buy.amount | number }}</b> BGMC</p>
+                                        <p><b>{{ buy.amount | number }}</b> BGC</p>
                                         <p><b>{{ buy.value }}</b> {{ buy.currency }}</p>
-                                        <p><b>{{ buy.bonusTotal | number }}</b> BGMC ({{ buy.bonus | number }}%)</p>
-                                        <p><b>{{ (buy.amount + ((buy.bonus * buy.amount) / 100)) | number }}</b> BGMC</p>
+                                        <p><b>{{ buy.bonusTotal | number }}</b> BGC ({{ buy.bonus | number }}%)</p>
+                                        <p><b>{{ (buy.amount + ((buy.bonus * buy.amount) / 100)) | number }}</b> BGC</p>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -179,7 +179,7 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ transaction.from_addr }}</td>
                                     <td>{{ transaction.amount_currency_buy }} {{ transaction.buy_by.toUpperCase() }}</td>
-                                    <td>{{ transaction.total }} BGMC</td>
+                                    <td>{{ transaction.total }} BGC</td>
                                     <td>{{ transaction.bonus }}%</td>
                                     <td>{{ transaction.time }}</td>
                                     <td ng-if="transaction.status == 1">

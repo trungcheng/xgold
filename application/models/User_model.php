@@ -62,9 +62,17 @@ class User_model extends CI_Model
     }
 
     // get all users except current user
-    public function getAll($userId)
+    public function getAll($data, $userId)
     {
-        return $this->mongo_db->where_ne('user_id', $userId)->get('users');
+        $query = $this->mongo_db->where_ne('user_id', $userId);
+        if (isset($data['name']) && $data['name'] !== 'all-user') {
+            $query->where('email', new \MongoDB\BSON\Regex($data['name']));
+                  // ->or_where(['address' => new \MongoDB\BSON\Regex($data['name'])])
+                  // ->or_where(['mobile' => new \MongoDB\BSON\Regex($data['name'])]);
+            // $query->like('email', '/admin/');
+        }
+
+        return $query->get('users');
     }
 
     // login method and password verify

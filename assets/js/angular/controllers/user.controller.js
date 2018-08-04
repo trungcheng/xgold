@@ -10,15 +10,28 @@
         $scope.users = [];
         $scope.loading = false;
 
-		$scope.loadInit = function () {
+        $scope.getResultPage = function (name) {
             $scope.loading = true;
 
             $timeout(function() {
-                $http.get('/user/getAll').success(function (response) {
+                $http.get('/user/getAll?name='+name).success(function (response) {
+                    $scope.name = name;
                     $scope.users = response.data;
                     $scope.loading = false;
                 });
-            }, 1000)
+            }, 500)
+        }
+
+		$scope.loadInit = function () {
+            $scope.getResultPage('all-user');
+        }
+
+        $scope.search = function () {
+            if ($scope.textUser.length >= 2) {
+                $scope.getResultPage($scope.textUser);
+            } else {
+                $scope.loadInit();
+            }
         }
 
         $scope.addUser = function () {

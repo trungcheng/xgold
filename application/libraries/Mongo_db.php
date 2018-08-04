@@ -378,6 +378,20 @@ Class Mongo_db
 		return $this;
 	}
 
+	public function where_in_all_like($field = "", $in = array()) 
+	{
+	    $newarray = array();
+	
+	    foreach ($in as $value) {
+	     	array_push($newarray, new Regex('/'.$value.'/i'));
+	    }
+	
+	    $this->where_in($field, $newarray);
+	    // $this->wheres[$field]['$all'] = $newarray;
+	
+	    return $this;
+    }
+
 	/**
 	 *  Returns construction for operator $gt.
 	 *

@@ -7,15 +7,15 @@
                     <div class="clearfix"></div>
                     <a ng-click="addUser()" style="margin-top:10px;" href="javascript:void(0)" class="btn btn-block btn-success btn-sm">
                         <i class="fa fa-plus"></i> 
-                        Thêm user
+                        Add user
                     </a>
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Total BGMC: <span><b><?= $tokenCount ?></b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Total BGC: <span><b><?= $tokenCount ?></b> BGC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -27,8 +27,10 @@
     </div>        
 
     <div class="row">
-        <div class="table-responsive" style="margin-left:10px;margin-right:10px;">
-            <table ng-cloak class="table table-hover table-striped">
+        <input style="width:20%;position:absolute;right:19px;" ng-model="textUser" ng-change="search()" class="form-control" type="text" name="search" placeholder="Search user...">
+        <br>
+        <div class="table-responsive" style="margin-left:10px;margin-right:10px;margin-top:30px;">
+            <table ng-if="users.length > 0" ng-cloak class="table table-hover table-striped">
                 <thead>
                     <th>STT</th>
                     <th>Email</th>
@@ -60,16 +62,16 @@
                         </td>
                     </tr>
 
-                    <div ng-if="loading">
-                        <i style="font-size:40px;position:fixed;left:50%;top:35%;z-index:99;" class="fa fa-spinner fa-spin"></i>
-                    </div>
-
-                    <div ng-if="!loading && users.length === 0">
-                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Không tìm thấy user!</h5>
-                    </div>
-
                 </tbody>
             </table>
+
+            <div ng-if="loading">
+                <i style="font-size:40px;position:fixed;left:50%;top:35%;z-index:99;" class="fa fa-spinner fa-spin"></i>
+            </div>
+
+            <div ng-cloak ng-if="!loading && users.length === 0">
+                <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! User not found!</h5>
+            </div>
         
         </div>
 

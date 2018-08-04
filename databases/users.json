@@ -1,6 +1,6 @@
 db.users.insert([
 {
-        "user_id" : "BGMC6798befb1",
+        "user_id" : "BGC6798befb1",
         "email" : "admin@bitgamecoins.com",
         "address" : "Hà Nội",
         "password" : "$2y$10$OdkMYSNU3Rz1xBFA32WVD.Hi.dFR.Wf6ULmfqkrBgUdwQ34gJPGsy",
@@ -14,7 +14,7 @@ db.users.insert([
         "phone" : ""
 },
 {
-        "user_id" : "BGMCbe888285d",
+        "user_id" : "BGCbe888285d",
         "email" : "trungdn.dev@gmail.com",
         "address" : "Hà Nội",
         "password" : "$2y$10$n7LJFaOnPlBt9LGXfpKc8.fVBiLahCPVgBWEa.DfB1mznXfv08SJ.",
@@ -27,7 +27,7 @@ db.users.insert([
         "is_admin" : true
 },
 {
-        "user_id" : "BGMC924231e14",
+        "user_id" : "BGC924231e14",
         "email" : "thelasthero.k51cc@gmail.com",
         "address" : "",
         "password" : "$2y$10$TTM1Br0wSlfXGWx9R2twuuRnYtd7YJf3j.DBMcZ6zpLeYPKfncupC",
@@ -40,7 +40,7 @@ db.users.insert([
         "is_admin" : false
 },
 {
-        "user_id" : "BGMC241822fc9",
+        "user_id" : "BGC241822fc9",
         "email" : "huuphu310@gmail.com",
         "address" : "cau giay",
         "password" : "$2y$10$EmvbJMoEu2bUm9Rzxe9YkeaKe21AQ27Hajjf1I4MGKyBURSYSMQ3C",

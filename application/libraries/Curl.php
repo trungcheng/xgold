@@ -113,12 +113,12 @@ class Curl {
         return json_decode($response);
     }
 
-    function sendV2($data) { 
+    function sendV2($url, $data) { 
         // $headers = ['access-token: '.$token];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
-        curl_setopt($ch, CURLOPT_URL, TOKEN_URL.'/token/send');
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);

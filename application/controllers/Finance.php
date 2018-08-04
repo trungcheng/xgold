@@ -53,10 +53,12 @@ class Finance extends MY_Controller {
 		$this->layout->view('finance/bch', $data);
 	}
 
-	public function bgmc()
+	public function bgc()
 	{
 		$data = [];
 		$data['pageName'] = 'Bitgame Wallet';
+		$setting = $this->setting_model->getAll();
+		$data['addr'] = $setting[0]['from_addr'];
 
 		$this->layout->view('finance/bgmc', $data);
 	}

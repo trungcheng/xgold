@@ -8,10 +8,10 @@
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Total BGMC: <span><b><?= $tokenCount ?></b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Total BGC: <span><b><?= $tokenCount ?></b> BGC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -29,8 +29,8 @@
             <table ng-cloak class="table table-hover table-striped">
                 <thead>
                     <th>Time / Currency</th>
-                    <th ng-if="coin !== 'token'" ng-repeat="coin in coins">{{ coin.toUpperCase() }} (Nạp | Rút)</th>
-                    <th ng-if="coin == 'token'" ng-repeat="coin in coins">{{ coin.toUpperCase() }} (Mua)</th>
+                    <th ng-if="coin !== 'token'" ng-repeat="coin in coins">{{ coin.toUpperCase() }} (Dep | Wdr)</th>
+                    <th ng-if="coin == 'token'" ng-repeat="coin in coins">{{ coin.toUpperCase() }} (Buy)</th>
                 </thead>
                 <tbody>
                     <tr ng-cloak ng-repeat="item in items track by $index">

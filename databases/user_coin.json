@@ -1,37 +1,37 @@
 db.user_coin.insert([
 {
-        "user_id" : "BGMCbe888285d",
+        "user_id" : "BGCbe888285d",
         "coin_addr" : "0xE9e686520A95cfdf794A8ae5f4Ca1456d90601e4",
         "coin_type" : "btc",
         "coin_name" : "Bitcoin",
         "balance" : 9.4
 },
 {
-        "user_id" : "BGMCbe888285d",
+        "user_id" : "BGCbe888285d",
         "coin_addr" : "0xE9e686520A95cfdf794A8ae5f4Ca1456d90601e4",
         "coin_type" : "eth",
         "balance" : 0,
         "coin_name" : "Ethereum"
 },
 {
-        "user_id" : "BGMCbe888285d",
+        "user_id" : "BGCbe888285d",
         "coin_addr" : "0xE9e686520A95cfdf794A8ae5f4Ca1456d90601e4",
         "coin_type" : "ltc",
         "balance" : 0,
         "coin_name" : "Litecoin"
 },
 {
-        "user_id" : "BGMCbe888285d",
+        "user_id" : "BGCbe888285d",
         "coin_addr" : "0xE9e686520A95cfdf794A8ae5f4Ca1456d90601e4",
         "coin_type" : "bch",
         "balance" : 0,
         "coin_name" : "Bitcoin Cash"
 },
 {
-        "user_id" : "BGMCbe888285d",
+        "user_id" : "BGCbe888285d",
         "coin_addr" : "0xE9e686520A95cfdf794A8ae5f4Ca1456d90601e4",
         "coin_type" : "token",
-        "coin_name" : "Xgold",
+        "coin_name" : "Bitgamecoin",
         "balance" : 6
 }
 ]);

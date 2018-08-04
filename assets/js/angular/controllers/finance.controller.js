@@ -29,6 +29,7 @@
             $http.get('/api/getCoinAddr?coinType='+$('#typeCoin').val())
                 .success(function (response) {
                     $scope.addr = response.data.coin_addr;
+                    $scope.addrToken = $('#addrToken').val();
                     $scope.balance = response.data.balance;
                     $scope.coinName = $('#coinName').val().toUpperCase();
                     $scope.loading = false;

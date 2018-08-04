@@ -7,15 +7,15 @@
                     <div class="clearfix"></div>
                     <a ng-click="addEvent()" style="margin-top:10px;" href="javascript:void(0)" class="btn btn-block btn-success btn-sm">
                         <i class="fa fa-plus"></i> 
-                        Thêm event
+                        Add event
                     </a>
                 </div>
                 <div class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Total BGMC: <span><b><?= $tokenCount ?></b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Total BGC: <span><b><?= $tokenCount ?></b> BGC</span>
                     </p>
                     <!--<p class="text-right">
-                        <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
+                        <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     </div>
 
                     <div ng-if="!loading && events.length === 0">
-                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Không tìm thấy event!</h5>
+                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Event not found!</h5>
                     </div>
 
                 </tbody>
@@ -100,7 +100,7 @@
             <input placeholder="Event bonus..." type="text" ng-model="eventModalAdd.bonus" class="form-control">
         </div>
         <div class="form-group">
-            <label>Kích hoạt</label>
+            <label>Active</label>
             <select class="form-control" ng-model="eventModalAdd.selectedOption">
                 <option ng-repeat="value in ['Yes','No']">{{ value }}</option>
             </select>
@@ -137,7 +137,7 @@
             <input placeholder="Event bonus..." type="text" ng-model="eventModal.bonus" class="form-control">
         </div>
         <div class="form-group">
-            <label>Kích hoạt</label>
+            <label>Active</label>
             <select class="form-control" ng-model="eventModal.selectedOption">
                 <option ng-repeat="value in ['Yes','No']">{{ value }}</option>
             </select>

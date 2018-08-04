@@ -9,7 +9,7 @@
                 </div>
                 <div ng-cloak class="pull-right price_box">
                     <p>
-                        <i class="mdi mdi-gift"></i> Total BGMC: <span><b>{{ balance }}</b> BGMC</span>
+                        <i class="mdi mdi-gift"></i> Total BGC: <span><b>{{ balance }}</b> BGC</span>
                     </p>
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> BGMC to MyEtherwallet
@@ -90,16 +90,17 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <form id="withdrawForm" ng-submit="withdraw()">
                                     <input type="hidden" id="coinType" value="token">
+                                    <input type="hidden" id="addrToken" value="<?= $addr ?>">
                                     <div class="form-group">
                                         <label for="email">From Address</label>
-                                        <input readonly ng-model="addr" type="text" id="fromAddr" class="form-control" name="fromAddr" placeholder="From address...">
+                                        <input readonly ng-model="addrToken" type="text" id="fromAddr" class="form-control" name="fromAddr" placeholder="From address...">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">To Address</label>
                                         <input type="text" id="toAddr" class="form-control" name="toAddr" placeholder="To address...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="pwd">BGMC Amount</label>
+                                        <label for="pwd">BGC Amount</label>
                                         <input type="number" id="amount" class="form-control" name="amount" placeholder="Amount currency number...">
                                     </div>
                                     <button style="float:right" type="button" class="btn btn-default">CANCEL</button>

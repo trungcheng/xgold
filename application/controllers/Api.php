@@ -154,16 +154,18 @@ class Api extends REST_Controller
                     $token = $this->curl->getToken();
                     $send = $this->curl->sendV1($token, $data);
                 } else {
+                    $setting = $this->setting_model->getAll();
+                    $url = $setting[0]['link_api'];
                     $dataToken = [
                         'to_input' => $data['to'],
                         'value_input' => $data['amount'],
-                        'from_input' => $data['from'],
-                        'contract_input' => '0xb60d31CC8225eB30E36fe311F43563A704eb3F14',
+                        'from_input' => $setting[0]['from_addr'],
+                        'contract_input' => $setting[0]['contract_addr'],
                         'gas_input' => '100000',
                         'API_KEY' => '1',
                         'password' => '12345678' 
                     ];
-                    $send = $this->curl->sendV2($dataToken);
+                    $send = $this->curl->sendV2($url, $dataToken);
                     $send->code = 200;
                     $send->is_success = $send->success;
                 }
