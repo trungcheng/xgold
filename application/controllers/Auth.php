@@ -73,7 +73,6 @@ class Auth extends CI_Controller {
             $this->user_model->setVerificationCode($verificationCode);
             $result = $this->user_model->activate();
             if ($result['status']) {
-                $this->createUserCoin($result['userId']);
                 $this->session->set_flashdata('success', 'Confirm the registration success');
             } else {
                 $this->session->set_flashdata('error', 'Confirm the registration failed');
@@ -220,9 +219,11 @@ class Auth extends CI_Controller {
                     $this->user_model->setIsAdmin(false);
                     $chk = $this->user_model->create();
                     if ($chk) {
+                        $user = $this->user_model->getUserDetailByEmail($data['email']);
+                        // create user coin address
+                        $this->createUserCoin($user[0]['user_id']);
                         // create ref
                         if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
-                            $user = $this->user_model->getUserDetailByEmail($data['email']);
                             $checkUserSponsor = $this->affiliate_model->getUserSponsor($user[0]['user_id'], $data['sponsor']);
                             if (!empty($checkUserSponsor)) {
                                 $this->affiliate_model->create($user[0]['user_id'], $data['sponsor']);

@@ -75,18 +75,18 @@ class Api extends REST_Controller
                 $type = 'Deposit';
                 $user = $this->usercoin_model->getCoinAddrByAddressAndType($data->address, $data->currency);
                 if (!empty($user)) {
-                    $bonusEvents = $this->event_model->getSelectedEvents();
-                    $totalBonus = 0;
-                    if (!empty($bonusEvents)) {
-                        foreach ($bonusEvents as $event) {
-                            $currentDate = new DateTime(date('Y-m-d h:i:s'));
-                            $fromDate = new DateTime($event['from_date']);
-                            $toDate = new DateTime($event['to_date']);
-                            if ($fromDate <= $currentDate && $currentDate <= $toDate) {
-                                $totalBonus += intval($event['bonus']);
-                            }
-                        }
-                    }
+                    // $bonusEvents = $this->event_model->getSelectedEvents();
+                    // $totalBonus = 0;
+                    // if (!empty($bonusEvents)) {
+                    //     foreach ($bonusEvents as $event) {
+                    //         $currentDate = new DateTime(date('Y-m-d h:i:s'));
+                    //         $fromDate = new DateTime($event['from_date']);
+                    //         $toDate = new DateTime($event['to_date']);
+                    //         if ($fromDate <= $currentDate && $currentDate <= $toDate) {
+                    //             $totalBonus += intval($event['bonus']);
+                    //         }
+                    //     }
+                    // }
 
                     $now = new DateTime();
                     $time = new \MongoDB\BSON\UTCDateTime($now->getTimestamp() * 1000);
@@ -100,7 +100,7 @@ class Api extends REST_Controller
                         'coin_type' => $data->currency,
                         'buy_by' => $data->currency,
                         'amount_currency_buy' => $data->amount,
-                        'bonus' => $totalBonus,
+                        'bonus' => 0,
                         'status' => 2,
                         'trans_fee' => 0,
                         'trans_id' => '',
@@ -110,7 +110,7 @@ class Api extends REST_Controller
                     ];
                     $this->transaction_model->create($dataTran);
 
-                    $balance = $user[0]['balance'] + $data->amount + ($totalBonus*$data->amount/100);
+                    $balance = $user[0]['balance'] + $data->amount;
                     $this->usercoin_model->updateBalance($user[0]['user_id'], $data->currency, $balance);
                     return $this->set_response([
                         'status' => true,
