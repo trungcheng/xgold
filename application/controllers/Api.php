@@ -47,23 +47,24 @@ class Api extends REST_Controller
                 $transaction = $this->transaction_model->getPendingTransactionByTranId($data->trx);
                 if (!empty($transaction)) {
                     $user = $this->usercoin_model->getCoinAddrByAddressAndType($data->from, $data->currency);
-                    if ($data->status !== 'success') {
-                        $balance = ($user[0]['balance']) + ($data->amount) + $withDrawFee;
-                        $this->usercoin_model->updateBalance($user[0]['user_id'], $user[0]['coin_type'], $balance);
-                        // update transaction to failed
+                    if ($data->status == 'success') {
+                        // update transaction to success
                         $this->transaction_model->update($data->trx, [
-                            'status' => 3
+                            'status' => 2
                         ]);
+
                         return $this->set_response([
                             'status' => true,
                             'message' => $type.' '.$data->currency.' success'
                         ], REST_Controller::HTTP_OK);
                     } else {
-                        // $balance = ($user[0]['balance']) - ($data->amount) - $withDrawFee;
-                        // update transaction to success
+                        // update transaction to failed
+                        $balance = ($user[0]['balance']) + ($data->amount) + $withDrawFee;
+                        $this->usercoin_model->updateBalance($user[0]['user_id'], $user[0]['coin_type'], $balance);
                         $this->transaction_model->update($data->trx, [
-                            'status' => 2
+                            'status' => 3
                         ]);
+
                         return $this->set_response([
                             'status' => true,
                             'message' => $type.' '.$data->currency.' failed'
@@ -112,6 +113,7 @@ class Api extends REST_Controller
 
                     $balance = $user[0]['balance'] + $data->amount;
                     $this->usercoin_model->updateBalance($user[0]['user_id'], $data->currency, $balance);
+                    
                     return $this->set_response([
                         'status' => true,
                         'message' => $type.' '.$data->currency.' success'
@@ -168,6 +170,7 @@ class Api extends REST_Controller
                     $send = $this->curl->sendV2($url, $dataToken);
                     $send->code = 200;
                     $send->is_success = $send->success;
+                    $send->msg = 'Withdraw token failed';
                 }
                 
                 if ($send->code == 200 && $send->is_success) {

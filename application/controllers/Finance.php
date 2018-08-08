@@ -58,7 +58,7 @@ class Finance extends MY_Controller {
 		$data = [];
 		$data['pageName'] = 'Bitgame Wallet';
 		$setting = $this->setting_model->getAll();
-		$data['addr'] = $setting[0]['from_addr'];
+		$data['addr'] = (!empty($setting)) ? $setting[0]['from_addr'] : '';
 
 		$this->layout->view('finance/bgmc', $data);
 	}
