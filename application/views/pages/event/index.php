@@ -28,7 +28,7 @@
 
     <div class="row">
         <div class="table-responsive" style="margin-left:10px;margin-right:10px;">
-            <table ng-cloak class="table table-hover table-striped">
+            <table ng-if="events.length > 0" ng-cloak class="table table-hover table-striped">
                 <thead>
                     <th>STT</th>
                     <th>Name</th>
@@ -60,16 +60,16 @@
                         </td>
                     </tr>
 
-                    <div ng-if="loading">
-                        <i style="font-size:40px;position:fixed;left:50%;top:35%;z-index:99;" class="fa fa-spinner fa-spin"></i>
-                    </div>
-
-                    <div ng-if="!loading && events.length === 0">
-                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Event not found!</h5>
-                    </div>
-
                 </tbody>
             </table>
+
+            <div ng-if="loading">
+                <i style="font-size:40px;position:fixed;left:50%;top:35%;z-index:99;" class="fa fa-spinner fa-spin"></i>
+            </div>
+
+            <div ng-cloak ng-if="!loading && events.length === 0">
+                <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Event not found!</h5>
+            </div>
         
         </div>
 
