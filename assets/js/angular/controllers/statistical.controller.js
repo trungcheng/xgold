@@ -11,11 +11,32 @@
         $scope.coins = ['btc', 'eth', 'ltc', 'bch', 'token'];
         $scope.loading = false;
 
+        $scope.total = {
+            btc_total_dep: 0, btc_total_wdr: 0,
+            eth_total_dep: 0, eth_total_wdr: 0,
+            ltc_total_dep: 0, ltc_total_wdr: 0,
+            bch_total_dep: 0, bch_total_wdr: 0,
+            token_total_buy: 0,
+        }
+
         $scope.getResultsPage = function (date) {
             $scope.loading = true;
 
             $http.get('/statistical/countDataByDateRange?date='+date).success(function (response) {
+
+                angular.forEach(response.data, function (item) {
+                    angular.forEach($scope.coins, function (coin) {
+                        if (coin !== 'token') {
+                            $scope.total[coin+'_total_dep'] += item[coin+'_deposit'];
+                            $scope.total[coin+'_total_wdr'] += item[coin+'_withdraw'];
+                        } else {
+                            $scope.total[coin+'_total_buy'] += item[coin+'_buy'];
+                        }
+                    });
+                });
+
                 $scope.items = response.data;
+
                 $scope.loading = false;
             });
         }

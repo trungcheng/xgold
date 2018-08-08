@@ -42,17 +42,26 @@
                             {{ item[coin+'_buy'] }}
                         </td>
                     </tr>
-
-                    <div ng-if="loading">
-                        <i style="font-size:40px;position:fixed;left:50%;top:35%;z-index:99;" class="fa fa-spinner fa-spin"></i>
-                    </div>
-
-                    <div ng-if="!loading && items.length === 0">
-                        <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Không tìm thấy lịch sử giao dịch nào!</h5>
-                    </div>
-
+                    <tr>
+                        <td style="color:#f00;font-weight:bold;">Total: </td>
+                        <td style="color:#f00;font-weight:bold;" ng-if="coin !== 'token'" ng-repeat="coin in coins">
+                            {{ total[coin+'_total_dep'] + ' | ' + total[coin+'_total_wdr'] }}
+                        </td>
+                        <td style="color:#f00;font-weight:bold;" ng-if="coin == 'token'" ng-repeat="coin in coins">
+                            {{ total[coin+'_total_buy'] }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
+
+            <div ng-if="loading">
+                <i style="font-size:40px;position:fixed;left:50%;top:35%;z-index:99;" class="fa fa-spinner fa-spin"></i>
+            </div>
+
+            <div ng-cloak ng-if="!loading && items.length === 0">
+                <h5 style="font-size:17px;color:#f00;margin-bottom:30px;margin-top:10px;">Oops! Không tìm thấy lịch sử giao dịch nào!</h5>
+            </div>
+
         </div>
     </div>
 
