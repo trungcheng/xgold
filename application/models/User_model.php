@@ -64,21 +64,22 @@ class User_model extends CI_Model
     // get all users except current user
     public function getAll($data, $userId)
     {
-        $query = $this->mongo_db->where_ne('user_id', $userId);
-        if (isset($data['name']) && $data['name'] !== 'all-user') {
-            $query->where('email', new \MongoDB\BSON\Regex($data['name']));
-                  // ->or_where(['address' => new \MongoDB\BSON\Regex($data['name'])])
-                  // ->or_where(['mobile' => new \MongoDB\BSON\Regex($data['name'])]);
-            // $query->like('email', '/admin/');
-        }
+        $this->db->select('*')->from('users');
+        $rs = $this->db->get();
+        $query = $rs->result_array();
 
-        return $query->get('users');
+        return $query;
     }
 
     // login method and password verify
     public function login() {
-        $query = $this->mongo_db->where('email', $this->_email)
-            ->limit(1)->get('users');
+        $this->db->select('*')
+                 ->from('users')
+                 ->where('email', $this->_email)
+                 ->limit(1);
+        $rs = $this->db->get();
+        $query = $rs->result_array();
+        $rs->free_result();
         if (count($query) > 0) {
             if ($this->verifyHash($this->_password, $query[0]['password'])) {
                 return $query[0];
@@ -89,135 +90,141 @@ class User_model extends CI_Model
     }
 
     //create new user
-    public function create() {
-        $hash = $this->hash($this->_password);
-        $data = array(
-            'user_id' => $this->_userID,
-            'email' => $this->_email,
-            'address' => $this->_address,
-            'password' => $hash,
-            'avatar' => $this->_avatar,
-            'mobile' => $this->_mobile,
-            'active' => $this->_active,
-            'verification_code' => $this->_verificationCode,
-            'created_at' => date('Y-m-d h:i:s'),
-            'updated_at' => date('Y-m-d h:i:s'),
-            'is_admin' => $this->_is_admin
-        );
-        $query = $this->mongo_db->where('email', $this->_email)->get('users');
-        if (empty($query)) {
-            $this->mongo_db->insert('users', $data);
-            return true;
-        }
+    // public function create() {
+    //     $hash = $this->hash($this->_password);
+    //     $data = array(
+    //         'user_id' => $this->_userID,
+    //         'email' => $this->_email,
+    //         'address' => $this->_address,
+    //         'password' => $hash,
+    //         'avatar' => $this->_avatar,
+    //         'mobile' => $this->_mobile,
+    //         'active' => $this->_active,
+    //         'verification_code' => $this->_verificationCode,
+    //         'created_at' => date('Y-m-d h:i:s'),
+    //         'updated_at' => date('Y-m-d h:i:s'),
+    //         'is_admin' => $this->_is_admin
+    //     );
+    //     $query = $this->mongo_db->where('email', $this->_email)->get('users');
+    //     if (empty($query)) {
+    //         $this->mongo_db->insert('users', $data);
+    //         return true;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
  
-    //update user
-    public function update($data, $userId) {
-        $this->mongo_db->set($data)
-            ->where('user_id', $userId)
-            ->update('users');
-        return true;
-    }
+    // //update user
+    // public function update($data, $userId) {
+    //     $this->mongo_db->set($data)
+    //         ->where('user_id', $userId)
+    //         ->update('users');
+    //     return true;
+    // }
 
-    public function delete($userId) {
-        return $this->mongo_db->where('user_id', $userId)->delete('users');
-    } 
+    // public function delete($userId) {
+    //     return $this->mongo_db->where('user_id', $userId)->delete('users');
+    // } 
  
-    //change password
-    public function changePassword() {
-        $hash = $this->hash($this->_password);
-        $data = array(
-            'password' => $hash,
-        );
-        $this->db->where('id', $this->_userID);
-        $msg = $this->db->update('users', $data);
-        if ($msg == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // //change password
+    // public function changePassword() {
+    //     $hash = $this->hash($this->_password);
+    //     $data = array(
+    //         'password' => $hash,
+    //     );
+    //     $this->db->where('id', $this->_userID);
+    //     $msg = $this->db->update('users', $data);
+    //     if ($msg == 1) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
  
-    // get User Detail
+    // // get User Detail
     public function getUserDetailByUserId($userId) {
-        $query = $this->mongo_db->where('user_id', $userId)->select(['user_id', 'email', 'address', 'mobile', 'avatar', 'is_admin', 'password'])->get('users');
+        $this->db->select('*')
+                 ->from('users')
+                 ->where('id', $userId);
+        $rs = $this->db->get();
+        $query = $rs->result_array();
+        $rs->free_result();
+
         return $query;
     }
 
-    public function getUserDetailByEmail($email) {
-        $query = $this->mongo_db->where('email', $email)->select(['user_id', 'email', 'address', 'mobile', 'avatar', 'is_admin'])->get('users');
-        return $query;
-    }
+    // public function getUserDetailByEmail($email) {
+    //     $query = $this->mongo_db->where('email', $email)->select(['user_id', 'email', 'address', 'mobile', 'avatar', 'is_admin'])->get('users');
+    //     return $query;
+    // }
 
-    public function getUserDetailByEmailAndUsid($email) {
-        $query = $this->mongo_db->where('email', $email)
-            ->where('verification_code', $this->_verificationCode)
-            ->get('users');
-        return $query;
-    }
+    // public function getUserDetailByEmailAndUsid($email) {
+    //     $query = $this->mongo_db->where('email', $email)
+    //         ->where('verification_code', $this->_verificationCode)
+    //         ->get('users');
+    //     return $query;
+    // }
  
-    // update Forgot Password
-    public function updateForgotPassword() {
-        $query = $this->mongo_db->where('email', $this->_email)->get('users');
-        if (!empty($query)) {
-            $hash = $this->hash($this->_password);
-            $data = array(
-                'password' => $hash,
-            );
-            $this->mongo_db->set($data)
-                ->where('email', $this->_email)
-                ->update('users');
-            return true;
-        }
+    // // update Forgot Password
+    // public function updateForgotPassword() {
+    //     $query = $this->mongo_db->where('email', $this->_email)->get('users');
+    //     if (!empty($query)) {
+    //         $hash = $this->hash($this->_password);
+    //         $data = array(
+    //             'password' => $hash,
+    //         );
+    //         $this->mongo_db->set($data)
+    //             ->where('email', $this->_email)
+    //             ->update('users');
+    //         return true;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    public function updateVerificationCode($code, $userId) {
-        return $this->mongo_db->set(['verification_code' => $code])
-            ->where('user_id', $userId)
-            ->update('users');
-    }
+    // public function updateVerificationCode($code, $userId) {
+    //     return $this->mongo_db->set(['verification_code' => $code])
+    //         ->where('user_id', $userId)
+    //         ->update('users');
+    // }
  
-    // active user
-    public function activate() {
-        $query = $this->mongo_db->where('verification_code', $this->_verificationCode)->get('users');
-        if (!empty($query)) {
-            $data = array(
-                'active' => true,
-                'verification_code' => "1"
-            );
-            $this->update($data, $query[0]['user_id']);
-            return ['status' => true, 'userId' => $query[0]['user_id']];
-        } else {
-            return ['status' => false];
-        }
-    }
+    // // active user
+    // public function activate() {
+    //     $query = $this->mongo_db->where('verification_code', $this->_verificationCode)->get('users');
+    //     if (!empty($query)) {
+    //         $data = array(
+    //             'active' => true,
+    //             'verification_code' => "1"
+    //         );
+    //         $this->update($data, $query[0]['user_id']);
+    //         return ['status' => true, 'userId' => $query[0]['user_id']];
+    //     } else {
+    //         return ['status' => false];
+    //     }
+    // }
 
-    public function confirm($userId, $wCode) {
-        $query = $this->mongo_db->where('user_id', $userId)
-            ->where('verification_code', $wCode)
-            ->get('users');
-        if (!empty($query)) {
-            $data = array(
-                'verification_code' => "1"
-            );
-            $this->update($data, $query[0]['user_id']);
-            return ['status' => true];
-        } else {
-            return ['status' => false];
-        }
-    }
+    // public function confirm($userId, $wCode) {
+    //     $query = $this->mongo_db->where('user_id', $userId)
+    //         ->where('verification_code', $wCode)
+    //         ->get('users');
+    //     if (!empty($query)) {
+    //         $data = array(
+    //             'verification_code' => "1"
+    //         );
+    //         $this->update($data, $query[0]['user_id']);
+    //         return ['status' => true];
+    //     } else {
+    //         return ['status' => false];
+    //     }
+    // }
  
-    // password hash
+    // // password hash
     public function hash($password) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         return $hash;
     }
  
-    // password verify
+    // // password verify
     public function verifyHash($password, $vpassword) {
         if (password_verify($password, $vpassword)) {
             return true;

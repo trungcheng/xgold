@@ -11,9 +11,9 @@
                     </a>
                 </div>
                 <div class="pull-right price_box">
-                    <p>
+                    <!-- <p>
                         <i class="mdi mdi-gift"></i> Total BGC: <span><b><?= $tokenCount ?></b> BGC</span>
-                    </p>
+                    </p> -->
                     <!--<p class="text-right">
                         <a href="#" class="color_blue">Withdraw</a> BGC to MyEtherwallet
                     </p>-->

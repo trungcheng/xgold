@@ -40,12 +40,6 @@
                     </div>
                 </div>
             </div>
-        
-            <div class="form-group m-b-20">
-                <div class="col-xs-12">
-                    <?= $recaptcha_html ?>
-                </div>
-            </div>
 
             <div class="form-group text-center m-t-10">
                 <div class="col-xs-12">

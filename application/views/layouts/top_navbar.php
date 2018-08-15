@@ -26,24 +26,15 @@
                     <a href="tel:+84938690253" class="waves-effect waves-light"><i class="mdi mdi-phone-settings"></i> (+84) 938 690 253</a>
                 </li> -->
 
-                <li class="dropdown hidden-xs icon-nav-left">
+                <!-- <li class="dropdown hidden-xs icon-nav-left">
                     <a href="/cdn-cgi/l/email-protection#56353938223735221622333d2f353924267835393b" class="waves-effect waves-light"><i class="mdi mdi-email-outline"></i> <span class="__cf_email__" data-cfemail="bfdcd0d1cbdedccbffcbdad4c6dcd0cdcf91dcd0d2">info@bitgamecoins.com</span></a>
-                </li>
+                </li> -->
             </ul>
             <!-- Right(Notification) -->
             <ul class="nav navbar-nav navbar-right">
-                <?php
-                    if ($message !== '' && $message !== null) {
-                        ?>
-                        <li class="dropdown notification" style="width:500px;height:40px;margin-top:15px;line-height:40px;color:#fff;background:#47ab8e;border-radius:10px;padding-left:5px;padding-right:5px;">
-                            <marquee direction="left"><?= $message ?></marquee>
-                        </li>
-                        <?php
-                    }
-                ?>
                 <li class="dropdown user-box">
                     <a href="" class="dropdown-toggle waves-effect user-link" data-toggle="dropdown" aria-expanded="true">
-                        <span class="color-white m-r-10"></span> <img src="<?= $avatarUser ?>" alt="user-img" class="img-circle user-img">
+                        <span class="color-white m-r-10"></span> <img src="<?= base_url('assets/v2/images/users/no-avatar.jpg') ?>" alt="user-img" class="img-circle user-img">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
                         <li><a href="<?= base_url('dashboard') ?>">Dashboard</a></li>

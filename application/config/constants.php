@@ -1,11 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-define('API_URL', 'https://gw.egate.global');
-define('TOKEN_URL', 'https://ropsten.egate.global');
-define('API_KEY', 'key-iflwvoj9wsope7afvohfl');
-define('API_SECRET', 'K9rD8sGVHZ1bFON7g-diFFR4EXcNA1rUg9BCr3Pc');
-
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

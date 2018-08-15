@@ -77,7 +77,7 @@ class CI_Controller {
 
 		$this->load =& load_class('Loader', 'core');
 		$this->load->initialize();
-		$this->mongo_db->connect();
+		// $this->mongo_db->connect();
 		log_message('info', 'Controller Class Initialized');
 	}
 

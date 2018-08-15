@@ -66,12 +66,6 @@
                 </div>
             </div>
 
-            <div class="form-group m-b-20" style="margin-top:20px;margin-bottom:20px;">
-                <div class="col-xs-12 col-lg-12">
-                    <?= $recaptcha_html ?>
-                </div>
-            </div>
-
             <div class="alert alert-danger" style="display:none"><p>Please fix the following errors:</p><ul></ul></div>
             <div class="form-group text-center m-t-10">
                 <div class="col-xs-12">

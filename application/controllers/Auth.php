@@ -9,62 +9,8 @@ class Auth extends CI_Controller {
         $this->layout->setLayout('layouts/auth');
         $this->load->library('form_validation');
         $this->load->model('user_model');
-        $this->load->model('usercoin_model');
-        $this->load->model('affiliate_model');
-        $this->load->model('mail_model');
-        $this->load->model('setting_model');
-        $this->load->helper('setting_helper');
         $this->load->library('Curl');
     }
-
-    // private function _create_captcha()
-    // {
-    //     $this->load->helper('captcha');
-    //     $options = array(
-    //         'img_path' => FCPATH.'assets/images/captcha/',
-    //         'img_url' => site_url().'assets/images/captcha/',
-    //         'img_width' => '160',
-    //         'img_height' => '38',
-    //         'word_length'   => 5,
-    //         'font_size'     => 20
-    //         // 'expiration' => 7200
-    //     );
-    //     //now we will create the captcha by using the helper function create_captcha()
-    //     $cap = create_captcha($options);
-    //     $image = $cap['image'];
-    //     $this->session->set_userdata('captchaword', $cap['word']);
-    //     // we will return the image html code
-    //     return $image;
-    // }
-
-    // public function refreshCaptcha() {
-    //     // Captcha configuration
-    //     $this->load->helper('captcha');
-    //     $config = array(
-    //         'img_path'      => FCPATH.'assets/images/captcha/',
-    //         'img_url'       => site_url().'assets/images/captcha/',
-    //         'img_width'     => '160',
-    //         'img_height'    => '38',
-    //         'word_length'   => 5,
-    //         'font_size'     => 20
-    //     );
-    //     $captcha = create_captcha($config);
-    //     // Unset previous captcha and set new captcha word
-    //     $this->session->unset_userdata('captchaword');
-    //     $this->session->set_userdata('captchaword', $captcha['word']);
-    //     // Display captcha image
-    //     echo json_encode(['data' => $captcha['image']]);
-    // }
-
-    // public function check_captcha($string)
-    // {
-    //     if ($string==$this->session->userdata('captchaword')) {
-    //         return true;
-    //     } else {
-    //         $this->form_validation->set_message('check_captcha', 'Wrong captcha code');
-    //         return false;
-    //     }
-    // }
 
     public function login()
     {
@@ -80,25 +26,13 @@ class Auth extends CI_Controller {
         }
         $data = [];
         $data['pageName'] = 'Login';
-        // $data['image'] = $this->_create_captcha();
-        $this->load->library('recaptcha');
-        //Store the captcha HTML for correct MVC pattern use.
-        $data['recaptcha_html'] = $this->recaptcha->render();
-
         $this->layout->auth('login', $data);
     }
 
 	public function register()
 	{
 		$data = [];
-        if ($this->input->get('sponsor')) {
-            $data['sponsor'] = $this->input->get('sponsor');
-        }
         $data['pageName'] = 'Register';
-        $this->load->library('recaptcha');
-        //Store the captcha HTML for correct MVC pattern use.
-        $data['recaptcha_html'] = $this->recaptcha->render();
-        // $data['image'] = $this->_create_captcha();
         $this->layout->auth('register', $data);
 	}
 
@@ -118,7 +52,7 @@ class Auth extends CI_Controller {
 
     // action login method
     public function doLogin() {
-        $this->load->library('recaptcha');
+        // $this->load->library('recaptcha');
 
         $this->form_validation->set_rules('email', 'Email', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -127,211 +61,190 @@ class Auth extends CI_Controller {
             //Field validation failed.  User redirected to login page
             $this->login();
         } else {
-            // Catch the user's answer
-            $captcha_answer = $this->input->post('g-recaptcha-response');
-            // Verify user's answer
-            $response = $this->recaptcha->verifyResponse($captcha_answer);
-            // Processing ...
-            if ($response['success']) {
-                //Field validation succeeded.  Validate against database
-                $email = $this->input->post('email');
-                $password = $this->input->post('password');
-     
-                $this->user_model->setEmail($email);
-                $this->user_model->setPassword($password);
-                //query the database
-                $result = $this->user_model->login();
-                if ($result) {
-                    if ($result['active']) {
-                        $authArray = array(
-                            'user_id' => $result['user_id'],
-                            'email' => $result['email'],
-                            'is_admin' => $result['is_admin']
-                        );
-                        $this->session->set_userdata('ci_session_key_generate', TRUE);
-                        $this->session->set_userdata('ci_seesion_key', $authArray);
-                        redirect('dashboard');
-                    } else {
-                        $this->session->set_flashdata('error', 'Please access to your email to confirm the registration');
-                        redirect('auth/login');
-                    }
+            $email = $this->input->post('email');
+            $password = $this->input->post('password');
+ 
+            $this->user_model->setEmail($email);
+            $this->user_model->setPassword($password);
+            //query the database
+            $result = $this->user_model->login();
+            if ($result) {
+                if ($result['active']) {
+                    $authArray = array(
+                        'user_id' => $result['id'],
+                        'email' => $result['email'],
+                        'is_admin' => $result['is_admin']
+                    );
+                    $this->session->set_userdata('ci_session_key_generate', TRUE);
+                    $this->session->set_userdata('ci_seesion_key', $authArray);
+                    redirect('user');
                 } else {
-                    redirect('auth/login?msg=1');
+                    $this->session->set_flashdata('error', 'Please access to your email to confirm the registration');
+                    redirect('auth/login');
                 }
             } else {
-                $this->session->set_flashdata('error', 'Incorrect captcha');
-                redirect('auth/login');
+                redirect('auth/login?msg=1');
             }
         }
     }
 
 	// action create user method
     public function actionCreate() {
-        $this->load->library('recaptcha');
+        // $this->load->library('recaptcha');
 
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
-        $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
-        // $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
-        // $this->form_validation->set_rules('phone', 'Phone', 'required');
-        // $this->form_validation->set_rules('birthday', 'Date of Birth(DD-MM-YYYY)', 'required');
-        if ($this->form_validation->run() == FALSE) {
-            $this->register();
-        } else {
-            // Catch the user's answer
-            $captcha_answer = $this->input->post('g-recaptcha-response');
-            // Verify user's answer
-            $response = $this->recaptcha->verifyResponse($captcha_answer);
-            // Processing ...
-            if ($response['success']) {
-                $data = $this->input->post();
-                $verificationCode = uniqid();
-                $verificationLink = site_url() . 'auth/login?usid=' . utf8_encode(base64_encode($verificationCode));
+        // $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        // $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
+        // $this->form_validation->set_rules('retypePassword', 'Password Confirmation', 'trim|required|matches[password]');
+        // // $this->form_validation->set_rules('captcha', 'captcha', 'trim|callback_check_captcha|required');
+        // // $this->form_validation->set_rules('phone', 'Phone', 'required');
+        // // $this->form_validation->set_rules('birthday', 'Date of Birth(DD-MM-YYYY)', 'required');
+        // if ($this->form_validation->run() == FALSE) {
+        //     $this->register();
+        // } else {
+        //     $data = $this->input->post();
+        //     $verificationCode = uniqid();
+        //     $verificationLink = site_url() . 'auth/login?usid=' . utf8_encode(base64_encode($verificationCode));
 
-                $this->load->library('encrypt');
-                // $mailData = array(
-                //     'topMsg' => $data['email'],
-                //     'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
-                //     'thanksMsg' => 'Thanks for your cooperation!', 
-                //     'verificationLink' => $verificationLink
-                // );
-                $setting = $this->setting_model->getAll();
-                $registerTemp = json_decode($setting[0]['register_temp']);
-                $temp = str_replace('xxx@gmail.com', $data['email'], $registerTemp->content);
-                $temp = str_replace('http://link', $verificationLink, $temp);
+        //     $this->load->library('encrypt');
+        //     // $mailData = array(
+        //     //     'topMsg' => $data['email'],
+        //     //     'bodyMsg' => 'Congratulations, your registration has been successfully submitted.', 
+        //     //     'thanksMsg' => 'Thanks for your cooperation!', 
+        //     //     'verificationLink' => $verificationLink
+        //     // );
+        //     $setting = $this->setting_model->getAll();
+        //     $registerTemp = json_decode($setting[0]['register_temp']);
+        //     $temp = str_replace('xxx@gmail.com', $data['email'], $registerTemp->content);
+        //     $temp = str_replace('http://link', $verificationLink, $temp);
 
-                $this->mail_model->setMailTo($data['email']);
-                $this->mail_model->setMailFrom($registerTemp->from);
-                $this->mail_model->setMailSubject($registerTemp->subject);
-                // $this->mail_model->setMailContent($mailData);
-                // $this->mail_model->setTemplateName('register_temp');
-                // $this->mail_model->setTemplatePath('mail/');
-                $chkStatus = $this->mail_model->sendMail(get_setting(), $temp);
-                if ($chkStatus) {
-                    $this->user_model->setUserID('BGC'.substr(md5($data['email'].time()), 0, 9));
-                    $this->user_model->setEmail($data['email']);
-                    $this->user_model->setAddress($data['address']);
-                    $this->user_model->setPassword($data['password']);
-                    $this->user_model->setMobile($data['phone']);
-                    $this->user_model->setActive(false);
-                    $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
-                    $this->user_model->setVerificationCode($verificationCode);
-                    $this->user_model->setIsAdmin(false);
-                    $chk = $this->user_model->create();
-                    if ($chk) {
-                        $user = $this->user_model->getUserDetailByEmail($data['email']);
-                        // create user coin address
-                        $this->createUserCoin($user[0]['user_id']);
-                        // create ref
-                        if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
-                            $checkUserSponsor = $this->affiliate_model->getUserSponsor($user[0]['user_id'], $data['sponsor']);
-                            if (!empty($checkUserSponsor)) {
-                                $this->affiliate_model->create($user[0]['user_id'], $data['sponsor']);
-                            }
-                        }
+        //     $this->mail_model->setMailTo($data['email']);
+        //     $this->mail_model->setMailFrom($registerTemp->from);
+        //     $this->mail_model->setMailSubject($registerTemp->subject);
+        //     // $this->mail_model->setMailContent($mailData);
+        //     // $this->mail_model->setTemplateName('register_temp');
+        //     // $this->mail_model->setTemplatePath('mail/');
+        //     $chkStatus = $this->mail_model->sendMail(get_setting(), $temp);
+        //     if ($chkStatus) {
+        //         $this->user_model->setUserID('BGC'.substr(md5($data['email'].time()), 0, 9));
+        //         $this->user_model->setEmail($data['email']);
+        //         $this->user_model->setAddress($data['address']);
+        //         $this->user_model->setPassword($data['password']);
+        //         $this->user_model->setMobile($data['phone']);
+        //         $this->user_model->setActive(false);
+        //         $this->user_model->setAvatar(base_url('assets/v2/images/users/no-avatar.jpg'));
+        //         $this->user_model->setVerificationCode($verificationCode);
+        //         $this->user_model->setIsAdmin(false);
+        //         $chk = $this->user_model->create();
+        //         if ($chk) {
+        //             $user = $this->user_model->getUserDetailByEmail($data['email']);
+        //             // create user coin address
+        //             $this->createUserCoin($user[0]['user_id']);
+        //             // create ref
+        //             if ($data['sponsor'] !== null && $data['sponsor'] !== '') {
+        //                 $checkUserSponsor = $this->affiliate_model->getUserSponsor($user[0]['user_id'], $data['sponsor']);
+        //                 if (!empty($checkUserSponsor)) {
+        //                     $this->affiliate_model->create($user[0]['user_id'], $data['sponsor']);
+        //                 }
+        //             }
 
-                        $this->session->set_flashdata('success', 'Congratulations! Please check your email to confirm the registration');
-                        redirect('auth/login');
-                    } else {
-                        $this->session->set_flashdata('error', 'Can not create user! Maybe this user already existed.');
-                        redirect('auth/register');
-                    }
-                } else {
-                    $this->session->set_flashdata('error', 'The error occurred when sent mail process');
-                    redirect('auth/register');
-                }
-            } else {
-                $this->session->set_flashdata('error', 'Incorrect captcha');
-                redirect('auth/register');
-            }
-        }
+        //             $this->session->set_flashdata('success', 'Congratulations! Please check your email to confirm the registration');
+        //             redirect('auth/login');
+        //         } else {
+        //             $this->session->set_flashdata('error', 'Can not create user! Maybe this user already existed.');
+        //             redirect('auth/register');
+        //         }
+        //     } else {
+        //         $this->session->set_flashdata('error', 'The error occurred when sent mail process');
+        //         redirect('auth/register');
+        //     }
+        // }
     }
  
     public function actionChangePwd() {
-        $data = $this->input->post();
-        if ($data['email'] && $data['usid']) {
-            $this->session->set_userdata('reset_session', [
-                'email' => $data['email'],
-                'usid' => $data['usid']
-            ]);
-        }
-        $this->form_validation->set_rules('newpassword', 'New Password', 'trim|required|min_length[8]');
-        $this->form_validation->set_rules('cfnewpassword', 'New Password Confirmation', 'trim|required|matches[newpassword]');
-        if ($this->form_validation->run() == FALSE) {
-            $this->resetpwd();
-        } else {
-            $ss = $this->session->userdata('reset_session');
-            if ($ss['email'] && $ss['usid']) {
-                $verificationCode = utf8_decode(base64_decode($ss['usid']));
-                $this->user_model->setVerificationCode($verificationCode);
-                $user = $this->user_model->getUserDetailByEmailAndUsid($ss['email']);
-                if ($user) {
-                    $data = [
-                        'verification_code' => "1",
-                        'password' => $this->user_model->hash($data['newpassword'])
-                    ];
-                    $this->user_model->update($data, $user[0]['user_id']);
+        // $data = $this->input->post();
+        // if ($data['email'] && $data['usid']) {
+        //     $this->session->set_userdata('reset_session', [
+        //         'email' => $data['email'],
+        //         'usid' => $data['usid']
+        //     ]);
+        // }
+        // $this->form_validation->set_rules('newpassword', 'New Password', 'trim|required|min_length[8]');
+        // $this->form_validation->set_rules('cfnewpassword', 'New Password Confirmation', 'trim|required|matches[newpassword]');
+        // if ($this->form_validation->run() == FALSE) {
+        //     $this->resetpwd();
+        // } else {
+        //     $ss = $this->session->userdata('reset_session');
+        //     if ($ss['email'] && $ss['usid']) {
+        //         $verificationCode = utf8_decode(base64_decode($ss['usid']));
+        //         $this->user_model->setVerificationCode($verificationCode);
+        //         $user = $this->user_model->getUserDetailByEmailAndUsid($ss['email']);
+        //         if ($user) {
+        //             $data = [
+        //                 'verification_code' => "1",
+        //                 'password' => $this->user_model->hash($data['newpassword'])
+        //             ];
+        //             $this->user_model->update($data, $user[0]['user_id']);
                     
-                    redirect('auth/resetpwd?msg=2');
-                } else {
-                    redirect('auth/resetpwd?msg=1');
-                }
-            } else {
-                redirect('auth/resetpwd?msg=1');
-            }
-        }
+        //             redirect('auth/resetpwd?msg=2');
+        //         } else {
+        //             redirect('auth/resetpwd?msg=1');
+        //         }
+        //     } else {
+        //         redirect('auth/resetpwd?msg=1');
+        //     }
+        // }
     }
  
     //action forgot password method
     public function actionForgotPassword() {
-        $this->form_validation->set_rules('forgot_email', 'Your Email', 'trim|required|valid_email');
-        if ($this->form_validation->run() == FALSE) {
-            //Field validation failed.  User redirected to Forgot Password page
-            $this->forgotpwd();
-        } else {
-            $email = $this->input->post('forgot_email');
-            $resetCode = uniqid();
-            $hash = utf8_encode(base64_encode($resetCode));
-            $resetLink = site_url() . 'auth/resetpwd?m='.$email.'&usid='.$hash;
-            // $this->user_model->setEmail($email);
-            // $pass = $this->generateRandomPassword(8);
-            // $this->user_model->setPassword($pass);
-            // $status = $this->user_model->updateForgotPassword();
-            $status = $this->user_model->getUserDetailByEmail($email);
-            if ($status) {
-                $this->load->library('encrypt');
-                // $mailData = array(
-                //     'topMsg' => $email,
-                //     'bodyMsg' => 'We heard that you lost your Xgold password. Sorry about that !<br>But don’t worry! We are already reset a new password for you.', 
-                //     'thanksMsg' => 'Thanks for your cooperation!', 
-                //     'newPassword' => $pass,
-                //     'loginLink' => $loginLink
-                // );
+        // $this->form_validation->set_rules('forgot_email', 'Your Email', 'trim|required|valid_email');
+        // if ($this->form_validation->run() == FALSE) {
+        //     //Field validation failed.  User redirected to Forgot Password page
+        //     $this->forgotpwd();
+        // } else {
+        //     $email = $this->input->post('forgot_email');
+        //     $resetCode = uniqid();
+        //     $hash = utf8_encode(base64_encode($resetCode));
+        //     $resetLink = site_url() . 'auth/resetpwd?m='.$email.'&usid='.$hash;
+        //     // $this->user_model->setEmail($email);
+        //     // $pass = $this->generateRandomPassword(8);
+        //     // $this->user_model->setPassword($pass);
+        //     // $status = $this->user_model->updateForgotPassword();
+        //     $status = $this->user_model->getUserDetailByEmail($email);
+        //     if ($status) {
+        //         $this->load->library('encrypt');
+        //         // $mailData = array(
+        //         //     'topMsg' => $email,
+        //         //     'bodyMsg' => 'We heard that you lost your Xgold password. Sorry about that !<br>But don’t worry! We are already reset a new password for you.', 
+        //         //     'thanksMsg' => 'Thanks for your cooperation!', 
+        //         //     'newPassword' => $pass,
+        //         //     'loginLink' => $loginLink
+        //         // );
 
-                $setting = $this->setting_model->getAll();
-                $resetTemp = json_decode($setting[0]['reset_password_temp']);
-                $temp = str_replace('xxx@gmail.com', $email, $resetTemp->content);
-                // $temp = str_replace('ABCDEFGH', $pass, $temp);
-                $temp = str_replace('http://link', $resetLink, $temp);
+        //         $setting = $this->setting_model->getAll();
+        //         $resetTemp = json_decode($setting[0]['reset_password_temp']);
+        //         $temp = str_replace('xxx@gmail.com', $email, $resetTemp->content);
+        //         // $temp = str_replace('ABCDEFGH', $pass, $temp);
+        //         $temp = str_replace('http://link', $resetLink, $temp);
 
-                $this->mail_model->setMailTo($email);
-                $this->mail_model->setMailFrom($resetTemp->from);
-                $this->mail_model->setMailSubject($resetTemp->subject);
-                // var_dump($temp);die;
-                // $this->mail_model->setMailContent($mailData);
-                // $this->mail_model->setTemplateName('resetpwd_temp');
-                // $this->mail_model->setTemplatePath('mail/');
-                $chkStatus = $this->mail_model->sendMail(get_setting(), $temp);
-                if ($chkStatus) {
-                    $this->user_model->updateVerificationCode($resetCode, $status[0]['user_id']);
-                    redirect('auth/forgotpwd?msg=2');
-                } else {
-                    redirect('auth/forgotpwd?msg=1');
-                }
-            } else {
-                redirect('auth/forgotpwd?msg=1');
-            }
-        }
+        //         $this->mail_model->setMailTo($email);
+        //         $this->mail_model->setMailFrom($resetTemp->from);
+        //         $this->mail_model->setMailSubject($resetTemp->subject);
+        //         // var_dump($temp);die;
+        //         // $this->mail_model->setMailContent($mailData);
+        //         // $this->mail_model->setTemplateName('resetpwd_temp');
+        //         // $this->mail_model->setTemplatePath('mail/');
+        //         $chkStatus = $this->mail_model->sendMail(get_setting(), $temp);
+        //         if ($chkStatus) {
+        //             $this->user_model->updateVerificationCode($resetCode, $status[0]['user_id']);
+        //             redirect('auth/forgotpwd?msg=2');
+        //         } else {
+        //             redirect('auth/forgotpwd?msg=1');
+        //         }
+        //     } else {
+        //         redirect('auth/forgotpwd?msg=1');
+        //     }
+        // }
     }
  
     //generate random password
@@ -355,39 +268,6 @@ class Auth extends CI_Controller {
         $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
         $this->output->set_header("Pragma: no-cache");
         redirect('auth/login');
-    }
-
-    public function createUserCoin($userId) {
-        $token = $this->curl->getToken();
-        $cbs = $this->curl->createAddress($token);
-        foreach ($cbs as $cb) {
-            $coinName = '';
-            switch ($cb->currency) {
-                case 'btc':
-                    $coinName = 'Bitcoin';
-                    break;
-                case 'eth':
-                    $coinName = 'Ethereum';
-                    break;
-                case 'ltc':
-                    $coinName = 'Litecoin';
-                    break;
-                case 'token':
-                    $coinName = 'Bitgame';
-                    break;
-                default:
-                    $coinName = 'Bitcoin Cash';
-                    break;
-            }
-            $data = [
-                'user_id' => $userId,
-                'coin_addr' => $cb->address,
-                'coin_type' => $cb->currency,
-                'coin_name' => $coinName,
-                'balance' => 0.0
-            ];
-            $this->usercoin_model->create($data);
-        }
     }
 
 }
